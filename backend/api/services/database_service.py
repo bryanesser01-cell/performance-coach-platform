@@ -20,3 +20,6 @@ def create_athlete(db: Session, athlete_data):
     db.refresh(athlete)
 
     return athlete
+
+def get_all_athletes(db: Session):
+    return db.query(Athlete).all()
