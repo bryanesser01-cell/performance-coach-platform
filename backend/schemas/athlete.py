@@ -2,8 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class AthleteCreate(BaseModel):
-    first_name: str = Field(..., min_length=2, max_length=50)
-    last_name: str = Field(..., min_length=2, max_length=50)
+    name: str = Field(..., min_length=2, max_length=100)
 
     age: int = Field(..., ge=5, le=100)
 
@@ -15,4 +14,3 @@ class AthleteCreate(BaseModel):
 
     sport: str = Field(..., min_length=2)
     primary_event: str = Field(..., min_length=2)
-    experience_level: str = Field(..., min_length=2)
