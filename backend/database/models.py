@@ -1,45 +1,128 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Float, Integer, String
 
 from database.database import Base
 
 
 class Athlete(Base):
+    """
+    Athlete database model.
+    """
+
     __tablename__ = "athletes"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
 
-    name = Column(String, nullable=False)
-    age = Column(Integer, nullable=False)
+    name = Column(
+        String(100),
+        nullable=False,
+    )
 
-    height_cm = Column(Float, nullable=False)
-    weight_kg = Column(Float, nullable=False)
+    age = Column(
+        Integer,
+        nullable=False,
+    )
 
-    resting_hr = Column(Integer, nullable=False)
-    max_hr = Column(Integer, nullable=False)
+    height_cm = Column(
+        Float,
+        nullable=False,
+    )
 
-    sport = Column(String, nullable=False)
-    primary_event = Column(String, nullable=False)
+    weight_kg = Column(
+        Float,
+        nullable=False,
+    )
 
-    experience_level = Column(String)
-    weekly_distance = Column(Float)
-    training_days_per_week = Column(Integer)
-    current_5k_time = Column(Float)
-    injury_status = Column(String)
+    resting_hr = Column(
+        Integer,
+        nullable=False,
+    )
+
+    max_hr = Column(
+        Integer,
+        nullable=False,
+    )
+
+    sport = Column(
+        String(50),
+        nullable=False,
+    )
+
+    primary_event = Column(
+        String(50),
+        nullable=False,
+    )
+
+    experience_level = Column(
+        String(50),
+        nullable=True,
+    )
+
+    weekly_distance = Column(
+        Float,
+        nullable=True,
+    )
+
+    training_days_per_week = Column(
+        Integer,
+        nullable=True,
+    )
+
+    current_5k_time = Column(
+        Float,
+        nullable=True,
+    )
+
+    injury_status = Column(
+        String(100),
+        nullable=True,
+    )
 
 
 class Goal(Base):
+    """
+    Athlete goal database model.
+    """
+
     __tablename__ = "goals"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
 
-    athlete_id = Column(Integer, nullable=False)
+    athlete_id = Column(
+        Integer,
+        nullable=False,
+        index=True,
+    )
 
-    goal_type = Column(String, nullable=False)
+    goal_type = Column(
+        String(50),
+        nullable=False,
+    )
 
-    target_value = Column(Float, nullable=False)
+    target_value = Column(
+        Float,
+        nullable=False,
+    )
 
-    target_unit = Column(String, nullable=False)
+    target_unit = Column(
+        String(20),
+        nullable=False,
+    )
 
-    current_value = Column(Float, nullable=False)
+    current_value = Column(
+        Float,
+        nullable=False,
+    )
 
-    status = Column(String, default="Active")
+    status = Column(
+        String(20),
+        nullable=False,
+        default="Active",
+    )

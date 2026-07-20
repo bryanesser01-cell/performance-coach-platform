@@ -1,32 +1,186 @@
-from pydantic import BaseModel, Field
+from typing import Annotated
 
+from pydantic import BaseModel, ConfigDict, Field
+
+
+# ---------------------------------------------------------------------------
+# Reusable field definitions
+# ---------------------------------------------------------------------------
+
+Name = Annotated[str, Field(min_length=1, max_length=100)]
+
+PositiveFloat = Annotated[float, Field(gt=0)]
+
+PositiveInt = Annotated[int, Field(gt=0)]
+
+
+# ---------------------------------------------------------------------------
+# Base Schema
+# ---------------------------------------------------------------------------
 
 class AthleteBase(BaseModel):
-    name: str = Field(..., min_length=2, max_length=100)
-    age: int = Field(..., ge=5, le=100)
+    """
+    Shared athlete fields.
+    """
 
-    height_cm: float = Field(..., gt=0)
-    weight_kg: float = Field(..., gt=0)
+    name: Name
 
-    resting_hr: int = Field(..., ge=20, le=100)
-    max_hr: int = Field(..., ge=100, le=240)
+    age: int = Field(
+        ...,
+        ge=0,
+        le=120,
+    )
 
-    sport: str = Field(..., min_length=2)
-    primary_event: str = Field(..., min_length=2)
+    height_cm: PositiveFloat
 
-    experience_level: str = Field(..., min_length=2)
-    weekly_distance: float = Field(..., ge=0)
-    training_days_per_week: int = Field(..., ge=1, le=7)
-    current_5k_time: float = Field(..., gt=0)
-    injury_status: str = Field(..., min_length=2)
+    weight_kg: PositiveFloat
 
+    resting_hr: PositiveInt
+
+    max_hr: PositiveInt
+
+    sport: str = Field(
+        ...,
+        min_length=1,
+        max_length=50,
+    )
+
+    primary_event: str = Field(
+        ...,
+        min_length=1,
+        max_length=50,
+    )
+
+    experience_level: str | None = Field(
+        default=None,
+        max_length=50,
+    )
+
+    weekly_distance: float | None = Field(
+        default=None,
+        ge=0,
+    )
+
+    training_days_per_week: int | None = Field(
+        default=None,
+        ge=0,
+        le=14,
+    )
+
+    current_5k_time: float | None = Field(
+        default=None,
+        gt=0,
+    )
+
+    injury_status: str | None = Field(
+        default=None,
+        max_length=100,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Create Schema
+# ---------------------------------------------------------------------------
 
 class AthleteCreate(AthleteBase):
-    pass
+    """
+    Request body used to create an athlete.
+    """
 
+
+# ---------------------------------------------------------------------------
+# Update Schema
+# ---------------------------------------------------------------------------
+
+class AthleteUpdate(BaseModel):
+    """
+    Request body used to update an athlete.
+    """
+
+    name: Name | None = None
+
+    age: int | None = Field(
+        default=None,
+        ge=0,
+        le=120,
+    )
+
+    height_cm: PositiveFloat | None = None
+
+    weight_kg: PositiveFloat | None = None
+
+    resting_hr: PositiveInt | None = None
+
+    max_hr: PositiveInt | None = None
+
+    sport: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=50,
+    )
+
+    primary_event: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=50,
+    )
+
+    experience_level: str | None = Field(
+        default=None,
+        max_length=50,
+    )
+
+    weekly_distance: float | None = Field(
+        default=None,
+        ge=0,
+    )
+
+    training_days_per_week: int | None = Field(
+        default=None,
+        ge=0,
+        le=14,
+    )
+
+    current_5k_time: float | None = Field(
+        default=None,
+        gt=0,
+    )
+
+    injury_status: str | None = Field(
+        default=None,
+        max_length=100,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Response Schema
+# ---------------------------------------------------------------------------
 
 class AthleteResponse(AthleteBase):
+    """
+    Athlete returned by the API.
+    """
+
     id: int
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(
+        from_attributes=True,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Create Athlete Response
+# ---------------------------------------------------------------------------
+
+class AthleteCreateResponse(BaseModel):
+    """
+    Response returned after creating an athlete.
+    """
+
+    message: str
+
+    athlete: AthleteResponse
+
+    analysis: dict
+
+    profile: dict
