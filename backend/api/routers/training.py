@@ -8,10 +8,10 @@ from schemas.training import (
     TrainingSessionResponse,
 )
 
-from api.services.training_database_service import (
-    create_training_session,
-    get_training_sessions,
-    get_training_sessions_by_athlete,
+from api.services.training_service import (
+    create_training,
+    list_training,
+    list_training_by_athlete,
 )
 
 router = APIRouter(
@@ -28,28 +28,31 @@ def add_training_session(
     training: TrainingSessionCreate,
     db: Session = Depends(get_db),
 ):
-    return create_training_session(db, training)
+    return create_training(
+        db,
+        training,
+    )
 
 
 @router.get(
     "",
     response_model=list[TrainingSessionResponse],
 )
-def list_training_sessions(
+def get_training_sessions(
     db: Session = Depends(get_db),
 ):
-    return get_training_sessions(db)
+    return list_training(db)
 
 
 @router.get(
     "/{athlete_id}",
     response_model=list[TrainingSessionResponse],
 )
-def list_training_sessions_by_athlete(
+def get_training_sessions_by_athlete(
     athlete_id: int,
     db: Session = Depends(get_db),
 ):
-    return get_training_sessions_by_athlete(
+    return list_training_by_athlete(
         db,
         athlete_id,
     )

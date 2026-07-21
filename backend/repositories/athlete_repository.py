@@ -14,7 +14,7 @@ class AthleteRepository:
 
     def get_all(self) -> list[Athlete]:
         """
-        Retrieve all athletes.
+        Return all athletes.
         """
         return (
             self.db.query(Athlete)
@@ -24,7 +24,7 @@ class AthleteRepository:
 
     def get_by_id(self, athlete_id: int) -> Athlete | None:
         """
-        Retrieve an athlete by ID.
+        Return an athlete by ID.
         """
         return (
             self.db.query(Athlete)
@@ -36,7 +36,6 @@ class AthleteRepository:
         """
         Create a new athlete.
         """
-
         db_athlete = Athlete(
             **athlete.model_dump()
         )
@@ -55,7 +54,6 @@ class AthleteRepository:
         """
         Update an existing athlete.
         """
-
         db_athlete = self.get_by_id(athlete_id)
 
         if db_athlete is None:
@@ -66,28 +64,18 @@ class AthleteRepository:
         )
 
         for key, value in update_data.items():
-            setattr(
-                db_athlete,
-                key,
-                value,
-            )
+            setattr(db_athlete, key, value)
 
         self.db.commit()
         self.db.refresh(db_athlete)
 
         return db_athlete
 
-    def delete(
-        self,
-        athlete_id: int,
-    ) -> bool:
+    def delete(self, athlete_id: int) -> bool:
         """
         Delete an athlete.
         """
-
-        athlete = self.get_by_id(
-            athlete_id
-        )
+        athlete = self.get_by_id(athlete_id)
 
         if athlete is None:
             return False

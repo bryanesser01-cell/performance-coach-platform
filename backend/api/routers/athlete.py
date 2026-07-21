@@ -1,29 +1,31 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from schemas.athlete import AthleteCreate
-from api.services.database_service import get_all_athletes
-from api.services.athlete_service import (
-    create_athlete as create_athlete_service,
-)
 from database.database import get_db
+
+from schemas.athlete import AthleteCreate
+
+from api.services.athlete_service import (
+    create_athlete,
+    list_athletes,
+)
 
 router = APIRouter()
 
 
 @router.get("/athletes")
-def list_athletes(
+def get_athletes(
     db: Session = Depends(get_db),
 ):
-    return get_all_athletes(db)
+    return list_athletes(db)
 
 
 @router.post("/athletes")
-def create_athlete(
+def add_athlete(
     athlete: AthleteCreate,
     db: Session = Depends(get_db),
 ):
-    return create_athlete_service(
+    return create_athlete(
         db,
         athlete,
     )

@@ -1,14 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from database.database import get_db
 
-from api.services.training_database_service import (
-    get_training_sessions_by_athlete,
-)
-
-from api.services.coach_engine import (
-    generate_coach_response,
+from api.services.coach_service import (
+    get_coach_response_service,
 )
 
 from schemas.coach import CoachResponse
@@ -27,17 +23,7 @@ def get_coach_response(
     athlete_id: int,
     db: Session = Depends(get_db),
 ):
-    sessions = get_training_sessions_by_athlete(
+    return get_coach_response_service(
         db,
         athlete_id,
-    )
-
-    if not sessions:
-        raise HTTPException(
-            status_code=404,
-            detail="No training sessions found.",
-        )
-
-    return generate_coach_response(
-        sessions
     )
