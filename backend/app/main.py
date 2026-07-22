@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from config.settings import settings
 from core.logging import configure_logging
 from core.handlers import register_exception_handlers
 
@@ -15,8 +16,8 @@ from api.routers.recommendation import router as recommendation_router
 from api.routers.coach import router as coach_router
 
 app = FastAPI(
-    title="Performance Coach API",
-    version="0.1.0",
+    title=settings.app_name,
+    version=settings.app_version,
 )
 
 register_exception_handlers(app)
@@ -35,5 +36,5 @@ app.include_router(coach_router)
 @app.get("/")
 def root():
     return {
-        "message": "Performance Coach API is running!"
+        "message": f"{settings.app_name} is running!"
     }

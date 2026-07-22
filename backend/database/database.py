@@ -1,20 +1,28 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "sqlite:///performance_coach.db"
+from config.settings import settings
+
+engine_kwargs = {}
+
+if settings.database_url.startswith("sqlite"):
+    engine_kwargs["connect_args"] = {
+        "check_same_thread": False
+    }
 
 engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}
+    settings.database_url,
+    **engine_kwargs,
 )
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
 
 Base = declarative_base()
+
 
 def get_db():
     db = SessionLocal()
