@@ -10,6 +10,7 @@ from database.database import Base
 # Import all SQLAlchemy models so Alembic discovers them
 from database.models import Athlete, Goal
 from database.training_models import TrainingSession
+from database.user_models import User
 
 config = context.config
 

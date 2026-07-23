@@ -14,6 +14,7 @@ from api.routers.analysis import router as analysis_router
 from api.routers.workout import router as workout_router
 from api.routers.recommendation import router as recommendation_router
 from api.routers.coach import router as coach_router
+from api.routers.auth import router as auth_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -31,6 +32,7 @@ app.include_router(analysis_router)
 app.include_router(workout_router)
 app.include_router(recommendation_router)
 app.include_router(coach_router)
+app.include_router(auth_router)
 
 
 @app.get("/")
