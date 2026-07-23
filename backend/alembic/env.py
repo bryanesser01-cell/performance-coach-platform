@@ -8,9 +8,10 @@ from config.settings import settings
 from database.database import Base
 
 # Import all SQLAlchemy models so Alembic discovers them
-from database.models import Athlete, Goal
-from database.training_models import TrainingSession
+from database.athlete_models import Athlete
 from database.user_models import User
+from database.training_models import TrainingSession
+from database.models import Goal
 
 config = context.config
 

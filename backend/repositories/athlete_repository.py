@@ -1,43 +1,19 @@
+from typing import List, Optional
+
 from sqlalchemy.orm import Session
 
-from database.models import Athlete
-from schemas.athlete import AthleteCreate, AthleteUpdate
+from database.athlete_models import Athlete
+from schemas.athlete_schema import AthleteCreate, AthleteUpdate
 
 
 class AthleteRepository:
-    """
-    Repository responsible for all athlete database operations.
-    """
-
     def __init__(self, db: Session):
         self.db = db
 
-    def get_all(self) -> list[Athlete]:
-        """
-        Return all athletes.
-        """
-        return (
-            self.db.query(Athlete)
-            .order_by(Athlete.id)
-            .all()
-        )
-
-    def get_by_id(self, athlete_id: int) -> Athlete | None:
-        """
-        Return an athlete by ID.
-        """
-        return (
-            self.db.query(Athlete)
-            .filter(Athlete.id == athlete_id)
-            .first()
-        )
-
-    def create(self, athlete: AthleteCreate) -> Athlete:
-        """
-        Create a new athlete.
-        """
+    def create(self, user_id: int, athlete: AthleteCreate) -> Athlete:
         db_athlete = Athlete(
-            **athlete.model_dump()
+            user_id=user_id,
+            **athlete.model_dump(),
         )
 
         self.db.add(db_athlete)
@@ -46,41 +22,33 @@ class AthleteRepository:
 
         return db_athlete
 
-    def update(
-        self,
-        athlete_id: int,
-        athlete: AthleteUpdate,
-    ) -> Athlete | None:
-        """
-        Update an existing athlete.
-        """
-        db_athlete = self.get_by_id(athlete_id)
-
-        if db_athlete is None:
-            return None
-
-        update_data = athlete.model_dump(
-            exclude_unset=True
+    def get_by_id(self, athlete_id: int) -> Optional[Athlete]:
+        return (
+            self.db.query(Athlete)
+            .filter(Athlete.id == athlete_id)
+            .first()
         )
 
-        for key, value in update_data.items():
-            setattr(db_athlete, key, value)
+    def get_by_user(self, user_id: int) -> List[Athlete]:
+        return (
+            self.db.query(Athlete)
+            .filter(Athlete.user_id == user_id)
+            .all()
+        )
+
+    def update(
+        self,
+        athlete: Athlete,
+        updates: AthleteUpdate,
+    ) -> Athlete:
+        for field, value in updates.model_dump(exclude_unset=True).items():
+            setattr(athlete, field, value)
 
         self.db.commit()
-        self.db.refresh(db_athlete)
+        self.db.refresh(athlete)
 
-        return db_athlete
+        return athlete
 
-    def delete(self, athlete_id: int) -> bool:
-        """
-        Delete an athlete.
-        """
-        athlete = self.get_by_id(athlete_id)
-
-        if athlete is None:
-            return False
-
+    def delete(self, athlete: Athlete) -> None:
         self.db.delete(athlete)
         self.db.commit()
-
-        return True

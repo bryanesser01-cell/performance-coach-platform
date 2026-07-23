@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from database.database import Base
 
@@ -31,4 +32,10 @@ class User(Base):
     password_hash = Column(
         String(255),
         nullable=False,
+    )
+
+    athletes = relationship(
+        "Athlete",
+        back_populates="user",
+        cascade="all, delete-orphan",
     )

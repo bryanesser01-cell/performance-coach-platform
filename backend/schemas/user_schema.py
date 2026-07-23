@@ -21,3 +21,21 @@ class UserResponse(BaseModel):
     id: int
     email: EmailStr
     full_name: str
+
+
+class UserLogin(BaseModel):
+    """
+    Schema used when logging in.
+    """
+
+    email: EmailStr
+    password: str
+
+
+class Token(BaseModel):
+    """
+    JWT access token returned after successful login.
+    """
+
+    access_token: str
+    token_type: str

@@ -12,6 +12,11 @@ class Settings(BaseSettings):
     # Database
     database_url: str = "sqlite:///performance_coach.db"
 
+    # Security
+    secret_key: str
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 60
+
     # Training thresholds
     min_weekly_sessions: int = 3
     min_weekly_distance: float = 20.0

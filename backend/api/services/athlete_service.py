@@ -1,62 +1,60 @@
-import logging
-
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from api.services.performance import analyse_athlete
-from api.services.athlete_profile import build_athlete_profile
-
+from database.athlete_models import Athlete
+from database.user_models import User
 from repositories.athlete_repository import AthleteRepository
-
-from schemas.athlete import AthleteCreate
-
-logger = logging.getLogger(__name__)
+from schemas.athlete_schema import AthleteCreate, AthleteUpdate
 
 
-def create_athlete(
-    db: Session,
-    athlete: AthleteCreate,
-):
+class AthleteService:
+    def __init__(self, db: Session):
+        self.repository = AthleteRepository(db)
 
-    logger.info(
-        "Creating athlete '%s'.",
-        athlete.name,
-    )
+    def create(
+        self,
+        current_user: User,
+        athlete: AthleteCreate,
+    ) -> Athlete:
+        return self.repository.create(current_user.id, athlete)
 
-    analysis = analyse_athlete(athlete)
+    def get_all(self, current_user: User):
+        return self.repository.get_by_user(current_user.id)
 
-    profile = build_athlete_profile(athlete)
+    def get(
+        self,
+        current_user: User,
+        athlete_id: int,
+    ) -> Athlete:
+        athlete = self.repository.get_by_id(athlete_id)
 
-    repository = AthleteRepository(db)
+        if athlete is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Athlete not found",
+            )
 
-    saved_athlete = repository.create(
-        athlete
-    )
+        if athlete.user_id != current_user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized",
+            )
 
-    return {
-        "message": "Athlete created successfully!",
-        "athlete": {
-            "id": saved_athlete.id,
-            "name": saved_athlete.name,
-            "age": saved_athlete.age,
-            "height_cm": saved_athlete.height_cm,
-            "weight_kg": saved_athlete.weight_kg,
-            "resting_hr": saved_athlete.resting_hr,
-            "max_hr": saved_athlete.max_hr,
-            "sport": saved_athlete.sport,
-            "primary_event": saved_athlete.primary_event,
-            "experience_level": saved_athlete.experience_level,
-            "weekly_distance": saved_athlete.weekly_distance,
-            "training_days_per_week": saved_athlete.training_days_per_week,
-            "current_5k_time": saved_athlete.current_5k_time,
-            "injury_status": saved_athlete.injury_status,
-        },
-        "analysis": analysis,
-        "profile": profile,
-    }
+        return athlete
 
+    def update(
+        self,
+        current_user: User,
+        athlete_id: int,
+        updates: AthleteUpdate,
+    ) -> Athlete:
+        athlete = self.get(current_user, athlete_id)
+        return self.repository.update(athlete, updates)
 
-def list_athletes(
-    db: Session,
-):
-    repository = AthleteRepository(db)
-    return repository.get_all()
+    def delete(
+        self,
+        current_user: User,
+        athlete_id: int,
+    ) -> None:
+        athlete = self.get(current_user, athlete_id)
+        self.repository.delete(athlete)
