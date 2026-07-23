@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from api.dependencies.auth import get_current_user
@@ -42,13 +43,18 @@ def register(
     summary="Login",
 )
 def login(
-    user: UserLogin,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
     """
     Authenticate a user and return a JWT access token.
     """
-    return login_user(db, user)
+    credentials = UserLogin(
+        email=form_data.username,
+        password=form_data.password,
+    )
+
+    return login_user(db, credentials)
 
 
 @router.get(
