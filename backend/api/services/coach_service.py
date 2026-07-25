@@ -14,9 +14,7 @@ def get_coach_response_service(
 ):
     training_repository = TrainingRepository(db)
 
-    sessions = training_repository.get_by_athlete(
-        athlete_id
-    )
+    sessions = training_repository.get_by_athlete(athlete_id)
 
     if not sessions:
         raise HTTPException(
@@ -24,6 +22,4 @@ def get_coach_response_service(
             detail="No training sessions found.",
         )
 
-    return generate_coach_response(
-        sessions
-    )
+    return generate_coach_response(sessions)

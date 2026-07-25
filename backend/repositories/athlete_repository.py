@@ -1,54 +1,62 @@
-from typing import List, Optional
+from typing import Any
 
 from sqlalchemy.orm import Session
 
 from database.athlete_models import Athlete
-from schemas.athlete_schema import AthleteCreate, AthleteUpdate
+from repositories.base_repository import BaseRepository
 
 
-class AthleteRepository:
-    def __init__(self, db: Session):
-        self.db = db
+class AthleteRepository(BaseRepository[Athlete]):
+    """
+    Repository responsible for all Athlete database operations.
+    """
 
-    def create(self, user_id: int, athlete: AthleteCreate) -> Athlete:
-        db_athlete = Athlete(
-            user_id=user_id,
-            **athlete.model_dump(),
-        )
+    def __init__(
+        self,
+        db: Session,
+    ):
+        super().__init__(Athlete, db)
 
-        self.db.add(db_athlete)
-        self.db.commit()
-        self.db.refresh(db_athlete)
-
-        return db_athlete
-
-    def get_by_id(self, athlete_id: int) -> Optional[Athlete]:
+    def get_by_id_and_user(
+        self,
+        athlete_id: int,
+        user_id: int,
+    ) -> Athlete | None:
+        """
+        Retrieve an athlete by ID that belongs to the specified user.
+        """
         return (
             self.db.query(Athlete)
-            .filter(Athlete.id == athlete_id)
+            .filter(
+                Athlete.id == athlete_id,
+                Athlete.user_id == user_id,
+            )
             .first()
         )
 
-    def get_by_user(self, user_id: int) -> List[Athlete]:
+    def get_by_user(
+        self,
+        user_id: int,
+    ) -> list[Athlete]:
+        """
+        Retrieve all athletes belonging to a user.
+        """
         return (
             self.db.query(Athlete)
             .filter(Athlete.user_id == user_id)
+            .order_by(Athlete.created_at.desc())
             .all()
         )
 
     def update(
         self,
         athlete: Athlete,
-        updates: AthleteUpdate,
+        updates: dict[str, Any],
     ) -> Athlete:
-        for field, value in updates.model_dump(exclude_unset=True).items():
-            setattr(athlete, field, value)
-
-        self.db.commit()
-        self.db.refresh(athlete)
-
-        return athlete
-
-    def delete(self, athlete: Athlete) -> None:
-        self.db.delete(athlete)
-        self.db.commit()
+        """
+        Update an existing athlete.
+        """
+        return super().update(
+            athlete,
+            updates,
+        )

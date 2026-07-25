@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, Response, status
-from sqlalchemy.orm import Session
 
 from api.dependencies.auth import get_current_user
+from api.dependencies.services import get_athlete_service
 from api.services.athlete_service import AthleteService
-from database.database import get_db
 from database.user_models import User
 from schemas.athlete_schema import (
     AthleteCreate,
@@ -21,64 +20,97 @@ router = APIRouter(
     "",
     response_model=AthleteResponse,
     status_code=status.HTTP_201_CREATED,
+    summary="Create a new athlete",
 )
 def create_athlete(
     athlete: AthleteCreate,
+    service: AthleteService = Depends(get_athlete_service),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
 ):
-    service = AthleteService(db)
-    return service.create(current_user, athlete)
+    """
+    Create a new athlete for the authenticated user.
+    """
+    return service.create(
+        user_id=current_user.id,
+        athlete=athlete,
+    )
 
 
 @router.get(
     "",
     response_model=list[AthleteResponse],
+    summary="List athletes",
 )
 def get_athletes(
+    service: AthleteService = Depends(get_athlete_service),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
 ):
-    service = AthleteService(db)
-    return service.get_all(current_user)
+    """
+    Retrieve all athletes belonging to the authenticated user.
+    """
+    return service.get_all(
+        user_id=current_user.id,
+    )
 
 
 @router.get(
     "/{athlete_id}",
     response_model=AthleteResponse,
+    summary="Get athlete",
 )
 def get_athlete(
     athlete_id: int,
+    service: AthleteService = Depends(get_athlete_service),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
 ):
-    service = AthleteService(db)
-    return service.get(current_user, athlete_id)
+    """
+    Retrieve a single athlete by ID.
+    """
+    return service.get(
+        athlete_id=athlete_id,
+        user_id=current_user.id,
+    )
 
 
 @router.put(
     "/{athlete_id}",
     response_model=AthleteResponse,
+    summary="Update athlete",
 )
 def update_athlete(
     athlete_id: int,
     athlete: AthleteUpdate,
+    service: AthleteService = Depends(get_athlete_service),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
 ):
-    service = AthleteService(db)
-    return service.update(current_user, athlete_id, athlete)
+    """
+    Update an existing athlete.
+    """
+    return service.update(
+        athlete_id=athlete_id,
+        user_id=current_user.id,
+        updates=athlete,
+    )
 
 
 @router.delete(
     "/{athlete_id}",
     status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete athlete",
 )
 def delete_athlete(
     athlete_id: int,
+    service: AthleteService = Depends(get_athlete_service),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
 ):
-    service = AthleteService(db)
-    service.delete(current_user, athlete_id)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    """
+    Delete an athlete.
+    """
+    service.delete(
+        athlete_id=athlete_id,
+        user_id=current_user.id,
+    )
+
+    return Response(
+        status_code=status.HTTP_204_NO_CONTENT,
+    )

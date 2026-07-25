@@ -1,20 +1,16 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
 
-from api.dependencies.auth import get_current_user
-from api.services.auth_service import (
-    register_user,
-    login_user,
+from api.dependencies.types import (
+    AuthServiceDep,
+    CurrentUser,
 )
-from database.database import get_db
-from database.user_models import User
-from schemas.user_schema import (
-    UserCreate,
-    UserLogin,
-    UserResponse,
+from schemas.auth import (
     Token,
+    UserLogin,
+    UserRegister,
 )
+from schemas.user_schema import UserResponse
 
 router = APIRouter(
     prefix="/auth",
@@ -25,36 +21,37 @@ router = APIRouter(
 @router.post(
     "/register",
     response_model=UserResponse,
-    summary="Register",
+    status_code=status.HTTP_201_CREATED,
+    summary="Register a new user",
 )
 def register(
-    user: UserCreate,
-    db: Session = Depends(get_db),
+    user: UserRegister,
+    service: AuthServiceDep,
 ):
     """
     Register a new user.
     """
-    return register_user(db, user)
+    return service.register(user)
 
 
 @router.post(
     "/login",
     response_model=Token,
-    summary="Login",
+    summary="Authenticate a user",
 )
 def login(
+    service: AuthServiceDep,
     form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db),
 ):
     """
-    Authenticate a user and return a JWT access token.
+    Authenticate a user.
     """
     credentials = UserLogin(
         email=form_data.username,
         password=form_data.password,
     )
 
-    return login_user(db, credentials)
+    return service.login(credentials)
 
 
 @router.get(
@@ -63,9 +60,9 @@ def login(
     summary="Get current user",
 )
 def get_me(
-    current_user: User = Depends(get_current_user),
+    current_user: CurrentUser,
 ):
     """
-    Return the currently authenticated user.
+    Retrieve the authenticated user.
     """
     return UserResponse.model_validate(current_user)

@@ -1,21 +1,18 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
-from database.database import Base
+from database.base_model import BaseModel
 
 
-class User(Base):
+class User(BaseModel):
     """
-    User database model.
+    Application user.
+
+    A user can own one or more athlete profiles.
+    Authentication credentials are stored here.
     """
 
     __tablename__ = "users"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True,
-    )
 
     email = Column(
         String(255),
@@ -33,6 +30,10 @@ class User(Base):
         String(255),
         nullable=False,
     )
+
+    # -------------------------
+    # Relationships
+    # -------------------------
 
     athletes = relationship(
         "Athlete",

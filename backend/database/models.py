@@ -1,25 +1,20 @@
-from sqlalchemy import Column, Float, Integer, String
+"""
+Imports all SQLAlchemy models so they are registered with SQLAlchemy's metadata.
 
-from database.database import Base
+Alembic imports this module to discover every database table when generating
+or applying migrations.
+"""
 
+from database.athlete_models import Athlete
+from database.goal_models import Goal
+from database.performance_cycle_models import PerformanceCycle
+from database.training_models import TrainingSession
+from database.user_models import User
 
-class Goal(Base):
-    __tablename__ = "goals"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    athlete_id = Column(Integer, nullable=False, index=True)
-
-    goal_type = Column(String(50), nullable=False)
-
-    target_value = Column(Float, nullable=False)
-
-    target_unit = Column(String(20), nullable=False)
-
-    current_value = Column(Float, nullable=False)
-
-    status = Column(
-        String(20),
-        nullable=False,
-        default="Active",
-    )
+__all__ = [
+    "User",
+    "Athlete",
+    "Goal",
+    "TrainingSession",
+    "PerformanceCycle",
+]

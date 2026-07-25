@@ -28,23 +28,15 @@ def generate_coach_response(
     analysis = analyse_training(sessions)
 
     if analysis is None:
-        logger.warning(
-            "No training sessions supplied for analysis."
-        )
+        logger.warning("No training sessions supplied for analysis.")
 
-        raise InvalidTrainingDataError(
-            "No training sessions found for analysis."
-        )
+        raise InvalidTrainingDataError("No training sessions found for analysis.")
 
     workout = recommend_workout(analysis)
 
-    recommendations = generate_recommendations(
-        analysis
-    )
+    recommendations = generate_recommendations(analysis)
 
-    logger.info(
-        "Coach response generated successfully."
-    )
+    logger.info("Coach response generated successfully.")
 
     return CoachResponse(
         analysis=analysis,

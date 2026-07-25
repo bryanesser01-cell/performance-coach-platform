@@ -1,45 +1,104 @@
 from sqlalchemy import (
     Column,
-    Integer,
-    String,
+    Date,
     Float,
     ForeignKey,
+    Integer,
+    String,
+    Text,
 )
+from sqlalchemy.orm import relationship
 
-from database.database import Base
+from database.base_model import BaseModel
 
 
-class TrainingSession(Base):
+class TrainingSession(BaseModel):
+    """
+    Individual training session completed by an athlete.
+    """
+
     __tablename__ = "training_sessions"
-
-    id = Column(Integer, primary_key=True, index=True)
 
     athlete_id = Column(
         Integer,
         ForeignKey("athletes.id"),
         nullable=False,
+        index=True,
     )
 
-    date = Column(String, nullable=False)
+    # -------------------------
+    # Session Information
+    # -------------------------
 
-    session_type = Column(String, nullable=False)
+    date = Column(
+        Date,
+        nullable=False,
+    )
 
-    distance = Column(Float, nullable=False)
+    session_type = Column(
+        String(100),
+        nullable=False,
+    )
 
-    duration = Column(Float, nullable=False)
+    # -------------------------
+    # Performance Metrics
+    # -------------------------
 
-    average_pace = Column(Float, nullable=False)
+    distance = Column(
+        Float,
+        nullable=False,
+    )
 
-    average_hr = Column(Integer)
+    duration = Column(
+        Float,
+        nullable=False,
+    )
 
-    max_hr = Column(Integer)
+    average_pace = Column(
+        Float,
+        nullable=False,
+    )
 
-    cadence = Column(Integer)
+    average_hr = Column(
+        Integer,
+        nullable=True,
+    )
 
-    elevation_gain = Column(Float)
+    max_hr = Column(
+        Integer,
+        nullable=True,
+    )
 
-    training_load = Column(Float)
+    cadence = Column(
+        Integer,
+        nullable=True,
+    )
 
-    rpe = Column(Integer)
+    elevation_gain = Column(
+        Float,
+        nullable=True,
+    )
 
-    notes = Column(String)
+    training_load = Column(
+        Float,
+        nullable=True,
+    )
+
+    rpe = Column(
+        Integer,
+        nullable=True,
+    )
+
+    notes = Column(
+        Text,
+        nullable=True,
+    )
+
+    # -------------------------
+    # Relationships
+    # -------------------------
+
+    athlete = relationship(
+        "Athlete",
+        back_populates="training_sessions",
+    )

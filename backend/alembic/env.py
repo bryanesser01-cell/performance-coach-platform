@@ -8,10 +8,12 @@ from config.settings import settings
 from database.database import Base
 
 # Import all SQLAlchemy models so Alembic discovers them
-from database.athlete_models import Athlete
-from database.user_models import User
-from database.training_models import TrainingSession
-from database.models import Goal
+from database.user_models import User  # noqa: F401
+from database.athlete_models import Athlete  # noqa: F401
+from database.goal_models import Goal  # noqa: F401
+from database.training_models import TrainingSession  # noqa: F401
+from database.workout_plan_models import WorkoutPlan  # noqa: F401
+from database.performance_cycle_models import PerformanceCycle  # noqa: F401
 
 config = context.config
 

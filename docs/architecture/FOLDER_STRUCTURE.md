@@ -1,7 +1,7 @@
 # Folder Structure
 
-**Status:** Approved  
-**Version:** 1.0  
+**Status:** Approved
+**Version:** 1.0
 **Last Updated:** 25 July 2026
 
 ---

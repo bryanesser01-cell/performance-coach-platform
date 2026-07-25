@@ -1,14 +1,24 @@
-class AthleteNotFoundError(Exception):
-    """Raised when an athlete cannot be found."""
+class AppException(Exception):
+    """
+    Base class for all application exceptions.
+    """
+
+    def __init__(self, message: str):
+        self.message = message
+        super().__init__(message)
 
 
-class GoalNotFoundError(Exception):
-    """Raised when a goal cannot be found."""
+class ResourceNotFoundError(AppException):
+    """Raised when a requested resource cannot be found."""
 
 
-class TrainingSessionNotFoundError(Exception):
-    """Raised when a training session cannot be found."""
+class ValidationError(AppException):
+    """Raised when business validation fails."""
 
 
-class InvalidTrainingDataError(Exception):
-    """Raised when training data is invalid."""
+class UnauthorizedError(AppException):
+    """Raised when authentication fails."""
+
+
+class ForbiddenError(AppException):
+    """Raised when the user is authenticated but lacks permission."""

@@ -1,149 +1,139 @@
 import logging
-from statistics import mean
+from datetime import date, timedelta
+from statistics import fmean
 
 from config.settings import settings
+from database.training_models import TrainingSession
 from schemas.analysis import PerformanceAnalysis
-from schemas.training import TrainingSessionResponse
 
 logger = logging.getLogger(__name__)
 
 
-def analyse_training(
-    sessions: list[TrainingSessionResponse],
-) -> PerformanceAnalysis | None:
+def _empty_analysis() -> PerformanceAnalysis:
     """
-    Analyse a collection of training sessions and return
-    a PerformanceAnalysis object containing metrics and
-    coaching insights.
+    Return an empty performance analysis.
     """
+    return PerformanceAnalysis(
+        total_sessions=0,
+        total_distance=0.0,
+        total_duration=0.0,
+        average_pace=0.0,
+        average_heart_rate=0.0,
+        average_rpe=0.0,
+        total_training_load=0.0,
+        longest_run=0.0,
+        coach_comment="No training data is available yet.",
+        strengths=[],
+        risks=["No training sessions recorded."],
+        recommendations=["Record training sessions to begin performance analysis."],
+    )
 
-    if not sessions:
-        return None
+
+def analyse_training(
+    sessions: list[TrainingSession],
+) -> PerformanceAnalysis:
+    """
+    Analyse recent training sessions and return performance metrics
+    together with coaching insights.
+
+    Weekly metrics are calculated using only sessions completed
+    within the configured analysis window.
+    """
 
     logger.info(
         "Analysing %s training sessions.",
         len(sessions),
     )
 
-    # -----------------------------
-    # Performance Metrics
-    # -----------------------------
+    if not sessions:
+        logger.info("No training sessions available.")
+        return _empty_analysis()
 
-    total_sessions = len(sessions)
+    analysis_window = date.today() - timedelta(days=settings.ANALYSIS_WINDOW_DAYS)
 
-    total_distance = sum(
-        s.distance for s in sessions
-    )
-
-    total_duration = sum(
-        s.duration for s in sessions
-    )
-
-    average_pace = mean(
-        s.average_pace
-        for s in sessions
-    )
-
-    hr_values = [
-        s.average_hr
-        for s in sessions
-        if s.average_hr is not None
+    weekly_sessions = [
+        session for session in sessions if session.date >= analysis_window
     ]
 
-    average_hr = (
-        mean(hr_values)
-        if hr_values
-        else 0
-    )
+    if not weekly_sessions:
+        logger.info(
+            "No sessions found within the analysis window. "
+            "Using all available sessions."
+        )
+        weekly_sessions = sessions
 
-    rpe_values = [
-        s.rpe
-        for s in sessions
-        if s.rpe is not None
+    total_sessions = len(weekly_sessions)
+
+    total_distance = sum(session.distance for session in weekly_sessions)
+
+    total_duration = sum(session.duration for session in weekly_sessions)
+
+    average_pace = total_duration / total_distance if total_distance > 0 else 0.0
+
+    heart_rates = [
+        session.average_hr
+        for session in weekly_sessions
+        if session.average_hr is not None
     ]
 
-    average_rpe = (
-        mean(rpe_values)
-        if rpe_values
-        else 0
-    )
+    average_heart_rate = fmean(heart_rates) if heart_rates else 0.0
+
+    rpe_values = [session.rpe for session in weekly_sessions if session.rpe is not None]
+
+    average_rpe = fmean(rpe_values) if rpe_values else 0.0
 
     total_training_load = sum(
-        s.training_load or 0
-        for s in sessions
+        session.training_load or 0.0 for session in weekly_sessions
     )
 
     longest_run = max(
-        s.distance
-        for s in sessions
+        (session.distance for session in weekly_sessions),
+        default=0.0,
     )
 
-    # -----------------------------
-    # Coach Reasoning
-    # -----------------------------
+    strengths: list[str] = []
+    risks: list[str] = []
+    recommendations: list[str] = []
 
-    strengths = []
-    risks = []
-    recommendations = []
-
-    # Intensity
     if average_rpe <= settings.TARGET_RPE:
-        strengths.append(
-            "Training intensity is well balanced."
-        )
+        strengths.append("Training intensity is well balanced.")
     else:
-        risks.append(
-            "Training intensity may be too high."
-        )
-        recommendations.append(
-            "Schedule an easier recovery session."
-        )
+        risks.append("Training intensity appears too high.")
+        recommendations.append("Schedule an easier recovery session.")
 
-    # Frequency
     if total_sessions < settings.MIN_WEEKLY_SESSIONS:
-        risks.append(
-            "Training frequency is low."
-        )
+        risks.append("Weekly training frequency is below the recommended target.")
         recommendations.append(
-            f"Aim for at least {settings.MIN_WEEKLY_SESSIONS} running sessions per week."
+            f"Aim for at least {settings.MIN_WEEKLY_SESSIONS} running sessions each week."
         )
     else:
-        strengths.append(
-            "Training consistency is improving."
-        )
+        strengths.append("Weekly training consistency is good.")
 
-    # Weekly Volume
     if total_distance < settings.MIN_WEEKLY_DISTANCE:
-        risks.append(
-            "Weekly running volume is below target."
-        )
-        recommendations.append(
-            "Gradually increase weekly distance by 5–10%."
-        )
+        risks.append("Weekly running volume is below the recommended target.")
+        recommendations.append("Increase weekly distance gradually by 5–10%.")
     else:
-        strengths.append(
-            "Weekly running volume is solid."
+        strengths.append("Weekly running volume is appropriate.")
+
+    if not recommendations:
+        recommendations.extend(
+            [
+                "Maintain your current training consistency.",
+                "Continue progressive overload while allowing adequate recovery.",
+            ]
         )
 
-    # -----------------------------
-    # Overall Coach Comment
-    # -----------------------------
-
-    if risks:
-        coach_comment = (
-            "Several factors need attention before increasing training intensity."
+    coach_comment = (
+        "Training is progressing well."
+        if not risks
+        else (
+            "Several factors should be addressed before increasing training intensity."
         )
-    else:
-        coach_comment = (
-            "Training is progressing well. Continue building consistently."
-        )
-
-    # -----------------------------
-    # Return Analysis
-    # -----------------------------
+    )
 
     logger.info(
-        "Performance analysis completed successfully."
+        "Performance analysis completed successfully for %s sessions.",
+        total_sessions,
     )
 
     return PerformanceAnalysis(
@@ -151,7 +141,7 @@ def analyse_training(
         total_distance=round(total_distance, 2),
         total_duration=round(total_duration, 2),
         average_pace=round(average_pace, 2),
-        average_heart_rate=round(average_hr, 1),
+        average_heart_rate=round(average_heart_rate, 1),
         average_rpe=round(average_rpe, 1),
         total_training_load=round(total_training_load, 1),
         longest_run=round(longest_run, 2),

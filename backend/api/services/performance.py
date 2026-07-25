@@ -3,11 +3,7 @@ from schemas.athlete import AthleteCreate
 
 def analyse_athlete(athlete: AthleteCreate):
 
-    bmi = round(
-        athlete.weight_kg /
-        ((athlete.height_cm / 100) ** 2),
-        1
-    )
+    bmi = round(athlete.weight_kg / ((athlete.height_cm / 100) ** 2), 1)
 
     heart_rate_reserve = athlete.max_hr - athlete.resting_hr
 
@@ -18,5 +14,5 @@ def analyse_athlete(athlete: AthleteCreate):
         "bmi": bmi,
         "zone2": f"{zone2_low}-{zone2_high}",
         "sport": athlete.sport,
-        "event": athlete.primary_event
+        "event": athlete.primary_event,
     }

@@ -1,30 +1,34 @@
 from sqlalchemy import (
     Column,
     Date,
-    DateTime,
+    Enum,
     Float,
     ForeignKey,
     Integer,
     String,
+    Text,
 )
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
 
-from database.database import Base
+from database.base_model import BaseModel
+from database.enums import (
+    ExperienceLevel,
+    InjuryStatus,
+    Sex,
+    Sport,
+)
 
 
-class Athlete(Base):
+class Athlete(BaseModel):
     """
-    Athlete database model.
+    Athlete profile.
+
+    Stores the athlete's current profile.
+    Historical metrics (body weight, performance,
+    recovery, etc.) are stored in dedicated tables.
     """
 
     __tablename__ = "athletes"
-
-    id = Column(
-        Integer,
-        primary_key=True,
-        index=True,
-    )
 
     user_id = Column(
         Integer,
@@ -32,6 +36,10 @@ class Athlete(Base):
         nullable=False,
         index=True,
     )
+
+    # -------------------------
+    # Personal Information
+    # -------------------------
 
     first_name = Column(
         String(100),
@@ -43,15 +51,24 @@ class Athlete(Base):
         nullable=False,
     )
 
+    preferred_name = Column(
+        String(100),
+        nullable=True,
+    )
+
     date_of_birth = Column(
         Date,
         nullable=True,
     )
 
     sex = Column(
-        String(20),
+        Enum(Sex),
         nullable=True,
     )
+
+    # -------------------------
+    # Physical Profile
+    # -------------------------
 
     height_cm = Column(
         Float,
@@ -63,7 +80,54 @@ class Athlete(Base):
         nullable=True,
     )
 
-    ftp = Column(
+    # -------------------------
+    # Sport Profile
+    # -------------------------
+
+    sport = Column(
+        Enum(Sport),
+        nullable=True,
+    )
+
+    primary_event = Column(
+        String(100),
+        nullable=True,
+    )
+
+    experience_level = Column(
+        Enum(ExperienceLevel),
+        nullable=True,
+    )
+
+    years_training = Column(
+        Integer,
+        nullable=True,
+    )
+
+    # -------------------------
+    # Training Profile
+    # -------------------------
+
+    weekly_training_days = Column(
+        Integer,
+        nullable=True,
+    )
+
+    weekly_training_hours = Column(
+        Float,
+        nullable=True,
+    )
+
+    weekly_distance = Column(
+        Float,
+        nullable=True,
+    )
+
+    # -------------------------
+    # Physiology
+    # -------------------------
+
+    resting_hr = Column(
         Integer,
         nullable=True,
     )
@@ -78,23 +142,63 @@ class Athlete(Base):
         nullable=True,
     )
 
-    resting_hr = Column(
+    ftp = Column(
         Integer,
         nullable=True,
     )
 
-    created_at = Column(
-        DateTime(timezone=True),
-        server_default=func.now(),
+    vo2_max = Column(
+        Float,
+        nullable=True,
     )
 
-    updated_at = Column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        onupdate=func.now(),
+    # -------------------------
+    # Health
+    # -------------------------
+
+    injury_status = Column(
+        Enum(InjuryStatus),
+        nullable=True,
     )
+
+    # -------------------------
+    # Coaching
+    # -------------------------
+
+    coach_notes = Column(
+        Text,
+        nullable=True,
+    )
+
+    # -------------------------
+    # Relationships
+    # -------------------------
 
     user = relationship(
         "User",
         back_populates="athletes",
+    )
+
+    goals = relationship(
+        "Goal",
+        back_populates="athlete",
+        cascade="all, delete-orphan",
+    )
+
+    training_sessions = relationship(
+        "TrainingSession",
+        back_populates="athlete",
+        cascade="all, delete-orphan",
+    )
+
+    performance_cycles = relationship(
+        "PerformanceCycle",
+        back_populates="athlete",
+        cascade="all, delete-orphan",
+    )
+
+    workout_plans = relationship(
+        "WorkoutPlan",
+        back_populates="athlete",
+        cascade="all, delete-orphan",
     )

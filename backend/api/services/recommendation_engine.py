@@ -1,5 +1,6 @@
 import logging
 
+from config.settings import settings
 from schemas.analysis import PerformanceAnalysis
 from schemas.recommendation import Recommendation
 
@@ -11,60 +12,107 @@ def generate_recommendations(
 ) -> list[Recommendation]:
     """
     Generate prioritised coaching recommendations based on
-    the athlete's performance analysis.
+    an athlete's performance analysis.
     """
 
     logger.info("Generating coaching recommendations.")
 
     recommendations: list[Recommendation] = []
 
-    if analysis.total_sessions < 3:
+    # -------------------------------------------------
+    # Training Frequency
+    # -------------------------------------------------
+
+    if analysis.total_sessions < settings.min_weekly_sessions:
         recommendations.append(
             Recommendation(
                 priority=1,
                 category="Consistency",
                 title="Increase Training Frequency",
-                description="Aim for at least three running sessions each week.",
+                description=(
+                    f"Aim for at least "
+                    f"{settings.min_weekly_sessions} "
+                    "running sessions each week."
+                ),
             )
         )
 
-    if analysis.total_distance < 25:
+    # -------------------------------------------------
+    # Weekly Volume
+    # -------------------------------------------------
+
+    if analysis.total_distance < settings.min_weekly_distance:
         recommendations.append(
             Recommendation(
                 priority=2,
                 category="Volume",
                 title="Build Weekly Distance",
-                description="Increase weekly running volume by approximately 10%.",
+                description=(
+                    f"Increase weekly running volume gradually "
+                    f"by up to {int(settings.max_weekly_distance_increase * 100)}%."
+                ),
             )
         )
 
-    if analysis.total_training_load > 500:
+    # -------------------------------------------------
+    # Recovery
+    # -------------------------------------------------
+
+    if analysis.total_training_load > settings.max_recommended_training_load:
         recommendations.append(
             Recommendation(
                 priority=1,
                 category="Recovery",
                 title="Reduce Fatigue",
-                description="Schedule an easy recovery run or complete rest day.",
+                description=(
+                    "Schedule an easy recovery run or take a complete rest day."
+                ),
             )
         )
 
-    if analysis.average_rpe >= 8:
+    # -------------------------------------------------
+    # Training Intensity
+    # -------------------------------------------------
+
+    if analysis.average_rpe > settings.target_rpe:
         recommendations.append(
             Recommendation(
                 priority=2,
                 category="Intensity",
                 title="Reduce Training Intensity",
-                description="Several recent sessions have been very hard.",
+                description=(
+                    "Several recent sessions have been harder than the target effort."
+                ),
             )
         )
 
-    recommendations = sorted(
-        recommendations,
-        key=lambda r: r.priority,
+    # -------------------------------------------------
+    # Positive Recommendation
+    # -------------------------------------------------
+
+    if not recommendations:
+        recommendations.append(
+            Recommendation(
+                priority=3,
+                category="Maintenance",
+                title="Maintain Current Training",
+                description=(
+                    "Your recent training is well balanced. "
+                    "Continue progressing gradually while "
+                    "prioritising recovery."
+                ),
+            )
+        )
+
+    recommendations.sort(
+        key=lambda recommendation: (
+            recommendation.priority,
+            recommendation.category,
+        )
     )
 
     logger.info(
-        "Generated %s recommendations.",
+        "Generated %s coaching recommendations.",
         len(recommendations),
     )
 

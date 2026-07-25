@@ -1,90 +1,81 @@
+from datetime import date, timedelta
 import logging
-from typing import Any
 
-from api.services.performance_engine import analyse_training
-from api.services.recommendation_engine import generate_recommendations
-from schemas.goal import GoalResponse
-from schemas.athlete import AthleteResponse
-from schemas.training import TrainingSessionResponse
+from database.athlete_models import Athlete
+from database.goal_models import Goal
+from database.training_models import TrainingSession
+from schemas.goal import GoalAnalysis
 
 logger = logging.getLogger(__name__)
 
 
 def analyse_goal(
-    goal: GoalResponse,
-    athlete: AthleteResponse,
-    sessions: list[TrainingSessionResponse] | None = None,
-) -> dict[str, Any]:
+    goal: Goal,
+    athlete: Athlete,
+    sessions: list[TrainingSession] | None = None,
+) -> GoalAnalysis:
     """
-    Analyse an athlete's goal and return progress, status,
-    priority and coaching recommendations.
+    Analyse a goal using the athlete's recent training history.
+
+    The current implementation provides a simple heuristic that can be
+    replaced later by a more sophisticated performance prediction engine.
     """
 
     logger.info(
-        "Analysing goal '%s' for athlete ID %s.",
-        goal.goal_type,
+        "Analysing goal %s for athlete %s",
+        goal.id,
         athlete.id,
     )
 
-    recommendations: list[Any] = []
+    sessions = sessions or []
 
-    # Generate recommendations from training history
-    if sessions:
-        analysis = analyse_training(sessions)
+    if not sessions:
+        return GoalAnalysis(
+            achievable=False,
+            confidence=0.0,
+            estimated_completion_date=None,
+            message=(
+                "No training sessions have been recorded yet. "
+                "Complete a few sessions before goal progress can be assessed."
+            ),
+        )
 
-        if analysis is not None:
-            recommendations = generate_recommendations(
-                analysis
-            )
+    recent_sessions = sorted(
+        sessions,
+        key=lambda s: s.date,
+        reverse=True,
+    )[:10]
 
-    # Calculate progress safely
-    if goal.target_value <= 0:
-        progress = 0.0
-    else:
-        progress = (
-            goal.current_value / goal.target_value
-        ) * 100
-
-    # Keep progress within sensible limits
-    progress = max(0.0, min(progress, 100.0))
-
-    # Remaining amount to reach target
-    remaining = max(
-        goal.target_value - goal.current_value,
-        0.0,
+    confidence = min(
+        1.0,
+        0.3 + (len(recent_sessions) * 0.07),
     )
 
-    # Goal status
-    if progress >= 100:
-        status = "Completed"
-    elif progress >= 95:
-        status = "Almost There"
-    elif progress >= 80:
-        status = "On Track"
-    elif progress >= 60:
-        status = "Behind"
-    else:
-        status = "Needs Improvement"
+    achievable = confidence >= 0.6
 
-    # Priority
-    if remaining <= 1:
-        priority = "Critical"
-    elif remaining <= 3:
-        priority = "High"
-    elif remaining <= 5:
-        priority = "Medium"
-    else:
-        priority = "Low"
+    if achievable:
+        estimated_completion = min(
+            goal.target_date,
+            date.today() + timedelta(days=30),
+        )
 
-    logger.info(
-        "Goal analysis completed successfully."
+        message = (
+            "Recent training indicates that this goal appears achievable "
+            "if the current training consistency is maintained."
+        )
+    else:
+        estimated_completion = None
+
+        message = (
+            "More consistent training data is needed before this goal can "
+            "be confidently assessed."
+        )
+
+    logger.info("Goal analysis completed successfully.")
+
+    return GoalAnalysis(
+        achievable=achievable,
+        confidence=round(confidence, 2),
+        estimated_completion_date=estimated_completion,
+        message=message,
     )
-
-    return {
-        "progress_percent": round(progress, 1),
-        "remaining": round(remaining, 1),
-        "remaining_unit": goal.target_unit,
-        "status": status,
-        "priority": priority,
-        "recommendations": recommendations,
-    }

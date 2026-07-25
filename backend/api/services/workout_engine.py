@@ -20,8 +20,6 @@ def recommend_workout(
 
     workout = recommend_from_rules(analysis)
 
-    logger.info(
-        "Workout recommendation generated successfully."
-    )
+    logger.info("Workout recommendation generated successfully.")
 
     return workout

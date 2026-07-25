@@ -2,9 +2,9 @@
 
 # Project Principles
 
-**Version:** 1.0  
-**Status:** Draft  
-**Author:** Bryan Esser  
+**Version:** 1.0
+**Status:** Draft
+**Author:** Bryan Esser
 **Last Updated:** 25 July 2026
 
 ---

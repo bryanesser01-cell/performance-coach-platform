@@ -12,7 +12,12 @@ dependencies = [
     "pydantic (>=2.13.4,<3.0.0)",
     "sqlalchemy (>=2.0.51,<3.0.0)",
     "alembic (>=1.18.5,<2.0.0)",
-    "pydantic-settings (>=2.14.2,<3.0.0)"
+    "pydantic-settings (>=2.14.2,<3.0.0)",
+    "python-jose[cryptography] (>=3.5.0,<4.0.0)",
+    "psycopg[binary] (>=3.3.4,<4.0.0)",
+    "pwdlib[argon2] (>=0.3.0,<0.4.0)",
+    "email-validator (>=2.3.0,<3.0.0)",
+    "python-multipart (>=0.0.32,<0.0.33)"
 ]
 
 
@@ -25,5 +30,8 @@ dev = [
     "pytest (>=9.1.1,<10.0.0)",
     "black (>=26.5.1,<27.0.0)",
     "ruff (>=0.15.22,<0.16.0)",
-    "mypy (>=2.3.0,<3.0.0)"
+    "mypy (>=2.3.0,<3.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "pre-commit (>=4.6.1,<5.0.0)"
 ]

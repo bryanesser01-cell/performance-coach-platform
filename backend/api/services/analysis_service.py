@@ -1,60 +1,109 @@
-from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
-
+from core.exceptions import (
+    ForbiddenError,
+    ResourceNotFoundError,
+)
 from database.athlete_models import Athlete
-from database.user_models import User
 from repositories.athlete_repository import AthleteRepository
-from schemas.athlete_schema import AthleteCreate, AthleteUpdate
+from schemas.athlete_schema import (
+    AthleteCreate,
+    AthleteUpdate,
+)
 
 
 class AthleteService:
-    def __init__(self, db: Session):
-        self.repository = AthleteRepository(db)
+    """
+    Service responsible for Athlete business logic.
+    """
+
+    def __init__(
+        self,
+        repository: AthleteRepository,
+    ):
+        self.repository = repository
 
     def create(
         self,
-        current_user: User,
+        user_id: int,
         athlete: AthleteCreate,
     ) -> Athlete:
-        return self.repository.create(current_user.id, athlete)
+        """
+        Create a new athlete.
+        """
+        db_athlete = Athlete(
+            user_id=user_id,
+            **athlete.model_dump(exclude_none=True),
+        )
 
-    def get_all(self, current_user: User):
-        return self.repository.get_by_user(current_user.id)
+        return self.repository.create(
+            db_athlete,
+        )
+
+    def get_all(
+        self,
+        user_id: int,
+    ) -> list[Athlete]:
+        """
+        Retrieve all athletes belonging to the user.
+        """
+        return self.repository.get_by_user(
+            user_id,
+        )
 
     def get(
         self,
-        current_user: User,
         athlete_id: int,
+        user_id: int,
     ) -> Athlete:
-        athlete = self.repository.get_by_id(athlete_id)
+        """
+        Retrieve an athlete owned by the user.
+        """
+        athlete = self.repository.get_by_id(
+            athlete_id,
+        )
 
         if athlete is None:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Athlete not found",
-            )
+            raise ResourceNotFoundError("Athlete not found.")
 
-        if athlete.user_id != current_user.id:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Not authorized",
-            )
+        if athlete.user_id != user_id:
+            raise ForbiddenError("Not authorized.")
 
         return athlete
 
     def update(
         self,
-        current_user: User,
         athlete_id: int,
+        user_id: int,
         updates: AthleteUpdate,
     ) -> Athlete:
-        athlete = self.get(current_user, athlete_id)
-        return self.repository.update(athlete, updates)
+        """
+        Update an athlete.
+        """
+        athlete = self.get(
+            athlete_id,
+            user_id,
+        )
+
+        return self.repository.update(
+            athlete,
+            updates.model_dump(
+                exclude_unset=True,
+                exclude_none=True,
+            ),
+        )
 
     def delete(
         self,
-        current_user: User,
         athlete_id: int,
+        user_id: int,
     ) -> None:
-        athlete = self.get(current_user, athlete_id)
-        self.repository.delete(athlete)
+        """
+        Delete an athlete.
+        """
+        athlete = self.get(
+            athlete_id,
+            user_id,
+        )
+
+        self.repository.delete(
+            athlete,
+        )

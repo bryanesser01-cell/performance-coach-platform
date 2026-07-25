@@ -1,58 +1,81 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, status
 
-from database.database import get_db
-
+from api.dependencies.auth import get_current_user
+from api.dependencies.services import get_training_service
+from api.services.training_service import TrainingService
+from database.user_models import User
 from schemas.training import (
     TrainingSessionCreate,
     TrainingSessionResponse,
-)
-
-from api.services.training_service import (
-    create_training,
-    list_training,
-    list_training_by_athlete,
+    TrainingSessionUpdate,
 )
 
 router = APIRouter(
     prefix="/training",
-    tags=["Training"],
+    tags=["Training Sessions"],
 )
 
 
 @router.post(
     "",
     response_model=TrainingSessionResponse,
+    status_code=status.HTTP_201_CREATED,
 )
-def add_training_session(
+def create_training(
     training: TrainingSessionCreate,
-    db: Session = Depends(get_db),
+    service: TrainingService = Depends(get_training_service),
+    current_user: User = Depends(get_current_user),
 ):
-    return create_training(
-        db,
-        training,
-    )
+    return service.create(training)
 
 
 @router.get(
-    "",
-    response_model=list[TrainingSessionResponse],
+    "/{training_id}",
+    response_model=TrainingSessionResponse,
 )
-def get_training_sessions(
-    db: Session = Depends(get_db),
+def get_training(
+    training_id: int,
+    service: TrainingService = Depends(get_training_service),
+    current_user: User = Depends(get_current_user),
 ):
-    return list_training(db)
+    return service.get(training_id)
 
 
 @router.get(
-    "/{athlete_id}",
+    "/athlete/{athlete_id}",
     response_model=list[TrainingSessionResponse],
 )
-def get_training_sessions_by_athlete(
+def get_training_by_athlete(
     athlete_id: int,
-    db: Session = Depends(get_db),
+    service: TrainingService = Depends(get_training_service),
+    current_user: User = Depends(get_current_user),
 ):
-    return list_training_by_athlete(
-        db,
-        athlete_id,
+    return service.get_all(athlete_id)
+
+
+@router.put(
+    "/{training_id}",
+    response_model=TrainingSessionResponse,
+)
+def update_training(
+    training_id: int,
+    updates: TrainingSessionUpdate,
+    service: TrainingService = Depends(get_training_service),
+    current_user: User = Depends(get_current_user),
+):
+    return service.update(
+        training_id,
+        updates,
     )
+
+
+@router.delete(
+    "/{training_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_training(
+    training_id: int,
+    service: TrainingService = Depends(get_training_service),
+    current_user: User = Depends(get_current_user),
+):
+    service.delete(training_id)
