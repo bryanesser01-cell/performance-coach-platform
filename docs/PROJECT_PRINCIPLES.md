@@ -1,33 +1,10 @@
 # Performance Coach Platform
 
-## Project Principles
+# Project Principles
 
-**Version:** 1.0
-
-**Status:** Draft
-
-**Author:** Bryan Esser
-
-**Last Updated:** 25 July 2026
-
----
-
-## Purpose
-
-This document defines the engineering and architectural principles that guide the Performance Coach Platform.
-
-Every architectural decision, feature, API, database schema, and AI capability should align with these principles.
-
-# Performance Coach Platform
-
-## Project Principles
-
-**Version:** 1.0
-
-**Status:** Draft
-
-**Author:** Bryan Esser
-
+**Version:** 1.0  
+**Status:** Draft  
+**Author:** Bryan Esser  
 **Last Updated:** 25 July 2026
 
 ---
@@ -93,3 +70,113 @@ The platform should distinguish between:
 - AI-generated recommendations
 
 Users should be able to understand why a recommendation was made.
+
+---
+
+## 5. Simplicity
+
+Prefer the simplest solution that correctly solves the problem.
+
+Avoid unnecessary complexity, premature optimization, and over-engineering.
+
+The platform should evolve through deliberate improvements rather than speculative design.
+
+---
+
+## 6. Privacy by Design
+
+Athlete data is owned by the athlete.
+
+Privacy, security, and transparency are considered from the beginning rather than added later.
+
+The platform should collect only the information necessary to deliver valuable coaching outcomes and protect that information appropriately.
+
+---
+
+# Engineering Principles
+
+Our engineering practices exist to produce software that is reliable, maintainable, testable, and easy to evolve.
+
+Every architectural and implementation decision should strive to keep business rules independent from frameworks, user interfaces, databases, and external services.
+
+---
+
+## 1. Clean Architecture
+
+The platform follows the principles of Clean Architecture.
+
+Dependencies always point inward toward the business domain.
+
+Business rules must not depend on frameworks, databases, web APIs, or third-party services.
+
+Infrastructure exists to support the business—not define it.
+
+---
+
+## 2. Domain-Driven Design
+
+The platform is organized around business domains rather than technical layers.
+
+Each domain owns its business rules, models, services, and interfaces.
+
+Examples of domains include:
+
+- Athlete
+- Training
+- Recovery
+- Goals
+- Performance
+- Insights
+
+This structure allows the platform to grow without becoming tightly coupled or difficult to maintain.
+
+---
+
+## 3. SOLID Principles
+
+The platform should follow the SOLID principles to create software that is maintainable, testable, and adaptable.
+
+Classes and services should have clear responsibilities, depend on abstractions rather than concrete implementations, and remain easy to extend without modifying existing behavior.
+
+---
+
+## 4. Testability
+
+Business logic should be easy to test without requiring databases, web servers, or external services.
+
+The platform should favor dependency injection and well-defined interfaces so that components can be tested independently.
+
+Testing should provide confidence that business rules continue to work correctly as the platform evolves.
+
+---
+
+## Guiding Principle
+
+When making architectural decisions, ask the following questions:
+
+1. Does this improve coaching outcomes?
+2. Does this keep the business domain independent?
+3. Will this make the platform easier to extend in the future?
+4. Can this be tested independently?
+5. Does this protect athlete privacy?
+6. Is this the simplest solution that correctly solves the problem?
+
+If the answer to any of these questions is **No**, the design should be reconsidered.
+
+---
+
+## Summary
+
+The Performance Coach Platform is designed to be:
+
+- Athlete-first
+- AI-native
+- Provider-agnostic
+- Evidence-based
+- Privacy-focused
+- Domain-driven
+- Easy to test
+- Easy to maintain
+- Easy to extend
+
+These principles guide every architectural and engineering decision throughout the lifetime of the platform.
