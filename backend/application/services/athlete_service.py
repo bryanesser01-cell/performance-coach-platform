@@ -1,8 +1,8 @@
 from uuid import UUID
 
 from domain.athlete.entities import Athlete
-from domain.athlete.repository import AthleteRepository
 from domain.athlete.exceptions import AthleteNotFound
+from domain.athlete.repository import AthleteRepository
 
 
 class AthleteService:
@@ -11,10 +11,10 @@ class AthleteService:
     """
 
     def __init__(self, repository: AthleteRepository):
-        self.repository = repository
+        self._repository = repository
 
     def get_athlete(self, athlete_id: UUID) -> Athlete:
-        athlete = self.repository.get_by_id(athlete_id)
+        athlete = self._repository.get_by_id(athlete_id)
 
         if athlete is None:
             raise AthleteNotFound(f"Athlete with ID '{athlete_id}' was not found.")
@@ -22,10 +22,10 @@ class AthleteService:
         return athlete
 
     def create_athlete(self, athlete: Athlete) -> Athlete:
-        return self.repository.save(athlete)
+        return self._repository.save(athlete)
 
     def update_athlete(self, athlete: Athlete) -> Athlete:
-        return self.repository.update(athlete)
+        return self._repository.update(athlete)
 
     def delete_athlete(self, athlete_id: UUID) -> None:
-        self.repository.delete(athlete_id)
+        self._repository.delete(athlete_id)
