@@ -1,9 +1,9 @@
 """
-Value Objects for the Activity domain.
+Activity domain package.
 """
 
-from .distance import Distance
+from .entities import Activity
 
 __all__ = [
-    "Distance",
+    "Activity",
 ]
