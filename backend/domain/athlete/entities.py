@@ -79,3 +79,27 @@ class Athlete:
                 )
             )
         )
+
+    @property
+    def bmi(self) -> float:
+        if self.height_cm is None or self.weight_kg is None:
+            raise ValueError("Height and weight are required to calculate BMI.")
+
+        height_m = self.height_cm / 100
+
+        return self.weight_kg / (height_m**2)
+
+    def update_measurements(
+        self,
+        *,
+        height_cm: float,
+        weight_kg: float,
+    ) -> None:
+        if height_cm <= 0:
+            raise ValueError("Height must be greater than 0.")
+
+        if weight_kg <= 0:
+            raise ValueError("Weight must be greater than 0.")
+
+        self.height_cm = height_cm
+        self.weight_kg = weight_kg
