@@ -47,6 +47,9 @@ class Athlete:
         if height_cm is not None and height_cm <= 0:
             raise ValueError("Height must be greater than 0.")
 
+        if weight_kg is not None and weight_kg <= 0:
+            raise ValueError("Weight must be greater than 0.")
+
         return cls(
             id=uuid4(),
             first_name=first_name,
