@@ -31,10 +31,19 @@ class Athlete:
         height_cm: float | None = None,
         weight_kg: float | None = None,
     ) -> "Athlete":
+        first_name = first_name.strip()
+        last_name = last_name.strip()
+
+        if not first_name:
+            raise ValueError("First name cannot be blank.")
+
+        if not last_name:
+            raise ValueError("Last name cannot be blank.")
+
         return cls(
             id=uuid4(),
-            first_name=first_name.strip(),
-            last_name=last_name.strip(),
+            first_name=first_name,
+            last_name=last_name,
             date_of_birth=date_of_birth,
             sport=sport.strip(),
             height_cm=height_cm,
