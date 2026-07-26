@@ -64,3 +64,18 @@ class Athlete:
     @property
     def full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
+    @property
+    def age(self) -> int:
+        today = date.today()
+        return (
+            today.year
+            - self.date_of_birth.year
+            - (
+                (today.month, today.day)
+                < (
+                    self.date_of_birth.month,
+                    self.date_of_birth.day,
+                )
+            )
+        )
