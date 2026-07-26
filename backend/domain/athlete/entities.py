@@ -33,6 +33,7 @@ class Athlete:
     ) -> "Athlete":
         first_name = first_name.strip()
         last_name = last_name.strip()
+        sport = sport.strip()
 
         if not first_name:
             raise ValueError("First name cannot be blank.")
@@ -40,12 +41,15 @@ class Athlete:
         if not last_name:
             raise ValueError("Last name cannot be blank.")
 
+        if not sport:
+            raise ValueError("Sport cannot be blank.")
+
         return cls(
             id=uuid4(),
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
-            sport=sport.strip(),
+            sport=sport,
             height_cm=height_cm,
             weight_kg=weight_kg,
             active=True,
