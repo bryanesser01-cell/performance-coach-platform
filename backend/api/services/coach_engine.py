@@ -1,15 +1,13 @@
 import logging
 
-from core.exceptions import InvalidTrainingDataError
-
-from schemas.coach import CoachResponse
-from schemas.training import TrainingSessionResponse
-
 from api.services.performance_engine import analyse_training
-from api.services.workout_engine import recommend_workout
 from api.services.recommendation_engine import (
     generate_recommendations,
 )
+from api.services.workout_engine import recommend_workout
+from core.exceptions import InvalidTrainingDataError
+from schemas.coach import CoachResponse
+from schemas.training import TrainingSessionResponse
 
 logger = logging.getLogger(__name__)
 

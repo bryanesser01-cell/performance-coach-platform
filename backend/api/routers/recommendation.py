@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db
-
 from api.services.recommendation_service import (
     get_recommendations_service,
 )
-
+from database.database import get_db
 from schemas.recommendation_response import (
     RecommendationResponse,
 )

@@ -4,8 +4,8 @@ from uuid import uuid4
 from domain.activity.entities import Activity
 from domain.activity.enums import (
     ActivityCategory,
-    ActivityStatus,
     ActivitySource,
+    ActivityStatus,
 )
 
 

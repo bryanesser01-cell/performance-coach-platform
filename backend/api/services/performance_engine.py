@@ -105,7 +105,11 @@ def analyse_training(
             "Training frequency is low."
         )
         recommendations.append(
-            f"Aim for at least {settings.MIN_WEEKLY_SESSIONS} running sessions per week."
+            (
+                f"Aim for at least "
+                f"{settings.MIN_WEEKLY_SESSIONS} "
+                f"running sessions per week."
+            )
         )
     else:
         strengths.append(

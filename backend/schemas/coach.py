@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 from schemas.analysis import PerformanceAnalysis
-from schemas.workout import WorkoutRecommendation
 from schemas.recommendation import Recommendation
+from schemas.workout import WorkoutRecommendation
 
 
 class CoachResponse(BaseModel):

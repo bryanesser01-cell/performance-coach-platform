@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db
-
 from api.services.coach_service import (
     get_coach_response_service,
 )
-
+from database.database import get_db
 from schemas.coach import CoachResponse
 
 router = APIRouter(

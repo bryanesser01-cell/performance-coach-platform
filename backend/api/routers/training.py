@@ -1,17 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db
-
-from schemas.training import (
-    TrainingSessionCreate,
-    TrainingSessionResponse,
-)
-
 from api.services.training_service import (
     create_training,
     list_training,
     list_training_by_athlete,
+)
+from database.database import get_db
+from schemas.training import (
+    TrainingSessionCreate,
+    TrainingSessionResponse,
 )
 
 router = APIRouter(

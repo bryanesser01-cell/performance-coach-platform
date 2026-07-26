@@ -1,11 +1,10 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from repositories.training_repository import TrainingRepository
-
 from api.services.coach_engine import (
     generate_coach_response,
 )
+from repositories.training_repository import TrainingRepository
 
 
 def get_coach_response_service(

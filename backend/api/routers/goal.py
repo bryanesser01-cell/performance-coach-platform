@@ -1,13 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db
-from schemas.goal import GoalCreate
-
 from api.services.goal_service import (
     create_goal_service,
     list_goals,
 )
+from database.database import get_db
+from schemas.goal import GoalCreate
 
 router = APIRouter()
 

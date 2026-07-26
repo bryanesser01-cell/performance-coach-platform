@@ -1,12 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from database.database import get_db
-
 from api.services.workout_service import (
     get_workout_recommendation_service,
 )
-
+from database.database import get_db
 from schemas.workout import WorkoutRecommendation
 
 router = APIRouter(

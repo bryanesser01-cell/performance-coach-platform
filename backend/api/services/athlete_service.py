@@ -2,11 +2,9 @@ import logging
 
 from sqlalchemy.orm import Session
 
-from api.services.performance import analyse_athlete
 from api.services.athlete_profile import build_athlete_profile
-
+from api.services.performance import analyse_athlete
 from repositories.athlete_repository import AthleteRepository
-
 from schemas.athlete import AthleteCreate
 
 logger = logging.getLogger(__name__)

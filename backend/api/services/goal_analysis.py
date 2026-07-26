@@ -3,8 +3,8 @@ from typing import Any
 
 from api.services.performance_engine import analyse_training
 from api.services.recommendation_engine import generate_recommendations
-from schemas.goal import GoalResponse
 from schemas.athlete import AthleteResponse
+from schemas.goal import GoalResponse
 from schemas.training import TrainingSessionResponse
 
 logger = logging.getLogger(__name__)

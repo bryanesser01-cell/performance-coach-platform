@@ -4,8 +4,8 @@ from fastapi.responses import JSONResponse
 from core.exceptions import (
     AthleteNotFoundError,
     GoalNotFoundError,
-    TrainingSessionNotFoundError,
     InvalidTrainingDataError,
+    TrainingSessionNotFoundError,
 )
 
 

@@ -1,11 +1,9 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from repositories.training_repository import TrainingRepository
-
-from api.services.performance_engine import analyse_training
 from api.services.coach_reasoning import generate_coach_reasoning
-
+from api.services.performance_engine import analyse_training
+from repositories.training_repository import TrainingRepository
 from schemas.analysis import PerformanceAnalysis
 
 

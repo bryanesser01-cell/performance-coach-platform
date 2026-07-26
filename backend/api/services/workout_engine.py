@@ -1,9 +1,8 @@
 import logging
 
+from api.services.workout_rules import recommend_from_rules
 from schemas.analysis import PerformanceAnalysis
 from schemas.workout import WorkoutRecommendation
-
-from api.services.workout_rules import recommend_from_rules
 
 logger = logging.getLogger(__name__)
 

@@ -1,13 +1,11 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from repositories.training_repository import TrainingRepository
-
 from api.services.performance_engine import analyse_training
 from api.services.recommendation_engine import (
     generate_recommendations,
 )
-
+from repositories.training_repository import TrainingRepository
 from schemas.recommendation_response import (
     RecommendationResponse,
 )

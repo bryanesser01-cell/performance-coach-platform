@@ -1,18 +1,17 @@
 from fastapi import FastAPI
 
-from core.logging import configure_logging
+from api.routers.analysis import router as analysis_router
+from api.routers.athlete import router as athlete_router
+from api.routers.coach import router as coach_router
+from api.routers.goal import router as goal_router
+from api.routers.health import router as health_router
+from api.routers.recommendation import router as recommendation_router
+from api.routers.training import router as training_router
+from api.routers.workout import router as workout_router
 from core.handlers import register_exception_handlers
+from core.logging import configure_logging
 
 configure_logging()
-
-from api.routers.health import router as health_router
-from api.routers.athlete import router as athlete_router
-from api.routers.goal import router as goal_router
-from api.routers.training import router as training_router
-from api.routers.analysis import router as analysis_router
-from api.routers.workout import router as workout_router
-from api.routers.recommendation import router as recommendation_router
-from api.routers.coach import router as coach_router
 
 app = FastAPI(
     title="Performance Coach API",

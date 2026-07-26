@@ -1,9 +1,9 @@
 from sqlalchemy import (
     Column,
-    Integer,
-    String,
     Float,
     ForeignKey,
+    Integer,
+    String,
 )
 
 from database.database import Base
