@@ -44,6 +44,9 @@ class Athlete:
         if not sport:
             raise ValueError("Sport cannot be blank.")
 
+        if height_cm is not None and height_cm <= 0:
+            raise ValueError("Height must be greater than 0.")
+
         return cls(
             id=uuid4(),
             first_name=first_name,
