@@ -6,7 +6,7 @@ from sqlalchemy import (
     String,
 )
 
-from database.database import Base
+from database.base import Base
 
 
 class TrainingSession(Base):

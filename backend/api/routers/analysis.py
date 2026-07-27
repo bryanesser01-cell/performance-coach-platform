@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from api.services.analysis_service import (
-    analyse_athlete_service,
-)
-from database.database import get_db
+from api.services.analysis_service import analyse_athlete_service
+from database.session import get_db
 from schemas.analysis import PerformanceAnalysis
 
 router = APIRouter(

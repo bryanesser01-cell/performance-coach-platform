@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Float, Integer, String
 
-from database.database import Base
+from database.base import Base
 
 
 class Athlete(Base):

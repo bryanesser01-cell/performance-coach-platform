@@ -6,7 +6,7 @@ from api.services.training_service import (
     list_training,
     list_training_by_athlete,
 )
-from database.database import get_db
+from database.session import get_db
 from schemas.training import (
     TrainingSessionCreate,
     TrainingSessionResponse,

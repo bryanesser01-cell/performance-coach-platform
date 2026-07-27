@@ -5,7 +5,7 @@ from api.services.goal_service import (
     create_goal_service,
     list_goals,
 )
-from database.database import get_db
+from database.session import get_db
 from schemas.goal import GoalCreate
 
 router = APIRouter()

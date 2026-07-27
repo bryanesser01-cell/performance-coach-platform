@@ -5,7 +5,7 @@ from api.services.athlete_service import (
     create_athlete,
     list_athletes,
 )
-from database.database import get_db
+from database.session import get_db
 from schemas.athlete import AthleteCreate
 
 router = APIRouter()

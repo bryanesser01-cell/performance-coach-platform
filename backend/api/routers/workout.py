@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from api.services.workout_service import (
     get_workout_recommendation_service,
 )
-from database.database import get_db
+from database.session import get_db
 from schemas.workout import WorkoutRecommendation
 
 router = APIRouter(
