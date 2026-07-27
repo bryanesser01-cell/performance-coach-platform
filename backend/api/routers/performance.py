@@ -1,6 +1,4 @@
-from api.services.performance_engine_service import (
-    calculate_performance_score,
-)
+from api.services.performance_engine_service import calculate_performance_score
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
