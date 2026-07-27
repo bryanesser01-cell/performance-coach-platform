@@ -24,3 +24,12 @@ class GoalResponse(GoalBase):
 
     class Config:
         from_attributes = True
+
+
+class GoalAnalysisResponse(BaseModel):
+    progress_percent: float
+    remaining: float
+    remaining_unit: str
+    status: str
+    priority: str
+    recommendations: list
