@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from api.routers.analysis import router as analysis_router
+from api.routers.analytics import router as analytics_router
 from api.routers.athlete import router as athlete_router
 from api.routers.coach import router as coach_router
 from api.routers.goal import router as goal_router
@@ -26,6 +27,7 @@ app.include_router(athlete_router)
 app.include_router(goal_router)
 app.include_router(training_router)
 app.include_router(analysis_router)
+app.include_router(analytics_router)
 app.include_router(workout_router)
 app.include_router(recommendation_router)
 app.include_router(coach_router)

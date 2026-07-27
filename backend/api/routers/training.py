@@ -13,7 +13,6 @@ from schemas.training import (
     TrainingSessionResponse,
 )
 
-
 router = APIRouter(
     prefix="/training",
     tags=["Training"],
