@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from database.repositories.base_repository import BaseRepository
@@ -20,12 +19,12 @@ class TrainingRepository(BaseRepository[TrainingSession]):
             TrainingSession,
         )
 
-    def create(
+    def create_session(
         self,
         session: TrainingSession,
     ) -> TrainingSession:
         """
-        Create a training session.
+        Create training session.
         """
 
         self.db.add(session)
@@ -33,6 +32,85 @@ class TrainingRepository(BaseRepository[TrainingSession]):
         self.db.refresh(session)
 
         return session
+
+    def get_recent_sessions(
+        self,
+        athlete_id: int,
+        limit: int = 10,
+    ) -> list[TrainingSession]:
+        """
+        Retrieve recent training sessions.
+        """
+
+        return (
+            self.db.query(TrainingSession)
+            .filter(
+                TrainingSession.athlete_id == athlete_id,
+            )
+            .order_by(
+                TrainingSession.id.desc(),
+            )
+            .limit(limit)
+            .all()
+        )
+
+    def get_sessions_by_type(
+        self,
+        athlete_id: int,
+        session_type: str,
+    ) -> list[TrainingSession]:
+        """
+        Retrieve sessions by type.
+        """
+
+        return (
+            self.db.query(TrainingSession)
+            .filter(
+                TrainingSession.athlete_id == athlete_id,
+                TrainingSession.session_type == session_type,
+            )
+            .all()
+        )
+
+    def get_weekly_distance(
+        self,
+        athlete_id: int,
+    ) -> float:
+        """
+        Calculate total distance.
+        """
+
+        result = (
+            self.db.query(
+                func.sum(TrainingSession.distance),
+            )
+            .filter(
+                TrainingSession.athlete_id == athlete_id,
+            )
+            .scalar()
+        )
+
+        return result or 0.0
+
+    def get_training_load(
+        self,
+        athlete_id: int,
+    ) -> float:
+        """
+        Calculate total training load.
+        """
+
+        result = (
+            self.db.query(
+                func.sum(TrainingSession.training_load),
+            )
+            .filter(
+                TrainingSession.athlete_id == athlete_id,
+            )
+            .scalar()
+        )
+
+        return result or 0.0
 
     def get_by_athlete_id(
         self,
@@ -46,47 +124,6 @@ class TrainingRepository(BaseRepository[TrainingSession]):
             self.db.query(TrainingSession)
             .filter(
                 TrainingSession.athlete_id == athlete_id,
-            )
-            .all()
-        )
-
-    def get_recent_sessions(
-        self,
-        athlete_id: int,
-        limit: int = 10,
-    ) -> list[TrainingSession]:
-        """
-        Retrieve most recent training sessions.
-        """
-
-        return (
-            self.db.query(TrainingSession)
-            .filter(
-                TrainingSession.athlete_id == athlete_id,
-            )
-            .order_by(
-                TrainingSession.date.desc(),
-            )
-            .limit(limit)
-            .all()
-        )
-
-    def get_sessions_between_dates(
-        self,
-        athlete_id: int,
-        start_date: datetime,
-        end_date: datetime,
-    ) -> list[TrainingSession]:
-        """
-        Retrieve sessions within a date range.
-        """
-
-        return (
-            self.db.query(TrainingSession)
-            .filter(
-                TrainingSession.athlete_id == athlete_id,
-                TrainingSession.date >= start_date,
-                TrainingSession.date <= end_date,
             )
             .all()
         )

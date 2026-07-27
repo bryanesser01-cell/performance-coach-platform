@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from api.services.training_service import (
     create_training,
+    list_recent_training,
     list_training,
     list_training_by_athlete,
 )
@@ -11,6 +12,7 @@ from schemas.training import (
     TrainingSessionCreate,
     TrainingSessionResponse,
 )
+
 
 router = APIRouter(
     prefix="/training",
@@ -39,7 +41,9 @@ def add_training_session(
 def get_training_sessions(
     db: Session = Depends(get_db),
 ):
-    return list_training(db)
+    return list_training(
+        db,
+    )
 
 
 @router.get(
@@ -51,6 +55,20 @@ def get_training_sessions_by_athlete(
     db: Session = Depends(get_db),
 ):
     return list_training_by_athlete(
+        db,
+        athlete_id,
+    )
+
+
+@router.get(
+    "/{athlete_id}/recent",
+    response_model=list[TrainingSessionResponse],
+)
+def get_recent_training_sessions(
+    athlete_id: int,
+    db: Session = Depends(get_db),
+):
+    return list_recent_training(
         db,
         athlete_id,
     )
