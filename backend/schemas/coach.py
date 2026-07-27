@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel
 
 from schemas.analysis import PerformanceAnalysis
@@ -9,3 +11,4 @@ class CoachResponse(BaseModel):
     analysis: PerformanceAnalysis
     workout: WorkoutRecommendation
     recommendations: list[Recommendation]
+    insights: dict[str, Any]

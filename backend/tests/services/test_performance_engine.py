@@ -1,6 +1,5 @@
-from schemas.training import TrainingSessionResponse
-
 from api.services.performance_engine import analyse_training
+from schemas.training import TrainingSessionResponse
 
 
 def test_analyse_training():
