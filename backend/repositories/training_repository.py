@@ -17,9 +17,7 @@ class TrainingRepository:
         training: TrainingSessionCreate,
     ) -> TrainingSession:
 
-        db_training = TrainingSession(
-            **training.model_dump()
-        )
+        db_training = TrainingSession(**training.model_dump())
 
         self.db.add(db_training)
         self.db.commit()
@@ -29,11 +27,7 @@ class TrainingRepository:
 
     def get_all(self) -> list[TrainingSession]:
 
-        return (
-            self.db.query(TrainingSession)
-            .order_by(TrainingSession.id)
-            .all()
-        )
+        return self.db.query(TrainingSession).order_by(TrainingSession.id).all()
 
     def get_by_athlete(
         self,
@@ -42,8 +36,6 @@ class TrainingRepository:
 
         return (
             self.db.query(TrainingSession)
-            .filter(
-                TrainingSession.athlete_id == athlete_id
-            )
+            .filter(TrainingSession.athlete_id == athlete_id)
             .all()
         )

@@ -45,10 +45,6 @@ class Activity:
 
     ended_at: datetime | None = None
 
-    created_at: datetime = field(
-        default_factory=lambda: datetime.now(UTC)
-    )
+    created_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
-    updated_at: datetime = field(
-        default_factory=lambda: datetime.now(UTC)
-    )
+    updated_at: datetime = field(default_factory=lambda: datetime.now(UTC))

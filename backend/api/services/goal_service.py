@@ -26,19 +26,13 @@ def create_goal_service(
     saved_goal = goal_repository.create(goal)
 
     # Retrieve athlete
-    athlete = athlete_repository.get_by_id(
-        goal.athlete_id
-    )
+    athlete = athlete_repository.get_by_id(goal.athlete_id)
 
     if athlete is None:
-        raise ValueError(
-            f"Athlete {goal.athlete_id} not found."
-        )
+        raise ValueError(f"Athlete {goal.athlete_id} not found.")
 
     # Retrieve training sessions
-    sessions = training_repository.get_by_athlete(
-        athlete.id
-    )
+    sessions = training_repository.get_by_athlete(athlete.id)
 
     # Analyse the goal
     analysis = analyse_goal(

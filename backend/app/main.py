@@ -33,6 +33,4 @@ app.include_router(coach_router)
 
 @app.get("/")
 def root():
-    return {
-        "message": "Performance Coach API is running!"
-    }
+    return {"message": "Performance Coach API is running!"}

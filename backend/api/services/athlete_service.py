@@ -26,9 +26,7 @@ def create_athlete(
 
     repository = AthleteRepository(db)
 
-    saved_athlete = repository.create(
-        athlete
-    )
+    saved_athlete = repository.create(athlete)
 
     return {
         "message": "Athlete created successfully!",

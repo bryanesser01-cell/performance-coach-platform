@@ -3,10 +3,9 @@ from sqlalchemy.orm import sessionmaker
 
 from app.config.settings import settings
 
-
 engine = create_engine(
     settings.database_url,
-    echo=True,          # Set to False in production
+    echo=True,  # Set to False in production
 )
 
 

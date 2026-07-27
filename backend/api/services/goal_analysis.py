@@ -33,17 +33,13 @@ def analyse_goal(
         analysis = analyse_training(sessions)
 
         if analysis is not None:
-            recommendations = generate_recommendations(
-                analysis
-            )
+            recommendations = generate_recommendations(analysis)
 
     # Calculate progress safely
     if goal.target_value <= 0:
         progress = 0.0
     else:
-        progress = (
-            goal.current_value / goal.target_value
-        ) * 100
+        progress = (goal.current_value / goal.target_value) * 100
 
     # Keep progress within sensible limits
     progress = max(0.0, min(progress, 100.0))
@@ -76,9 +72,7 @@ def analyse_goal(
     else:
         priority = "Low"
 
-    logger.info(
-        "Goal analysis completed successfully."
-    )
+    logger.info("Goal analysis completed successfully.")
 
     return {
         "progress_percent": round(progress, 1),

@@ -14,9 +14,7 @@ def analyse_athlete_service(
 
     training_repository = TrainingRepository(db)
 
-    sessions = training_repository.get_by_athlete(
-        athlete_id
-    )
+    sessions = training_repository.get_by_athlete(athlete_id)
 
     if not sessions:
         raise HTTPException(

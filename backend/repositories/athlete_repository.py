@@ -16,29 +16,19 @@ class AthleteRepository:
         """
         Return all athletes.
         """
-        return (
-            self.db.query(Athlete)
-            .order_by(Athlete.id)
-            .all()
-        )
+        return self.db.query(Athlete).order_by(Athlete.id).all()
 
     def get_by_id(self, athlete_id: int) -> Athlete | None:
         """
         Return an athlete by ID.
         """
-        return (
-            self.db.query(Athlete)
-            .filter(Athlete.id == athlete_id)
-            .first()
-        )
+        return self.db.query(Athlete).filter(Athlete.id == athlete_id).first()
 
     def create(self, athlete: AthleteCreate) -> Athlete:
         """
         Create a new athlete.
         """
-        db_athlete = Athlete(
-            **athlete.model_dump()
-        )
+        db_athlete = Athlete(**athlete.model_dump())
 
         self.db.add(db_athlete)
         self.db.commit()
@@ -59,9 +49,7 @@ class AthleteRepository:
         if db_athlete is None:
             return None
 
-        update_data = athlete.model_dump(
-            exclude_unset=True
-        )
+        update_data = athlete.model_dump(exclude_unset=True)
 
         for key, value in update_data.items():
             setattr(db_athlete, key, value)

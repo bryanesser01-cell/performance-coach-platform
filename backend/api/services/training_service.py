@@ -28,6 +28,4 @@ def list_training_by_athlete(
     athlete_id: int,
 ):
     repository = TrainingRepository(db)
-    return repository.get_by_athlete(
-        athlete_id
-    )
+    return repository.get_by_athlete(athlete_id)

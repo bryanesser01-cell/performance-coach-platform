@@ -5,7 +5,4 @@ router = APIRouter()
 
 @router.get("/health")
 def health_check():
-    return {
-        "status": "healthy",
-        "service": "Performance Coach API"
-    }
+    return {"status": "healthy", "service": "Performance Coach API"}

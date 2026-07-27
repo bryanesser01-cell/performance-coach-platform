@@ -19,11 +19,13 @@ class TrainingSessionBase(BaseModel):
 
 class TrainingSessionCreate(TrainingSessionBase):
     """Schema used when creating a training session."""
+
     pass
 
 
 class TrainingSessionResponse(TrainingSessionBase):
     """Schema returned from the database/API."""
+
     id: int
 
     class Config:

@@ -13,9 +13,7 @@ class GoalRepository:
         self.db = db
 
     def create(self, goal: GoalCreate) -> Goal:
-        db_goal = Goal(
-            **goal.model_dump()
-        )
+        db_goal = Goal(**goal.model_dump())
 
         self.db.add(db_goal)
         self.db.commit()
@@ -24,8 +22,4 @@ class GoalRepository:
         return db_goal
 
     def get_all(self) -> list[Goal]:
-        return (
-            self.db.query(Goal)
-            .order_by(Goal.id)
-            .all()
-        )
+        return self.db.query(Goal).order_by(Goal.id).all()

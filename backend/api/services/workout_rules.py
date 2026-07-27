@@ -15,7 +15,7 @@ def recommend_from_rules(
             duration_minutes=45,
             target_pace="Zone 2",
             target_heart_rate="Zone 2",
-            purpose="Increase weekly training consistency."
+            purpose="Increase weekly training consistency.",
         )
 
     # Low Volume
@@ -27,7 +27,7 @@ def recommend_from_rules(
             duration_minutes=55,
             target_pace="Easy",
             target_heart_rate="Zone 2",
-            purpose="Gradually build weekly running volume."
+            purpose="Gradually build weekly running volume.",
         )
 
     # High Fatigue
@@ -39,7 +39,7 @@ def recommend_from_rules(
             duration_minutes=35,
             target_pace="Very Easy",
             target_heart_rate="Zone 1",
-            purpose="Reduce accumulated fatigue."
+            purpose="Reduce accumulated fatigue.",
         )
 
     # Default
@@ -50,5 +50,5 @@ def recommend_from_rules(
         duration_minutes=50,
         target_pace="Threshold",
         target_heart_rate="Zone 4",
-        purpose="Improve lactate threshold."
+        purpose="Improve lactate threshold.",
     )

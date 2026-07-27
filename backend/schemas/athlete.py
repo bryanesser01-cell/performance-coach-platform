@@ -17,6 +17,7 @@ PositiveInt = Annotated[int, Field(gt=0)]
 # Base Schema
 # ---------------------------------------------------------------------------
 
+
 class AthleteBase(BaseModel):
     """
     Shared athlete fields.
@@ -81,6 +82,7 @@ class AthleteBase(BaseModel):
 # Create Schema
 # ---------------------------------------------------------------------------
 
+
 class AthleteCreate(AthleteBase):
     """
     Request body used to create an athlete.
@@ -90,6 +92,7 @@ class AthleteCreate(AthleteBase):
 # ---------------------------------------------------------------------------
 # Update Schema
 # ---------------------------------------------------------------------------
+
 
 class AthleteUpdate(BaseModel):
     """
@@ -155,6 +158,7 @@ class AthleteUpdate(BaseModel):
 # Response Schema
 # ---------------------------------------------------------------------------
 
+
 class AthleteResponse(AthleteBase):
     """
     Athlete returned by the API.
@@ -170,6 +174,7 @@ class AthleteResponse(AthleteBase):
 # ---------------------------------------------------------------------------
 # Create Athlete Response
 # ---------------------------------------------------------------------------
+
 
 class AthleteCreateResponse(BaseModel):
     """
