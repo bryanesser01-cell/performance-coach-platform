@@ -1,7 +1,7 @@
 import logging
 from statistics import mean
 
-from config.settings import settings
+from app.config.settings import settings
 from schemas.analysis import PerformanceAnalysis
 from schemas.training import TrainingSessionResponse
 
