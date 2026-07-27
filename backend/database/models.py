@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Float, Integer, String
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
 
 from database.base import Base
 
@@ -97,6 +97,7 @@ class Goal(Base):
 
     athlete_id = Column(
         Integer,
+        ForeignKey("athletes.id"),
         nullable=False,
         index=True,
     )
