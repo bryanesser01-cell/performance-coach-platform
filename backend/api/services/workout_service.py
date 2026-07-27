@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from api.services.performance_engine import analyse_training
 from api.services.workout_engine import recommend_workout
-from repositories.training_repository import TrainingRepository
+from database.repositories.training_repository import TrainingRepository
 
 
 def get_workout_recommendation_service(

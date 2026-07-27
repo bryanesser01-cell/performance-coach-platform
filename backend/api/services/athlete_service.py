@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from api.services.athlete_profile import build_athlete_profile
 from api.services.performance import analyse_athlete
-from repositories.athlete_repository import AthleteRepository
+from database.repositories.athlete_repository import AthleteRepository
 from schemas.athlete import AthleteCreate
 
 logger = logging.getLogger(__name__)
@@ -14,6 +14,9 @@ def create_athlete(
     db: Session,
     athlete: AthleteCreate,
 ):
+    """
+    Create athlete and generate analysis/profile.
+    """
 
     logger.info(
         "Creating athlete '%s'.",
@@ -26,7 +29,9 @@ def create_athlete(
 
     repository = AthleteRepository(db)
 
-    saved_athlete = repository.create(athlete)
+    saved_athlete = repository.create_from_data(
+        athlete,
+    )
 
     return {
         "message": "Athlete created successfully!",
@@ -54,5 +59,10 @@ def create_athlete(
 def list_athletes(
     db: Session,
 ):
+    """
+    Retrieve all athletes.
+    """
+
     repository = AthleteRepository(db)
+
     return repository.get_all()

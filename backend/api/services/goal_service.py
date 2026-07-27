@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
 from api.services.goal_analysis import analyse_goal
-from repositories.athlete_repository import AthleteRepository
-from repositories.goal_repository import GoalRepository
-from repositories.training_repository import TrainingRepository
+from database.repositories.athlete_repository import AthleteRepository
+from database.repositories.goal_repository import GoalRepository
+from database.repositories.training_repository import TrainingRepository
 from schemas.goal import GoalCreate
 
 

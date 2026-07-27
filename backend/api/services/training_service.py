@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from repositories.training_repository import (
+from database.repositories.training_repository import (
     TrainingRepository,
 )
 from schemas.training import (

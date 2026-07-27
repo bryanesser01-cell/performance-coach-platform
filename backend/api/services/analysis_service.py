@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from api.services.coach_reasoning import generate_coach_reasoning
 from api.services.performance_engine import analyse_training
-from repositories.training_repository import TrainingRepository
+from database.repositories.training_repository import TrainingRepository
 from schemas.analysis import PerformanceAnalysis
 
 

@@ -7,9 +7,9 @@ Create Date: 2026-07-27 11:59:18.884062
 """
 from typing import Sequence, Union
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = 'ce4c3d50aea3'
@@ -38,7 +38,12 @@ def upgrade() -> None:
     sa.Column('injury_status', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_athletes_id'), 'athletes', ['id'], unique=False)
+    op.create_index(
+    op.f("ix_training_sessions_id"),
+    "training_sessions",
+    ["id"],
+    unique=False,
+)
     op.create_table('goals',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('athlete_id', sa.Integer(), nullable=False),
@@ -70,7 +75,12 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['athlete_id'], ['athletes.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_training_sessions_id'), 'training_sessions', ['id'], unique=False)
+    op.create_index(
+    op.f("ix_training_sessions_id"),
+    "training_sessions",
+    ["id"],
+    unique=False,
+)
     # ### end Alembic commands ###
 
 

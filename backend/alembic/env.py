@@ -1,16 +1,14 @@
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from alembic import context
 from app.config.settings import settings
 from database.base import Base
 
 # Import all models so Alembic can discover tables
 from database.models import *  # noqa: F403,F401
-from database.goal_models import *  # noqa: F403,F401
 from database.training_models import *  # noqa: F403,F401
-
 
 # Alembic Config object
 config = context.config

@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from api.services.coach_engine import (
     generate_coach_response,
 )
-from repositories.training_repository import TrainingRepository
+from database.repositories.training_repository import TrainingRepository
 
 
 def get_coach_response_service(
