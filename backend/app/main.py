@@ -6,6 +6,7 @@ from api.routers.athlete import router as athlete_router
 from api.routers.coach import router as coach_router
 from api.routers.goal import router as goal_router
 from api.routers.health import router as health_router
+from api.routers.performance import router as performance_router
 from api.routers.recommendation import router as recommendation_router
 from api.routers.training import router as training_router
 from api.routers.workout import router as workout_router
@@ -22,6 +23,7 @@ app = FastAPI(
 register_exception_handlers(app)
 
 # Register API Routers
+app.include_router(performance_router)
 app.include_router(health_router)
 app.include_router(athlete_router)
 app.include_router(goal_router)
