@@ -1,7 +1,10 @@
-from api.services.performance_engine_service import calculate_performance_score
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from api.services.performance_engine import analyse_training
+from database.repositories.training_repository import (
+    TrainingRepository,
+)
 from database.session import get_db
 
 router = APIRouter(
@@ -11,11 +14,21 @@ router = APIRouter(
 
 
 @router.get("/{athlete_id}")
-def get_performance_score(
+def get_performance(
     athlete_id: int,
     db: Session = Depends(get_db),
 ):
-    return calculate_performance_score(
-        db,
+    repository = TrainingRepository(db)
+
+    sessions = repository.get_by_athlete(
         athlete_id,
     )
+
+    analysis = analyse_training(
+        sessions,
+    )
+
+    return {
+        "athlete_id": athlete_id,
+        "analysis": analysis,
+    }

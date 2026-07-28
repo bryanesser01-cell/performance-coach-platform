@@ -1,4 +1,11 @@
-from sqlalchemy import Column, Float, ForeignKey, Integer, String
+from sqlalchemy import (
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+)
 
 from database.base import Base
 
@@ -126,4 +133,66 @@ class Goal(Base):
         String(20),
         nullable=False,
         default="Active",
+    )
+
+
+class Activity(Base):
+    """
+    Athlete activity database model.
+
+    Stores activities imported from any source:
+    Garmin, Strava, COROS, Apple Health,
+    FIT, GPX, TCX, or manual entry.
+    """
+
+    __tablename__ = "activities"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    source = Column(
+        String(50),
+        nullable=False,
+        index=True,
+    )
+
+    external_id = Column(
+        String(100),
+        nullable=True,
+        index=True,
+    )
+
+    category = Column(
+        String(50),
+        nullable=False,
+    )
+
+    name = Column(
+        String(100),
+        nullable=False,
+    )
+
+    started_at = Column(
+        DateTime,
+        nullable=False,
+    )
+
+    ended_at = Column(
+        DateTime,
+        nullable=True,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
     )
