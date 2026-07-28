@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from api.routers.activity import router as activity_router
+from api.routers.activity_metrics import router as activity_metrics_router
 from api.routers.analysis import router as analysis_router
 from api.routers.analytics import router as analytics_router
 from api.routers.athlete import router as athlete_router
@@ -70,6 +71,10 @@ app.include_router(
 
 app.include_router(
     coach_router,
+)
+
+app.include_router(
+    activity_metrics_router,
 )
 
 

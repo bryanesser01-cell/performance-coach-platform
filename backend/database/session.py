@@ -5,7 +5,7 @@ from app.config.settings import settings
 
 engine = create_engine(
     settings.database_url,
-    echo=True,  # Set to False in production
+    echo=True,
 )
 
 
@@ -18,8 +18,12 @@ SessionLocal = sessionmaker(
 
 
 def get_db():
-    """Provide a SQLAlchemy database session."""
+    """
+    Provide a SQLAlchemy database session.
+    """
+
     db = SessionLocal()
+
     try:
         yield db
     finally:
