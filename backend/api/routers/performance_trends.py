@@ -9,7 +9,6 @@ from database.repositories.activity_metric_repository import (
 )
 from database.session import get_db
 
-
 router = APIRouter(
     prefix="/athletes",
     tags=["Performance Trends"],
