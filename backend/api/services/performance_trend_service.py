@@ -1,9 +1,14 @@
+from database.repositories.activity_metric_repository import (
+    ActivityMetricRepository,
+)
+
+
 def calculate_trend(
     values: list[float],
 ) -> str:
     """
-    Determine whether values are improving,
-    declining, or stable.
+    Determine whether values are increasing,
+    decreasing, or stable.
     """
 
     if len(values) < 2:
@@ -43,7 +48,7 @@ def generate_performance_trends(
     activities: list[dict],
 ) -> dict:
     """
-    Generate athlete performance trends.
+    Generate performance trends from activities.
     """
 
     distances = [
@@ -75,3 +80,29 @@ def generate_performance_trends(
             loads,
         ),
     }
+
+
+def generate_athlete_performance_trends(
+    athlete_id: int,
+    repository: ActivityMetricRepository,
+) -> dict:
+    """
+    Generate performance trends from stored athlete metrics.
+    """
+
+    metrics = repository.get_by_athlete_id(
+        athlete_id,
+    )
+
+    activities = [
+        {
+            "distance_km": metric.distance_km or 0.0,
+            "average_pace": metric.average_pace or 0.0,
+            "training_load": metric.training_load or 0.0,
+        }
+        for metric in metrics
+    ]
+
+    return generate_performance_trends(
+        activities,
+    )

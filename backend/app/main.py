@@ -12,6 +12,9 @@ from api.routers.coach import router as coach_router
 from api.routers.goal import router as goal_router
 from api.routers.health import router as health_router
 from api.routers.performance import router as performance_router
+from api.routers.performance_trends import (
+    router as performance_trends_router,
+)
 from api.routers.recommendation import router as recommendation_router
 from api.routers.training import router as training_router
 from api.routers.workout import router as workout_router
@@ -80,6 +83,10 @@ app.include_router(
 
 app.include_router(
     performance_router,
+)
+
+app.include_router(
+    performance_trends_router,
 )
 
 app.include_router(
