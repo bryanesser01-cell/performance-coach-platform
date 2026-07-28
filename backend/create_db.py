@@ -1,12 +1,16 @@
-from database.base import Base
+from database.database import Base, engine
 
-# Import all ORM models so SQLAlchemy knows about them
-from database.models import *  # noqa: F401,F403
-from database.session import engine
-from database.training_models import *  # noqa: F401,F403
+from database import (
+    activity_models,  # noqa: F401
+    goal_models,  # noqa: F401
+    models,  # noqa: F401
+)
+from database.training_models import TrainingSession  # noqa: F401
 
-print("Creating PostgreSQL database tables...")
+print("Creating database...")
 
-Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(
+    bind=engine,
+)
 
-print("Database tables created successfully!")
+print("Database created successfully!")
