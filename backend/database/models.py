@@ -6,6 +6,7 @@ from sqlalchemy import (
     Integer,
     String,
 )
+from sqlalchemy.sql import func
 
 from database.base import Base
 
@@ -140,7 +141,7 @@ class Activity(Base):
     """
     Athlete activity database model.
 
-    Stores activities imported from any source:
+    Stores activities imported from:
     Garmin, Strava, COROS, Apple Health,
     FIT, GPX, TCX, or manual entry.
     """
@@ -195,4 +196,49 @@ class Activity(Base):
     created_at = Column(
         DateTime,
         nullable=False,
+    )
+
+
+class AthleteMemory(Base):
+    """
+    Stores long-term athlete context
+    for AI coaching.
+
+    Examples:
+    - Target race
+    - Preferred distance
+    - Training preference
+    - Coaching preference
+    - Injury history
+    """
+
+    __tablename__ = "athlete_memories"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    memory_type = Column(
+        String(50),
+        nullable=False,
+    )
+
+    memory_value = Column(
+        String(500),
+        nullable=False,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
     )
