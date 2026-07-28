@@ -8,13 +8,13 @@ from api.routers.athlete import router as athlete_router
 from api.routers.athlete_performance import (
     router as athlete_performance_router,
 )
+from api.routers.athlete_performance_report import (
+    router as athlete_performance_report_router,
+)
 from api.routers.coach import router as coach_router
 from api.routers.goal import router as goal_router
 from api.routers.health import router as health_router
 from api.routers.performance import router as performance_router
-from api.routers.performance_trends import (
-    router as performance_trends_router,
-)
 from api.routers.recommendation import router as recommendation_router
 from api.routers.training import router as training_router
 from api.routers.workout import router as workout_router
@@ -25,8 +25,8 @@ configure_logging()
 
 
 app = FastAPI(
-    title="Performance Coach API",
-    version="0.1.0",
+    title="Performance Coach Platform",
+    version="2.5.0",
 )
 
 
@@ -35,7 +35,7 @@ register_exception_handlers(
 )
 
 
-# Register API Routers
+# API Routers
 
 app.include_router(
     health_router,
@@ -46,15 +46,19 @@ app.include_router(
 )
 
 app.include_router(
-    athlete_performance_router,
-)
-
-app.include_router(
     activity_router,
 )
 
 app.include_router(
     activity_metrics_router,
+)
+
+app.include_router(
+    athlete_performance_router,
+)
+
+app.include_router(
+    athlete_performance_report_router,
 )
 
 app.include_router(
@@ -86,10 +90,6 @@ app.include_router(
 )
 
 app.include_router(
-    performance_trends_router,
-)
-
-app.include_router(
     recommendation_router,
 )
 
@@ -97,5 +97,6 @@ app.include_router(
 @app.get("/")
 def root():
     return {
-        "message": "Performance Coach API is running!",
+        "message": "Performance Coach Platform API is running!",
+        "version": "2.5.0",
     }
