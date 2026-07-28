@@ -12,6 +12,21 @@ def get_ai_coach_memory_context(
 ) -> dict:
     """
     Build athlete context for AI Coach.
+    """
+
+    memories = recall(
+        db=db,
+        athlete_id=athlete_id,
+    )
+
+    if not isinstance(memories, list):
+        memories = []
+
+    return build_memory_context(
+        memories,
+    )
+    """
+    Build athlete context for AI Coach.
 
     Retrieves stored athlete memories and
     converts them into AI-ready context.
