@@ -2,6 +2,12 @@ from sqlalchemy.orm import Session
 
 from api.services.goal_analysis import analyse_goal
 from api.services.performance_engine import analyse_training
+from api.services.performance_trend_service import (
+    generate_athlete_performance_trends,
+)
+from database.repositories.activity_metric_repository import (
+    ActivityMetricRepository,
+)
 from database.repositories.athlete_repository import AthleteRepository
 from database.repositories.goal_repository import GoalRepository
 from database.repositories.training_repository import TrainingRepository
@@ -18,11 +24,24 @@ def generate_coach_insights(
     - Training performance analysis
     - Athlete goals
     - Goal progress analysis
+    - Performance trends
     """
 
-    training_repository = TrainingRepository(db)
-    goal_repository = GoalRepository(db)
-    athlete_repository = AthleteRepository(db)
+    training_repository = TrainingRepository(
+        db,
+    )
+
+    goal_repository = GoalRepository(
+        db,
+    )
+
+    athlete_repository = AthleteRepository(
+        db,
+    )
+
+    activity_metric_repository = ActivityMetricRepository(
+        db,
+    )
 
     sessions = training_repository.get_recent_sessions(
         athlete_id,
@@ -36,11 +55,17 @@ def generate_coach_insights(
         athlete_id,
     )
 
+    trends = generate_athlete_performance_trends(
+        athlete_id,
+        activity_metric_repository,
+    )
+
     if not sessions:
         return {
             "athlete_id": athlete_id,
             "status": "insufficient_data",
             "goals": [],
+            "performance_trends": trends,
             "insights": [
                 "Not enough training data available.",
             ],
@@ -58,6 +83,7 @@ def generate_coach_insights(
             "athlete_id": athlete_id,
             "status": "insufficient_data",
             "goals": [],
+            "performance_trends": trends,
             "insights": [],
             "recommendations": [],
         }
@@ -84,12 +110,31 @@ def generate_coach_insights(
         )
 
     # -----------------------------
-    # Recommendations
+    # Training Recommendations
     # -----------------------------
 
     recommendations.extend(
         analysis.recommendations,
     )
+
+    # -----------------------------
+    # Performance Trend Intelligence
+    # -----------------------------
+
+    if trends["pace_trend"] == "improving":
+        insights.append(
+            "Running pace is improving over recent activities.",
+        )
+
+    if trends["distance_trend"] == "increasing":
+        recommendations.append(
+            "Continue progressive distance increases while monitoring recovery.",
+        )
+
+    if trends["training_load_trend"] == "increasing":
+        insights.append(
+            "Training load is increasing. Monitor fatigue and recovery.",
+        )
 
     # -----------------------------
     # Goal Intelligence
@@ -132,6 +177,7 @@ def generate_coach_insights(
             "average_heart_rate": analysis.average_heart_rate,
             "longest_run": analysis.longest_run,
         },
+        "performance_trends": trends,
         "goals": goal_insights,
         "insights": insights,
         "recommendations": recommendations,

@@ -94,6 +94,33 @@ def generate_athlete_performance_trends(
         athlete_id,
     )
 
+    if not metrics or not isinstance(metrics, list):
+        return {
+            "distance_trend": "stable",
+            "pace_trend": "stable",
+            "training_load_trend": "stable",
+        }
+
+    activities = [
+        {
+            "distance_km": metric.distance_km or 0.0,
+            "average_pace": metric.average_pace or 0.0,
+            "training_load": metric.training_load or 0.0,
+        }
+        for metric in metrics
+    ]
+
+    return generate_performance_trends(
+        activities,
+    )
+    """
+    Generate performance trends from stored athlete metrics.
+    """
+
+    metrics = repository.get_by_athlete_id(
+        athlete_id,
+    )
+
     activities = [
         {
             "distance_km": metric.distance_km or 0.0,
