@@ -2,6 +2,9 @@ from fastapi import FastAPI
 
 from api.routers.activity import router as activity_router
 from api.routers.activity_metrics import router as activity_metrics_router
+from api.routers.ai_coach import (
+    router as ai_coach_router,
+)
 from api.routers.analysis import router as analysis_router
 from api.routers.analytics import router as analytics_router
 from api.routers.athlete import router as athlete_router
@@ -32,7 +35,7 @@ configure_logging()
 
 app = FastAPI(
     title="Performance Coach Platform",
-    version="2.7.0",
+    version="3.0.0",
 )
 
 
@@ -78,6 +81,10 @@ app.include_router(
 )
 
 app.include_router(
+    ai_coach_router,
+)
+
+app.include_router(
     goal_router,
 )
 
@@ -114,5 +121,5 @@ app.include_router(
 def root():
     return {
         "message": "Performance Coach Platform API is running!",
-        "version": "2.7.0",
+        "version": "3.0.0",
     }
