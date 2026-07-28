@@ -1,3 +1,8 @@
+from database.repositories.activity_metric_repository import (
+    ActivityMetricRepository,
+)
+
+
 def calculate_weekly_distance(
     activities: list[dict],
 ) -> float:
@@ -71,3 +76,29 @@ def generate_performance_summary(
             activities,
         ),
     }
+
+
+def generate_athlete_performance_summary(
+    athlete_id: int,
+    repository: ActivityMetricRepository,
+) -> dict:
+    """
+    Generate performance summary from stored athlete activity metrics.
+    """
+
+    metrics = repository.get_by_athlete_id(
+        athlete_id,
+    )
+
+    activities = [
+        {
+            "distance_km": metric.distance_km or 0.0,
+            "duration_seconds": metric.duration_seconds or 0.0,
+            "training_load": metric.training_load or 0.0,
+        }
+        for metric in metrics
+    ]
+
+    return generate_performance_summary(
+        activities,
+    )

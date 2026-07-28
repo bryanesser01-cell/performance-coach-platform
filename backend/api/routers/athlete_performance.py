@@ -1,8 +1,13 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from api.services.athlete_performance_summary_service import (
-    generate_performance_summary,
+    generate_athlete_performance_summary,
 )
+from database.repositories.activity_metric_repository import (
+    ActivityMetricRepository,
+)
+from database.session import get_db
 
 router = APIRouter(
     prefix="/athletes",
@@ -13,26 +18,19 @@ router = APIRouter(
 @router.get("/{athlete_id}/performance-summary")
 def get_performance_summary(
     athlete_id: int,
+    db: Session = Depends(get_db),
 ):
     """
-    Generate athlete performance summary.
+    Generate athlete performance summary from stored activity metrics.
     """
 
-    activities = [
-        {
-            "distance_km": 5,
-            "duration_seconds": 1500,
-            "training_load": 50,
-        },
-        {
-            "distance_km": 10,
-            "duration_seconds": 3000,
-            "training_load": 100,
-        },
-    ]
+    repository = ActivityMetricRepository(
+        db,
+    )
 
-    summary = generate_performance_summary(
-        activities,
+    summary = generate_athlete_performance_summary(
+        athlete_id,
+        repository,
     )
 
     return {
