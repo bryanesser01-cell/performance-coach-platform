@@ -41,13 +41,14 @@ def generate_coach_conversation_response(
     Main AI Coach conversation pipeline.
 
     Supports:
-    - Legacy AI coach responses
+    - AI coach responses
     - Intent routing
     - Workout planning
     - Race strategy
     - Training explanations
     - Training memory
-    - Adaptive coaching decisions
+    - Adaptive coaching
+    - Learning explanations
     """
 
     if athlete_state is None:
@@ -128,29 +129,47 @@ def generate_coach_conversation_response(
 
     elif intent == "adaptive_coaching":
 
+        from api.services.coach_learning_explanation_service import (
+            build_athlete_friendly_message,
+            build_learning_explanation,
+        )
+
         decision = adaptive_context.get(
             "coach_decision",
             {},
         )
 
-        explanation = (
-            adaptive_context.get(
-                "decision_explanation",
-                {},
+        confidence = adaptive_context.get(
+            "learning_confidence",
+            50,
+        )
+
+        learning_context = adaptive_context.get(
+            "learning_context",
+            {},
+        )
+
+        explanation = build_learning_explanation(
+            decision=decision.get(
+                "decision",
+                "",
+            ),
+            confidence=confidence,
+            reason=decision.get(
+                "reason",
+                "",
+            ),
+            learning_history=learning_context,
+        )
+
+        coach_message = (
+            build_athlete_friendly_message(
+                explanation,
             )
         )
 
         response = {
-            "coach_message": (
-                explanation.get(
-                    "athlete_message",
-                    (
-                        "Your training has been "
-                        "adjusted based on your "
-                        "current training indicators."
-                    ),
-                )
-            ),
+            "coach_message": coach_message,
             "decision": decision.get(
                 "decision",
                 "",
@@ -159,6 +178,8 @@ def generate_coach_conversation_response(
                 "reason",
                 "",
             ),
+            "confidence": confidence,
+            "explanation": explanation,
         }
 
     elif intent == "explanation":
