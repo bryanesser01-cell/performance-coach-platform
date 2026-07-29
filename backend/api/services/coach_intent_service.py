@@ -7,6 +7,7 @@ def detect_coach_intent(
     Possible intents:
     - workout
     - race_strategy
+    - adaptive_coaching
     - explanation
     - recovery
     - readiness
@@ -14,6 +15,24 @@ def detect_coach_intent(
     """
 
     question_lower = question.lower()
+
+    adaptive_keywords = [
+        "why did you change",
+        "why did you reduce",
+        "why did you adjust",
+        "why did you modify",
+        "why is my training different",
+        "why was my workout changed",
+        "why was my training changed",
+        "training changed",
+        "workout changed",
+        "adjust my training",
+        "change my training",
+        "am i ready for my race",
+        "am i ready",
+        "race ready",
+        "ready for my race",
+    ]
 
     workout_keywords = [
         "workout",
@@ -64,6 +83,13 @@ def detect_coach_intent(
         "am i okay",
     ]
 
+    # Adaptive coaching must be checked first.
+    if any(
+        word in question_lower
+        for word in adaptive_keywords
+    ):
+        return "adaptive_coaching"
+
     if any(
         word in question_lower
         for word in recovery_keywords
@@ -110,6 +136,9 @@ def get_coach_service_for_intent(
         ),
         "race_strategy": (
             "race_strategy_integration"
+        ),
+        "adaptive_coaching": (
+            "coach_decision_integration"
         ),
         "explanation": (
             "training_explanation"
