@@ -141,9 +141,10 @@ class Activity(Base):
     """
     Athlete activity database model.
 
-    Stores activities imported from:
-    Garmin, Strava, COROS, Apple Health,
-    FIT, GPX, TCX, or manual entry.
+    Stores imported activities:
+    Garmin, Strava, COROS,
+    Apple Health, FIT, GPX,
+    TCX, or manual entry.
     """
 
     __tablename__ = "activities"
@@ -201,14 +202,12 @@ class Activity(Base):
 
 class AthleteMemory(Base):
     """
-    Stores long-term athlete context
-    for AI coaching.
+    Long-term AI athlete memory.
 
     Examples:
-    - Target race
-    - Preferred distance
-    - Training preference
-    - Coaching preference
+    - Race goals
+    - Training preferences
+    - Coaching preferences
     - Injury history
     """
 
@@ -234,6 +233,96 @@ class AthleteMemory(Base):
 
     memory_value = Column(
         String(500),
+        nullable=False,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+    )
+
+
+class AthleteCheckin(Base):
+    """
+    Daily athlete readiness check-in.
+    """
+
+    __tablename__ = "athlete_checkins"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    sleep_score = Column(
+        Integer,
+        nullable=False,
+    )
+
+    soreness_score = Column(
+        Integer,
+        nullable=False,
+    )
+
+    energy_score = Column(
+        Integer,
+        nullable=False,
+    )
+
+    motivation_score = Column(
+        Integer,
+        nullable=False,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+    )
+
+
+class VoiceSession(Base):
+    """
+    Stores athlete voice coach conversations.
+    """
+
+    __tablename__ = "voice_sessions"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    session_id = Column(
+        String(100),
+        nullable=False,
+        index=True,
+    )
+
+    user_message = Column(
+        String(1000),
+        nullable=False,
+    )
+
+    coach_response = Column(
+        String(2000),
         nullable=False,
     )
 

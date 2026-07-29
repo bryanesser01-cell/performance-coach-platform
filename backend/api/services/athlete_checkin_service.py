@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 
 def create_checkin(
@@ -28,7 +28,7 @@ def create_checkin(
         "motivation": motivation,
         "readiness_score": readiness_score,
         "notes": notes,
-        "created_at": datetime.utcnow(),
+        "created_at": datetime.now(UTC),
     }
 
 

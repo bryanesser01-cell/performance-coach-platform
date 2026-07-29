@@ -6,17 +6,64 @@ from api.services.ai_coach_engine_service import (
 from api.services.ai_coach_memory_context_service import (
     enrich_coach_prompt,
 )
+from api.services.coach_intent_service import (
+    build_coach_routing_context,
+)
+from api.services.coach_response_builder_service import (
+    build_coach_response,
+)
+from api.services.coach_workout_integration_service import (
+    build_coach_workout_response,
+)
+from api.services.race_strategy_integration_service import (
+    build_race_strategy_context,
+)
+from api.services.training_explanation_service import (
+    get_training_explanation,
+)
+from api.services.training_memory_service import (
+    build_training_memory,
+)
 
 
 def generate_coach_conversation_response(
     db: Session,
     athlete_id: int,
     question: str,
+    athlete_state: dict | None = None,
+    event: str | None = None,
+    goal_time: str | None = None,
 ) -> dict:
     """
-    Generate conversational AI coach response
-    using athlete memory context.
+    Main AI Coach conversation pipeline.
+
+    Supports:
+    - Legacy AI coach responses
+    - Intent routing
+    - Workout planning
+    - Race strategy
+    - Training explanations
+    - Training memory
     """
+
+    if athlete_state is None:
+        athlete_state = {}
+
+    routing = build_coach_routing_context(
+        question,
+    )
+
+    intent = routing.get(
+        "intent",
+        "general",
+    )
+
+    training_memory = build_training_memory(
+        db=db,
+        athlete_id=athlete_id,
+    )
+
+    voice_memory_context = {}
 
     memory_context = enrich_coach_prompt(
         db=db,
@@ -24,46 +71,140 @@ def generate_coach_conversation_response(
         question=question,
     )
 
-    coach_response = generate_ai_coach_response(
-        db,
-        athlete_id,
+    clean_memory_context = memory_context.get(
+        "memory_context",
+        memory_context,
     )
 
-    question_lower = question.lower()
+    base_context = {
+        "athlete_id": athlete_id,
+        "question": question,
+        "athlete_state": athlete_state,
+        "training_memory": training_memory,
+        "voice_memory_context": voice_memory_context,
+        "memory_context": clean_memory_context,
+    }
 
-    if "train" in question_lower:
-        advice = (
+    if intent == "workout":
+
+        workout_context = (
+            build_coach_workout_response(
+                athlete_state=athlete_state,
+                event=event or "",
+                goal_time=goal_time,
+            )
+        )
+
+        response = build_coach_response(
+            intent="workout",
+            context=workout_context,
+        )
+
+    elif intent == "race_strategy":
+
+        race_context = (
+            build_race_strategy_context(
+                event=event or "1500m",
+                athlete_state=athlete_state,
+                target_time=goal_time or "5:00",
+            )
+        )
+
+        response = build_coach_response(
+            intent="race_strategy",
+            context=race_context,
+        )
+
+    elif intent == "explanation":
+
+        question_lower = question.lower()
+
+        if "threshold" in question_lower:
+            term = "threshold"
+
+        elif "interval" in question_lower:
+            term = "interval"
+
+        elif "tempo" in question_lower:
+            term = "tempo"
+
+        else:
+            term = "easy run"
+
+        explanation = get_training_explanation(
+            term,
+        )
+
+        response = build_coach_response(
+            intent="explanation",
+            context={
+                "term": term,
+                **explanation,
+            },
+        )
+
+    elif intent == "recovery":
+
+        response = build_coach_response(
+            intent="recovery",
+            context={
+                "message": (
+                    "Recovery allows your body "
+                    "to adapt and improve."
+                ),
+                "recommendation": (
+                    "Keep the session easy "
+                    "or take a rest day."
+                ),
+            },
+        )
+
+    else:
+
+        response = generate_ai_coach_response(
+            db=db,
+            athlete_id=athlete_id,
+        )
+
+    if intent == "recovery":
+
+        answer = (
+            "Recovery is important. "
+            "Your body needs time to adapt "
+            "and improve from training."
+        )
+
+    elif intent == "race_strategy":
+
+        answer = (
+            "Your race preparation should follow "
+            "your target pace, current fitness, "
+            "and race strategy."
+        )
+
+    else:
+
+        answer = (
             "Your training should follow your current "
             "fitness trend, recovery status, and goals."
         )
 
-    elif "race" in question_lower:
-        advice = (
-            "Your race preparation should focus on "
-            "maintaining fitness and arriving fresh."
-        )
+        if isinstance(response, dict):
 
-    elif "recover" in question_lower:
-        advice = (
-            "Recovery is important to absorb training "
-            "and continue progressing."
-        )
+            generated = response.get(
+                "coach_message",
+            )
 
-    else:
-        advice = coach_response.get(
-            "coach_message",
-            "Continue following your training plan.",
-        )
+            if generated:
+                answer = (
+                    "Your training should follow your current "
+                    "fitness trend, recovery status, and goals."
+                )
 
     return {
-        "athlete_id": athlete_id,
-        "question": question,
-        "answer": advice,
-        "recommendation": coach_response.get(
-            "recommendation",
-        ),
-        "memory_context": memory_context.get(
-            "memory_context",
-            {},
-        ),
+        **base_context,
+        "intent": intent,
+        "routing": routing,
+        "response": response,
+        "answer": answer,
     }
