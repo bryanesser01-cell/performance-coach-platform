@@ -47,7 +47,7 @@ def generate_coach_conversation_response(
     - Race strategy
     - Training explanations
     - Training memory
-    - Adaptive coaching context
+    - Adaptive coaching decisions
     """
 
     if athlete_state is None:
@@ -126,6 +126,41 @@ def generate_coach_conversation_response(
             context=race_context,
         )
 
+    elif intent == "adaptive_coaching":
+
+        decision = adaptive_context.get(
+            "coach_decision",
+            {},
+        )
+
+        explanation = (
+            adaptive_context.get(
+                "decision_explanation",
+                {},
+            )
+        )
+
+        response = {
+            "coach_message": (
+                explanation.get(
+                    "athlete_message",
+                    (
+                        "Your training has been "
+                        "adjusted based on your "
+                        "current training indicators."
+                    ),
+                )
+            ),
+            "decision": decision.get(
+                "decision",
+                "",
+            ),
+            "reason": decision.get(
+                "reason",
+                "",
+            ),
+        }
+
     elif intent == "explanation":
 
         question_lower = question.lower()
@@ -191,6 +226,16 @@ def generate_coach_conversation_response(
             "Your race preparation should follow "
             "your target pace, current fitness, "
             "and race strategy."
+        )
+
+    elif intent == "adaptive_coaching":
+
+        answer = response.get(
+            "coach_message",
+            (
+                "Your training has been adjusted "
+                "based on your current indicators."
+            ),
         )
 
     else:
