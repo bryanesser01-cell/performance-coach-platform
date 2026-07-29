@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 _learning_history: list[dict] = []
 
@@ -21,7 +21,7 @@ def record_learning_event(
         "decision": decision,
         "outcome": outcome,
         "confidence_change": confidence_change,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
     _learning_history.append(
