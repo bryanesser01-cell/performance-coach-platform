@@ -1,3 +1,8 @@
+from api.services.coach_learning_memory_service import (
+    calculate_decision_confidence,
+)
+
+
 def generate_coach_decision(
     readiness_score: int,
     training_load_status: str,
@@ -28,6 +33,7 @@ def generate_coach_decision(
     if (
         readiness_score < 60
         or training_load_status == "high_fatigue"
+        or training_load_status == "high"
     ):
         return {
             "decision": "REDUCE_TRAINING",
@@ -80,4 +86,69 @@ def generate_coach_decision(
         "reason": (
             "Current indicators suggest caution."
         ),
+    }
+
+
+def generate_adaptive_coach_decision(
+    athlete_id: int,
+    athlete_state: dict,
+) -> dict:
+    """
+    Generate a decision using athlete state
+    plus previous learning history.
+
+    Flow:
+
+    Athlete State
+          ↓
+    Decision Engine
+          ↓
+    Learning Memory
+          ↓
+    Confidence Score
+    """
+
+    readiness = athlete_state.get(
+        "readiness",
+        {},
+    )
+
+    training = athlete_state.get(
+        "training",
+        {},
+    )
+
+    performance = athlete_state.get(
+        "performance",
+        {},
+    )
+
+    decision = generate_coach_decision(
+        readiness_score=readiness.get(
+            "score",
+            0,
+        ),
+        training_load_status=training.get(
+            "load_status",
+            "unknown",
+        ),
+        performance_trend=performance.get(
+            "trend",
+            "unknown",
+        ),
+    )
+
+    confidence = calculate_decision_confidence(
+        athlete_id=athlete_id,
+        decision=decision["decision"],
+    )
+
+    return {
+        **decision,
+        "athlete_id": athlete_id,
+        "learning_confidence": confidence,
+        "learning_context": {
+            "decision": decision["decision"],
+            "confidence": confidence,
+        },
     }
