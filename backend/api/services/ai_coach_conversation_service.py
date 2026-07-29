@@ -6,6 +6,9 @@ from api.services.ai_coach_engine_service import (
 from api.services.ai_coach_memory_context_service import (
     enrich_coach_prompt,
 )
+from api.services.coach_decision_integration_service import (
+    generate_coach_decision_context,
+)
 from api.services.coach_intent_service import (
     build_coach_routing_context,
 )
@@ -44,6 +47,7 @@ def generate_coach_conversation_response(
     - Race strategy
     - Training explanations
     - Training memory
+    - Adaptive coaching context
     """
 
     if athlete_state is None:
@@ -76,6 +80,12 @@ def generate_coach_conversation_response(
         memory_context,
     )
 
+    adaptive_context = (
+        generate_coach_decision_context(
+            athlete_state,
+        )
+    )
+
     base_context = {
         "athlete_id": athlete_id,
         "question": question,
@@ -83,6 +93,7 @@ def generate_coach_conversation_response(
         "training_memory": training_memory,
         "voice_memory_context": voice_memory_context,
         "memory_context": clean_memory_context,
+        "coach_decision_context": adaptive_context,
     }
 
     if intent == "workout":
@@ -188,18 +199,6 @@ def generate_coach_conversation_response(
             "Your training should follow your current "
             "fitness trend, recovery status, and goals."
         )
-
-        if isinstance(response, dict):
-
-            generated = response.get(
-                "coach_message",
-            )
-
-            if generated:
-                answer = (
-                    "Your training should follow your current "
-                    "fitness trend, recovery status, and goals."
-                )
 
     return {
         **base_context,
