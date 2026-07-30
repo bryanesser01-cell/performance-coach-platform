@@ -1,3 +1,6 @@
+from api.services.coach_learning_capture_service import (
+    calculate_learning_update,
+)
 from api.services.coach_learning_service import (
     analyse_coach_decision_outcome,
 )
@@ -10,60 +13,34 @@ def process_coach_learning_update(
     fatigue_after: str | None = None,
 ) -> dict:
     """
-    Connects coach decisions with learning outcomes.
-
-    Flow:
-
-    Decision
-        ↓
-    Outcome Analysis
-        ↓
-    Learning Update
+    Process coaching decision outcome
+    and create learning update.
     """
 
-    outcome = analyse_coach_decision_outcome(
-        decision=decision,
-        completed=completed,
-        athlete_rpe=athlete_rpe,
-        fatigue_after=fatigue_after,
+
+    learning_update = (
+        analyse_coach_decision_outcome(
+            decision=decision,
+            completed=completed,
+            athlete_rpe=athlete_rpe,
+            fatigue_after=fatigue_after,
+        )
     )
 
-    learning_signal = outcome.get(
-        "learning_signal",
-        "neutral",
+
+    confidence_change = (
+        calculate_learning_update(
+            learning_update["signal"]
+        )
     )
 
-    if learning_signal == "positive":
-
-        message = (
-            "Decision supported by athlete outcome."
-        )
-
-    elif learning_signal == "negative":
-
-        message = (
-            "Decision should be reviewed "
-            "using future athlete responses."
-        )
-
-    else:
-
-        message = (
-            "More athlete data is required "
-            "to improve confidence."
-        )
 
     return {
         "decision": decision,
-        "outcome": outcome,
-        "learning_update": {
-            "signal": learning_signal,
-            "confidence_update": (
-                outcome.get(
-                    "confidence_update",
-                    0,
-                )
-            ),
-            "message": message,
-        },
+
+        "learning_update": learning_update,
+
+        "confidence_change": confidence_change,
+
+        "learning_processed": True,
     }

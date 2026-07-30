@@ -1,100 +1,145 @@
-from sqlalchemy.orm import Session
+"""
+Coach Learning Capture Service
 
-from api.services.coach_learning_memory_service import (
-    record_learning_event,
-)
+Stores coaching outcomes and athlete feedback.
+"""
+
+
+def record_learning_event(
+    event: dict,
+) -> dict:
+    """
+    Database placeholder.
+    """
+
+    return {
+        "id": 1,
+        **event,
+    }
+
 
 
 def calculate_learning_update(
-    outcome: str,
+    signal: str,
 ) -> int:
     """
-    Calculate confidence adjustment
-    from coaching outcome.
+    Convert signal into confidence change.
     """
 
-    if outcome == "positive":
-
+    if signal == "positive":
         return 10
 
-    if outcome == "negative":
-
+    if signal == "negative":
         return -10
 
     return 0
 
 
+
 def capture_coach_decision_outcome(
-    db: Session,
+    db,
     athlete_id: int,
     decision: str,
     outcome: str,
 ) -> dict:
     """
-    Capture the result of a coaching decision.
-
-    Flow:
-    Decision
-        ↓
-    Athlete Outcome
-        ↓
-    Confidence Adjustment
-        ↓
-    Learning Memory
+    Capture coach decision outcome.
     """
 
     confidence_change = (
         calculate_learning_update(
-            outcome,
+            outcome
         )
     )
 
-    event = record_learning_event(
-        db=db,
-        athlete_id=athlete_id,
-        decision=decision,
-        outcome=outcome,
-        confidence_change=confidence_change,
-    )
 
     return {
-        "athlete_id": athlete_id,
-        "decision": decision,
+        **record_learning_event(
+            {
+                "athlete_id": athlete_id,
+                "decision": decision,
+            }
+        ),
+
         "outcome": outcome,
+
         "confidence_change": confidence_change,
-        "learning_event": event,
+    }
+    """
+    Capture coach decision outcome.
+    """
+
+    confidence_change = (
+        calculate_learning_update(
+            outcome
+        )
+    )
+
+
+    return {
+        **record_learning_event(
+            {
+                "athlete_id": athlete_id,
+                "decision": decision,
+                "outcome": outcome,
+            }
+        ),
+
+        "confidence_change": confidence_change,
     }
 
 
+
 def store_learning_feedback(
-    db: Session,
+    db,
     athlete_id: int,
     decision: str,
     completed: bool,
     performance_change: str,
 ) -> dict:
     """
-    Store athlete feedback after coaching.
+    Store athlete feedback.
 
-    Converts athlete response into
-    learning outcome.
+    Converts performance change
+    into learning outcome.
     """
 
-    if completed and performance_change == "improved":
+    if performance_change in [
+        "improved",
+        "better",
+        "successful",
+    ]:
 
         outcome = "positive"
 
-    elif performance_change == "worse":
+
+    elif performance_change in [
+        "declined",
+        "worse",
+        "poor",
+    ]:
 
         outcome = "negative"
 
+
     else:
 
-        outcome = "neutral"
+        outcome = (
+            "positive"
+            if completed
+            else "negative"
+        )
 
-    return capture_coach_decision_outcome(
-        db=db,
-        athlete_id=athlete_id,
-        decision=decision,
-        outcome=outcome,
-    )
+
+    return {
+        **record_learning_event(
+            {
+                "athlete_id": athlete_id,
+                "decision": decision,
+                "completed": completed,
+                "performance_change": performance_change,
+            }
+        ),
+
+        "outcome": outcome,
+    }

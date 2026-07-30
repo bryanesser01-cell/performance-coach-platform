@@ -1,79 +1,74 @@
-def analyse_coach_decision_outcome(
-    decision: str,
-    completed: bool,
-    athlete_rpe: int | None = None,
-    fatigue_after: str | None = None,
-) -> dict:
-    """
-    Analyse the outcome of a coaching decision.
+from api.services.coach_learning_service import (
+    analyse_training_session_response,
+    build_learning_loop_result,
+    identify_training_patterns,
+)
 
-    Produces a learning signal that can be
-    used to improve future decisions.
-    """
 
-    learning_signal = "neutral"
+def test_positive_training_response():
 
-    confidence_update = 0
-
-    if not completed:
-
-        return {
-            "learning_signal": "negative",
-            "confidence_update": -1,
-            "reason": (
-                "Workout was not completed."
-            ),
+    result = analyse_training_session_response(
+        {
+            "session_type": "intervals",
+            "athlete_feedback": "strong",
+            "date": "2026-07-30",
         }
-
-    if (
-        fatigue_after == "low"
-        and athlete_rpe is not None
-        and athlete_rpe <= 5
-    ):
-        learning_signal = "positive"
-        confidence_update = 1
-
-    elif (
-        fatigue_after == "high"
-        and athlete_rpe is not None
-        and athlete_rpe >= 8
-    ):
-        learning_signal = "negative"
-        confidence_update = -1
-
-    return {
-        "decision": decision,
-        "completed": completed,
-        "athlete_rpe": athlete_rpe,
-        "fatigue_after": fatigue_after,
-        "learning_signal": learning_signal,
-        "confidence_update": confidence_update,
-    }
+    )
 
 
-def build_learning_context(
-    decision: str,
-    outcome: dict,
-) -> dict:
-    """
-    Build learning context for AI Coach.
-    """
+    assert (
+        result["response"]
+        == "POSITIVE"
+    )
 
-    return {
-        "decision": decision,
-        "outcome": outcome,
-        "coach_learning": {
-            "signal": (
-                outcome.get(
-                    "learning_signal",
-                    "neutral",
-                )
-            ),
-            "confidence_update": (
-                outcome.get(
-                    "confidence_update",
-                    0,
-                )
-            ),
+
+
+def test_identify_training_patterns():
+
+    result = identify_training_patterns(
+        [
+            {
+                "session_type": "tempo",
+                "athlete_feedback": "good",
+            },
+            {
+                "session_type": "long_run",
+                "athlete_feedback": "tired",
+            },
+        ]
+    )
+
+
+    assert (
+        "tempo"
+        in result["responds_well_to"]
+    )
+
+
+    assert (
+        "long_run"
+        in result["struggles_with"]
+    )
+
+
+
+def test_learning_loop():
+
+    result = build_learning_loop_result(
+        athlete_profile={
+            "name": "Athlete",
+            "event": "1500m",
         },
-    }
+        sessions=[
+            {
+                "session_type": "intervals",
+                "athlete_feedback": "good",
+            }
+        ],
+    )
+
+
+    assert (
+        result["ready_for_future_training"]
+        is True
+    )
