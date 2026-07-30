@@ -6,11 +6,21 @@ from api.services.ai_coach_engine_service import (
 from api.services.ai_coach_memory_context_service import (
     enrich_coach_prompt,
 )
+from api.services.coach_context_aggregator_service import (
+    build_coach_context,
+    generate_coach_context_summary,
+)
 from api.services.coach_decision_integration_service import (
     generate_coach_decision_context,
 )
+from api.services.coach_decision_record_service import (
+    record_coach_decision,
+)
 from api.services.coach_intent_service import (
     build_coach_routing_context,
+)
+from api.services.coach_learning_memory_service import (
+    get_learning_context,
 )
 from api.services.coach_response_builder_service import (
     build_coach_response,
@@ -36,23 +46,20 @@ def generate_coach_conversation_response(
     athlete_state: dict | None = None,
     event: str | None = None,
     goal_time: str | None = None,
+    activities: list[dict] | None = None,
+    recovery_data: dict | None = None,
 ) -> dict:
-    """
-    Main AI Coach conversation pipeline.
-
-    Supports:
-    - AI coach responses
-    - Intent routing
-    - Workout planning
-    - Race strategy
-    - Training explanations
-    - Training memory
-    - Adaptive coaching
-    - Learning explanations
-    """
 
     if athlete_state is None:
         athlete_state = {}
+
+    if activities is None:
+        activities = []
+
+    if recovery_data is None:
+        recovery_data = {
+            "readiness_score": 0,
+        }
 
     routing = build_coach_routing_context(
         question,
@@ -68,7 +75,10 @@ def generate_coach_conversation_response(
         athlete_id=athlete_id,
     )
 
-    voice_memory_context = {}
+    learning_memory = get_learning_context(
+        db=db,
+        athlete_id=athlete_id,
+    )
 
     memory_context = enrich_coach_prompt(
         db=db,
@@ -87,14 +97,55 @@ def generate_coach_conversation_response(
         )
     )
 
+    decision = adaptive_context.get(
+        "coach_decision",
+        {},
+    )
+
+    if decision.get("decision"):
+
+        record_coach_decision(
+            db=db,
+            athlete_id=athlete_id,
+            decision=decision.get(
+                "decision",
+                "",
+            ),
+            reason=decision.get(
+                "reason",
+                "",
+            ),
+            confidence=adaptive_context.get(
+                "learning_confidence",
+                50,
+            ),
+        )
+
+    coach_context = build_coach_context(
+        athlete_id=athlete_id,
+        athlete_state=athlete_state,
+        training_memory=training_memory,
+        learning_memory=learning_memory,
+        activities=activities,
+        recovery_data=recovery_data,
+    )
+
+    coach_context_summary = (
+        generate_coach_context_summary(
+            coach_context,
+        )
+    )
+
     base_context = {
         "athlete_id": athlete_id,
         "question": question,
         "athlete_state": athlete_state,
         "training_memory": training_memory,
-        "voice_memory_context": voice_memory_context,
+        "learning_memory": learning_memory,
         "memory_context": clean_memory_context,
         "coach_decision_context": adaptive_context,
+        "coach_context": coach_context,
+        "coach_context_summary": coach_context_summary,
     }
 
     if intent == "workout":
@@ -134,19 +185,12 @@ def generate_coach_conversation_response(
             build_learning_explanation,
         )
 
-        decision = adaptive_context.get(
-            "coach_decision",
-            {},
-        )
-
         confidence = adaptive_context.get(
             "learning_confidence",
-            50,
-        )
-
-        learning_context = adaptive_context.get(
-            "learning_context",
-            {},
+            learning_memory.get(
+                "confidence_adjustment",
+                50,
+            ),
         )
 
         explanation = build_learning_explanation(
@@ -159,7 +203,10 @@ def generate_coach_conversation_response(
                 "reason",
                 "",
             ),
-            learning_history=learning_context,
+            learning_history=learning_memory.get(
+                "learning_events",
+                [],
+            ),
         )
 
         coach_message = (
@@ -180,6 +227,7 @@ def generate_coach_conversation_response(
             ),
             "confidence": confidence,
             "explanation": explanation,
+            "coach_context_summary": coach_context_summary,
         }
 
     elif intent == "explanation":
@@ -223,6 +271,9 @@ def generate_coach_conversation_response(
                     "Keep the session easy "
                     "or take a rest day."
                 ),
+                "coach_context_summary": (
+                    coach_context_summary
+                ),
             },
         )
 
@@ -233,30 +284,26 @@ def generate_coach_conversation_response(
             athlete_id=athlete_id,
         )
 
-    if intent == "recovery":
+    if intent == "adaptive_coaching":
+
+        answer = response.get(
+            "coach_message",
+            "Your training has been adjusted.",
+        )
+
+    elif intent == "recovery":
 
         answer = (
             "Recovery is important. "
-            "Your body needs time to adapt "
-            "and improve from training."
+            "Your readiness and training load "
+            "guide today's recommendation."
         )
 
     elif intent == "race_strategy":
 
         answer = (
             "Your race preparation should follow "
-            "your target pace, current fitness, "
-            "and race strategy."
-        )
-
-    elif intent == "adaptive_coaching":
-
-        answer = response.get(
-            "coach_message",
-            (
-                "Your training has been adjusted "
-                "based on your current indicators."
-            ),
+            "your target pace, fitness and strategy."
         )
 
     else:

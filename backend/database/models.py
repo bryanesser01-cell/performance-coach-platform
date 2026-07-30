@@ -140,11 +140,6 @@ class Goal(Base):
 class Activity(Base):
     """
     Athlete activity database model.
-
-    Stores imported activities:
-    Garmin, Strava, COROS,
-    Apple Health, FIT, GPX,
-    TCX, or manual entry.
     """
 
     __tablename__ = "activities"
@@ -203,12 +198,6 @@ class Activity(Base):
 class AthleteMemory(Base):
     """
     Long-term AI athlete memory.
-
-    Examples:
-    - Race goals
-    - Training preferences
-    - Coaching preferences
-    - Injury history
     """
 
     __tablename__ = "athlete_memories"
@@ -323,6 +312,100 @@ class VoiceSession(Base):
 
     coach_response = Column(
         String(2000),
+        nullable=False,
+    )
+
+    created_at = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+    )
+
+
+class CoachLearningEvent(Base):
+    """
+    Stores AI Coach learning outcomes.
+
+    Records:
+    - Coaching decision
+    - Athlete response
+    - Confidence adjustment
+    """
+
+    __tablename__ = "coach_learning_events"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    decision = Column(
+        String(50),
+        nullable=False,
+    )
+
+    outcome = Column(
+        String(50),
+        nullable=False,
+    )
+
+    confidence_change = Column(
+        Integer,
+        nullable=False,
+    )
+
+    timestamp = Column(
+        DateTime,
+        nullable=False,
+        server_default=func.now(),
+    )
+
+class CoachDecision(Base):
+    """
+    Stores AI Coach decisions.
+
+    Keeps an audit trail of:
+    - Decision made
+    - Reason
+    - Confidence
+    - Athlete
+    """
+
+    __tablename__ = "coach_decisions"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True,
+    )
+
+    athlete_id = Column(
+        Integer,
+        ForeignKey("athletes.id"),
+        nullable=False,
+        index=True,
+    )
+
+    decision = Column(
+        String(50),
+        nullable=False,
+    )
+
+    reason = Column(
+        String(500),
+        nullable=False,
+    )
+
+    confidence = Column(
+        Integer,
         nullable=False,
     )
 
