@@ -1,36 +1,272 @@
-def _convert_time_to_seconds(
-    time_value: str,
-) -> int:
+def classify_training_age_group(
+    age: int | None,
+) -> str:
     """
-    Convert race time into seconds.
-
-    Supports:
-    MM:SS
-    HH:MM:SS
+    Classify athlete development stage.
     """
 
-    parts = time_value.split(":")
+    if age is None:
+        return "UNKNOWN"
 
-    if len(parts) == 2:
-        minutes, seconds = parts
+    if age < 12:
+        return "YOUTH_U12"
 
-        return (
-            int(minutes) * 60
-            + int(seconds)
-        )
+    if age < 14:
+        return "YOUTH_U14"
 
-    if len(parts) == 3:
-        hours, minutes, seconds = parts
+    if age < 18:
+        return "YOUTH_U18"
 
-        return (
-            int(hours) * 3600
-            + int(minutes) * 60
-            + int(seconds)
-        )
+    if age < 35:
+        return "ADULT"
 
-    raise ValueError(
-        "Invalid time format. Use MM:SS or HH:MM:SS"
-    )
+    if age < 50:
+        return "MASTERS"
+
+    return "MASTERS_PLUS"
+
+
+
+def _get_event_phases(
+    event: str,
+) -> list[dict]:
+    """
+    Generate event specific training phases.
+    """
+
+    sprint_events = [
+        "100m",
+        "200m",
+        "400m",
+    ]
+
+    middle_distance_events = [
+        "800m",
+        "1500m",
+        "mile",
+    ]
+
+    endurance_events = [
+        "3000m",
+        "5000m",
+        "10000m",
+        "5K",
+        "10K",
+    ]
+
+    marathon_events = [
+        "half_marathon",
+        "marathon",
+    ]
+
+    trail_events = [
+        "trail",
+        "ultra_marathon",
+    ]
+
+
+    if event in sprint_events:
+
+        return [
+            {
+                "phase": "BASE",
+                "focus": [
+                    "sprint mechanics",
+                    "strength foundation",
+                    "mobility",
+                ],
+            },
+            {
+                "phase": "BUILD",
+                "focus": [
+                    "acceleration",
+                    "maximum velocity",
+                    "power development",
+                ],
+            },
+            {
+                "phase": "PEAK",
+                "focus": [
+                    "race speed",
+                    "competition preparation",
+                ],
+            },
+            {
+                "phase": "TAPER",
+                "focus": [
+                    "freshness",
+                    "speed maintenance",
+                ],
+            },
+        ]
+
+
+    if event in middle_distance_events:
+
+        return [
+            {
+                "phase": "BASE",
+                "focus": [
+                    "aerobic development",
+                    "running economy",
+                    "strength foundation",
+                ],
+            },
+            {
+                "phase": "BUILD",
+                "focus": [
+                    "race pace",
+                    "speed endurance",
+                    "threshold",
+                ],
+            },
+            {
+                "phase": "PEAK",
+                "focus": [
+                    "race specific intensity",
+                    "speed reserve",
+                ],
+            },
+            {
+                "phase": "TAPER",
+                "focus": [
+                    "recovery",
+                    "maintain speed",
+                ],
+            },
+        ]
+
+
+    if event in endurance_events:
+
+        return [
+            {
+                "phase": "BASE",
+                "focus": [
+                    "aerobic foundation",
+                    "running durability",
+                ],
+            },
+            {
+                "phase": "BUILD",
+                "focus": [
+                    "threshold",
+                    "longer endurance sessions",
+                ],
+            },
+            {
+                "phase": "PEAK",
+                "focus": [
+                    "race specific endurance",
+                ],
+            },
+            {
+                "phase": "TAPER",
+                "focus": [
+                    "recovery",
+                    "freshness",
+                ],
+            },
+        ]
+
+
+    if event in marathon_events:
+
+        return [
+            {
+                "phase": "BASE",
+                "focus": [
+                    "aerobic foundation",
+                    "strength endurance",
+                ],
+            },
+            {
+                "phase": "BUILD",
+                "focus": [
+                    "long runs",
+                    "threshold",
+                    "fuel practice",
+                ],
+            },
+            {
+                "phase": "PEAK",
+                "focus": [
+                    "race endurance",
+                    "marathon pace",
+                ],
+            },
+            {
+                "phase": "TAPER",
+                "focus": [
+                    "reduce volume",
+                    "maintain fitness",
+                ],
+            },
+        ]
+
+
+    if event in trail_events:
+
+        return [
+            {
+                "phase": "BASE",
+                "focus": [
+                    "aerobic base",
+                    "strength durability",
+                ],
+            },
+            {
+                "phase": "BUILD",
+                "focus": [
+                    "hill strength",
+                    "technical terrain",
+                    "long duration effort",
+                ],
+            },
+            {
+                "phase": "PEAK",
+                "focus": [
+                    "race terrain preparation",
+                    "fatigue resistance",
+                ],
+            },
+            {
+                "phase": "TAPER",
+                "focus": [
+                    "recovery",
+                    "fresh legs",
+                ],
+            },
+        ]
+
+
+    return [
+        {
+            "phase": "BASE",
+            "focus": [
+                "general fitness",
+            ],
+        },
+        {
+            "phase": "BUILD",
+            "focus": [
+                "progressive training",
+            ],
+        },
+        {
+            "phase": "PEAK",
+            "focus": [
+                "performance preparation",
+            ],
+        },
+        {
+            "phase": "TAPER",
+            "focus": [
+                "recovery",
+            ],
+        },
+    ]
+
 
 
 def create_training_plan(
@@ -39,66 +275,19 @@ def create_training_plan(
     weeks: int,
     current_time: str,
     target_time: str,
+    age: int | None = None,
+    training_age: int | None = None,
+    experience_level: str | None = None,
 ) -> dict:
     """
     Create adaptive training plan.
 
-    Builds phases based on:
+    Considers:
     - goal
     - event
-    - timeline
+    - age
+    - training experience
     """
-
-    if weeks >= 12:
-
-        phases = [
-            {
-                "phase": "BASE",
-                "weeks": "1-4",
-                "focus": [
-                    "aerobic development",
-                    "strength foundation",
-                    "running economy",
-                ],
-            },
-            {
-                "phase": "BUILD",
-                "weeks": "5-8",
-                "focus": [
-                    "race specific sessions",
-                    "threshold work",
-                    "speed development",
-                ],
-            },
-            {
-                "phase": "PEAK",
-                "weeks": "9-11",
-                "focus": [
-                    "race intensity",
-                    "performance sharpening",
-                ],
-            },
-            {
-                "phase": "TAPER",
-                "weeks": "12",
-                "focus": [
-                    "recovery",
-                    "maintain speed",
-                ],
-            },
-        ]
-
-    else:
-
-        phases = [
-            {
-                "phase": "SHORT_BUILD",
-                "focus": [
-                    "fitness improvement",
-                    "consistent training",
-                ],
-            }
-        ]
 
     return {
         "goal": goal,
@@ -106,8 +295,24 @@ def create_training_plan(
         "timeline_weeks": weeks,
         "current_time": current_time,
         "target_time": target_time,
-        "phases": phases,
+
+        "age_group": (
+            classify_training_age_group(age)
+        ),
+
+        "age": age,
+
+        "training_age": training_age,
+
+        "experience_level": (
+            experience_level
+        ),
+
+        "phases": _get_event_phases(
+            event,
+        ),
     }
+
 
 
 def adjust_weekly_load(
@@ -116,30 +321,26 @@ def adjust_weekly_load(
 ) -> dict:
     """
     Adjust weekly training load.
-
-    Improves:
-        +10%
-
-    Fatigue:
-        -20%
-
-    Stable:
-        unchanged
     """
 
     if performance_response == "improving":
+
         change = 10
 
     elif performance_response == "fatigued":
+
         change = -20
 
     else:
+
         change = 0
+
 
     new_load = int(
         previous_load
         * (1 + change / 100)
     )
+
 
     return {
         "previous_load": previous_load,
@@ -148,34 +349,36 @@ def adjust_weekly_load(
     }
 
 
+
 def adapt_plan_from_results(
     race_result: str,
     target_result: str,
     fatigue_score: int,
 ) -> dict:
     """
-    Adapt training plan from race result.
-
-    Faster race times are lower values.
-
-    Example:
-
-    Result:
-    4:55
-
-    Target:
-    5:00
-
-    Athlete exceeded goal.
+    Adapt training plan after results.
     """
 
-    race_seconds = _convert_time_to_seconds(
+    def convert_time(
+        value: str,
+    ) -> int:
+
+        minutes, seconds = value.split(":")
+
+        return (
+            int(minutes) * 60
+            + int(seconds)
+        )
+
+
+    race_seconds = convert_time(
         race_result,
     )
 
-    target_seconds = _convert_time_to_seconds(
+    target_seconds = convert_time(
         target_result,
     )
+
 
     if fatigue_score > 70:
 
@@ -189,20 +392,21 @@ def adapt_plan_from_results(
 
         action = "MODIFY_PLAN"
 
+
     return {
         "race_result": race_result,
         "target_result": target_result,
-        "race_seconds": race_seconds,
-        "target_seconds": target_seconds,
         "fatigue_score": fatigue_score,
         "action": action,
     }
+
 
 
 def generate_race_preparation_plan(
     event: str,
     race_date: str,
     goal: str,
+    age: int | None = None,
 ) -> dict:
     """
     Generate race preparation strategy.
@@ -212,6 +416,9 @@ def generate_race_preparation_plan(
         "event": event,
         "race_date": race_date,
         "goal": goal,
+        "age_group": (
+            classify_training_age_group(age)
+        ),
         "strategy": [
             "build fitness",
             "race specific preparation",

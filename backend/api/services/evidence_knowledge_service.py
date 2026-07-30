@@ -22,32 +22,36 @@ def store_research_reference(
     }
 
 
+
 def classify_age_group(
     age: int,
 ) -> dict:
     """
     Classify athlete development stage.
-
-    Youth and adult athletes require
-    different coaching rules.
     """
 
     if age < 12:
+
         category = "YOUTH_U12"
 
     elif age < 14:
+
         category = "YOUTH_U14"
 
     elif age < 18:
+
         category = "YOUTH_U18"
 
     elif age < 35:
+
         category = "ADULT"
 
     elif age < 50:
+
         category = "MASTERS"
 
     else:
+
         category = "MASTERS_PLUS"
 
     return {
@@ -56,46 +60,54 @@ def classify_age_group(
     }
 
 
+
 def apply_age_training_rules(
     age_group: str,
 ) -> dict:
     """
-    Apply age-specific coaching rules.
+    Apply age-specific evidence rules.
     """
 
     rules = {
+
         "YOUTH_U12": [
             "movement_quality",
             "coordination",
-            "bodyweight_strength",
-            "avoid_maximal_loading",
+            "skill_development",
+            "safe_strength_foundation",
         ],
+
         "YOUTH_U14": [
             "technique",
-            "strength_foundation",
             "athletic_development",
+            "strength_foundation",
         ],
-        "YOUTH_U18": [
+
+        "U18": [
             "progressive_strength",
             "power_development",
             "injury_prevention",
         ],
+
         "ADULT": [
+            "performance_optimisation",
             "progressive_overload",
-            "strength_development",
-            "performance",
+            "recovery_management",
         ],
+
         "MASTERS": [
             "strength_maintenance",
-            "recovery_management",
             "injury_prevention",
+            "recovery_priority",
         ],
+
         "MASTERS_PLUS": [
             "mobility",
             "strength_retention",
-            "recovery_priority",
+            "recovery_focus",
         ],
     }
+
 
     return {
         "age_group": age_group,
@@ -106,45 +118,119 @@ def apply_age_training_rules(
     }
 
 
+
 def apply_event_specific_rules(
     event: str,
 ) -> dict:
     """
-    Apply athletics event-specific rules.
+    Apply athletics event evidence rules.
+
+    Event determines athletic demands.
     """
 
     event_rules = {
-        "800m": [
-            "speed_power",
-            "anaerobic_capacity",
+
+        "100m": [
+            "acceleration",
+            "maximum_speed",
+            "explosive_power",
         ],
+
+        "200m": [
+            "speed",
+            "power",
+            "speed_endurance",
+        ],
+
+        "400m": [
+            "speed_endurance",
+            "lactate_tolerance",
+            "power",
+        ],
+
+        "800m": [
+            "speed",
+            "aerobic_power",
+            "race_pace",
+        ],
+
         "1500m": [
             "running_economy",
+            "aerobic_power",
             "power",
-            "strength_endurance",
+            "strength_power",
         ],
+
+        "mile": [
+            "running_economy",
+            "speed_reserve",
+            "aerobic_capacity",
+        ],
+
         "3000m": [
+            "aerobic_capacity",
             "strength_endurance",
             "fatigue_resistance",
         ],
+
         "5000m": [
+            "aerobic_capacity",
+            "running_economy",
             "durability",
+        ],
+
+        "10000m": [
+            "aerobic_capacity",
+            "fatigue_resistance",
+            "endurance",
+        ],
+
+        "5K": [
+            "aerobic_capacity",
             "running_economy",
         ],
-        "cross_country": [
+
+        "10K": [
+            "threshold",
+            "endurance",
+        ],
+
+        "half_marathon": [
+            "aerobic_endurance",
+            "fuel_management",
             "durability",
-            "strength",
+        ],
+
+        "marathon": [
+            "endurance_development",
+            "fuel_strategy",
+            "fatigue_resistance",
+        ],
+
+        "trail": [
             "terrain_adaptation",
+            "single_leg_strength",
+            "elevation_strength",
+        ],
+
+        "ultra_marathon": [
+            "resilience",
+            "fatigue_resistance",
+            "nutrition_strategy",
         ],
     }
+
 
     return {
         "event": event,
         "event_focus": event_rules.get(
             event,
-            [],
+            [
+                "general_fitness",
+            ],
         ),
     }
+
 
 
 def apply_evidence_rules(
@@ -153,12 +239,19 @@ def apply_evidence_rules(
     goal: str,
 ) -> dict:
     """
-    Combine age, event and evidence rules.
+    Combine:
+
+    Age evidence
+    Event evidence
+    Goal
+
+    into one evidence profile.
     """
 
     age_profile = classify_age_group(
         age=age,
     )
+
 
     age_rules = apply_age_training_rules(
         age_group=age_profile[
@@ -166,9 +259,11 @@ def apply_evidence_rules(
         ],
     )
 
+
     event_rules = apply_event_specific_rules(
         event=event,
     )
+
 
     return {
         "athlete_age": age,
@@ -177,14 +272,18 @@ def apply_evidence_rules(
         ],
         "event": event,
         "goal": goal,
+
         "age_rules": age_rules[
             "training_rules"
         ],
+
         "event_rules": event_rules[
             "event_focus"
         ],
+
         "evidence_applied": True,
     }
+
 
 
 def generate_evidence_based_recommendation(
@@ -193,8 +292,13 @@ def generate_evidence_based_recommendation(
     goal: str,
 ) -> dict:
     """
-    Generate recommendation using
-    evidence-based rules.
+    Generate evidence-based recommendation.
+
+    Uses:
+
+    - Athlete age
+    - Event demands
+    - Evidence sources
     """
 
     evidence = apply_evidence_rules(
@@ -203,18 +307,21 @@ def generate_evidence_based_recommendation(
         goal=goal,
     )
 
-    confidence = 90
 
     return {
         "recommendation": (
-            "Create personalised training "
-            "using age and event evidence."
+            "Generate training using "
+            "age and event specific evidence."
         ),
-        "confidence": confidence,
+
+        "confidence": 90,
+
         "evidence": evidence,
+
         "sources": [
             "AIS",
             "Athletics Australia",
+            "World Athletics",
             "Sports Science Research",
         ],
     }
