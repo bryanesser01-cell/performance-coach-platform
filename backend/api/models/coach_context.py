@@ -53,13 +53,25 @@ class CoachContext:
     #
     # Decision
     #
-    decision: dict = field(default_factory=dict)
+    decision: dict = field(
+        default_factory=dict,
+    )
 
-    coach_brain: dict = field(default_factory=dict)
+    decision_scoring: dict = field(
+        default_factory=dict,
+    )
 
-    coach_response: dict = field(default_factory=dict)
+    coach_brain: dict = field(
+        default_factory=dict,
+    )
+
+    coach_response: dict = field(
+        default_factory=dict,
+    )
 
     #
     # Metadata
     #
-    metadata: dict = field(default_factory=dict)
+    metadata: dict = field(
+        default_factory=dict,
+    )
