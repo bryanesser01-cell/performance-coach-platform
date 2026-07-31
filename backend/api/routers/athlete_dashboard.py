@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from api.schemas.athlete_dashboard_schema import (
+    AthleteDashboardIntelligenceSchema,
+)
 from api.services.athlete_dashboard_intelligence_service import (
     generate_dashboard_intelligence,
 )
@@ -142,7 +145,10 @@ def get_dashboard(
     }
 
 
-@router.get("/{athlete_id}/intelligence")
+@router.get(
+    "/{athlete_id}/intelligence",
+    response_model=AthleteDashboardIntelligenceSchema,
+)
 def get_dashboard_intelligence(
     athlete_id: int,
     db: Session = Depends(get_db),
