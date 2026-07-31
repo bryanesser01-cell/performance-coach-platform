@@ -93,7 +93,11 @@ def test_ai_coach_orchestrator_calls_state_service():
 
     mock_state.assert_called_once()
 
-    mock_decision.assert_called_once_with(
-        5,
-        {},
-    )
+    mock_decision.assert_called_once()
+
+    _, kwargs = mock_decision.call_args
+
+    assert kwargs["athlete_id"] == 5
+    assert kwargs["athlete_state"] == {}
+    assert "memory_context" in kwargs
+    assert isinstance(kwargs["memory_context"], dict)

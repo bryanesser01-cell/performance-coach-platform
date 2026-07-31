@@ -8,10 +8,17 @@ def generate_coach_decision(
     training_load_status: str,
     performance_trend: str,
     days_to_race: int | None = None,
+    memory_context: dict | None = None,
 ) -> dict:
     """
     Generate adaptive coaching decision.
     """
+
+    if memory_context is None:
+        memory_context = {}
+
+    memories = memory_context.get("memories", [])
+    previous_decisions = memory_context.get("decisions", [])
 
     if (
         days_to_race is not None
@@ -92,21 +99,27 @@ def generate_coach_decision(
 def generate_adaptive_coach_decision(
     athlete_id: int,
     athlete_state: dict,
+    memory_context: dict | None = None,
 ) -> dict:
     """
-    Generate a decision using athlete state
-    plus previous learning history.
+    Generate a decision using athlete state,
+    previous learning history and memory context.
 
     Flow:
 
-    Athlete State
-          ↓
-    Decision Engine
-          ↓
-    Learning Memory
-          ↓
-    Confidence Score
+        Athlete State
+              ↓
+        Memory Context
+              ↓
+        Decision Engine
+              ↓
+        Learning Memory
+              ↓
+        Confidence Score
     """
+
+    if memory_context is None:
+        memory_context = {}
 
     readiness = athlete_state.get(
         "readiness",
@@ -136,6 +149,7 @@ def generate_adaptive_coach_decision(
             "trend",
             "unknown",
         ),
+        memory_context=memory_context,
     )
 
     confidence = calculate_decision_confidence(
@@ -150,5 +164,17 @@ def generate_adaptive_coach_decision(
         "learning_context": {
             "decision": decision["decision"],
             "confidence": confidence,
+            "memory_count": len(
+                memory_context.get(
+                    "memories",
+                    [],
+                )
+            ),
+            "previous_decisions": len(
+                memory_context.get(
+                    "decisions",
+                    [],
+                )
+            ),
         },
     }

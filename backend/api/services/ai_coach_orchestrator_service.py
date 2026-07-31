@@ -6,6 +6,12 @@ from api.services.adaptive_coach_decision_service import (
 from api.services.athlete_state_service import (
     get_athlete_state,
 )
+from api.services.memory_context_service import (
+    MemoryContextService,
+)
+from api.services.memory_reasoning_service import (
+    MemoryReasoningService,
+)
 
 
 def run_ai_coach_orchestrator(
@@ -15,12 +21,16 @@ def run_ai_coach_orchestrator(
     """
     Main AI Coach decision orchestrator.
 
-    Flow:
+    Flow
 
     Athlete State
-        ↓
+          ↓
+    Memory Context
+          ↓
+    Memory Reasoning
+          ↓
     Adaptive Decision
-        ↓
+          ↓
     Coach Response
     """
 
@@ -29,22 +39,31 @@ def run_ai_coach_orchestrator(
         athlete_id,
     )
 
-    decision = generate_adaptive_coach_decision(
+    memory_context = MemoryContextService(db).build_context(
         athlete_id,
-        athlete_state,
+    )
+
+    memory_reasoning = (
+        MemoryReasoningService().analyse(
+            memory_context,
+        )
+    )
+
+    decision = generate_adaptive_coach_decision(
+        athlete_id=athlete_id,
+        athlete_state=athlete_state,
+        memory_context=memory_context,
     )
 
     return {
         "athlete_id": athlete_id,
-
         "athlete_state": athlete_state,
-
+        "memory_context": memory_context,
+        "memory_reasoning": memory_reasoning,
         "decision": decision,
-
         "coach_message": (
             f"Recommended action: "
             f"{decision.get('recommendation')}"
         ),
-
         "ai_coach": True,
     }
