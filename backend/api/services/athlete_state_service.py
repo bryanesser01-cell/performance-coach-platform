@@ -63,6 +63,9 @@ def build_athlete_state(
     readiness: dict | None = None,
     training: dict | None = None,
     performance: dict | None = None,
+    training_sessions: list | None = None,
+    next_race: dict | None = None,
+    metadata: dict | None = None,
 ) -> dict:
     """
     Build complete athlete state.
@@ -134,6 +137,21 @@ def build_athlete_state(
                 else None
             ),
         },
+        "training_sessions": (
+            training_sessions
+            if training_sessions
+            else []
+        ),
+        "next_race": (
+            next_race
+            if next_race
+            else None
+        ),
+        "metadata": (
+            metadata
+            if metadata
+            else {}
+        ),
     }
 
 
@@ -237,6 +255,17 @@ def get_athlete_state(
         )
     )
 
+        #
+    # Future AI Coach datasets
+    #
+    training_sessions = []
+
+    next_race = None
+
+    metadata = {
+        "state_version": 2,
+    }
+
     return build_athlete_state(
         athlete={
             "id": athlete.id,
@@ -260,10 +289,13 @@ def get_athlete_state(
             "load_status": training_load_status,
             "weekly_distance": weekly_distance,
         },
-        performance={
+                    performance={
             "trend": performance_trend,
             "current_metric": current_metric,
         },
+        training_sessions=training_sessions,
+        next_race=next_race,
+        metadata=metadata,
     )
 
 
