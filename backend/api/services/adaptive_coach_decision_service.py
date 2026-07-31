@@ -3,6 +3,9 @@ from api.models.coach_context import CoachContext
 from api.services.coach_learning_memory_service import (
     calculate_decision_confidence,
 )
+from api.services.decision_rules_engine import (
+    DecisionRulesEngine,
+)
 
 
 def generate_coach_decision(
@@ -13,7 +16,10 @@ def generate_coach_decision(
     memory_context: dict | None = None,
 ) -> dict:
     """
-    Generate adaptive coaching decision.
+    Legacy decision engine.
+
+    This remains for backward compatibility while the
+    platform migrates to DecisionRulesEngine.
     """
 
     if memory_context is None:
@@ -114,40 +120,11 @@ def generate_adaptive_coach_decision(
     #
     if context is not None:
 
-        readiness = context.athlete_state.get(
-            "readiness",
-            {},
-        )
-
-        training = context.athlete_state.get(
-            "training",
-            {},
-        )
-
-        performance = context.athlete_state.get(
-            "performance",
-            {},
-        )
-
-        race = context.race_intelligence
-
-        result = generate_coach_decision(
-            readiness_score=readiness.get(
-                "score",
-                0,
-            ),
-            training_load_status=training.get(
-                "load_status",
-                "unknown",
-            ),
-            performance_trend=performance.get(
-                "trend",
-                "unknown",
-            ),
-            days_to_race=race.get(
-                "days_until_race",
-            ),
-            memory_context=context.memory_context,
+        #
+        # Decision Rules Engine
+        #
+        result = DecisionRulesEngine().evaluate(
+            context,
         )
 
         confidence = calculate_decision_confidence(
