@@ -12,6 +12,9 @@ from api.services.memory_context_service import (
 from api.services.memory_reasoning_service import (
     MemoryReasoningService,
 )
+from api.services.coach_brain_service import (
+    CoachBrainService,
+)
 
 
 def run_ai_coach_orchestrator(
@@ -19,40 +22,55 @@ def run_ai_coach_orchestrator(
     athlete_id: int,
 ) -> dict:
     """
-    Main AI Coach decision orchestrator.
+    Main AI Coach Orchestrator.
 
     Flow
 
-    Athlete State
-          ↓
-    Memory Context
-          ↓
-    Memory Reasoning
-          ↓
-    Adaptive Decision
-          ↓
-    Coach Response
+        Athlete State
+              ↓
+        Memory Context
+              ↓
+        Memory Reasoning
+              ↓
+        Adaptive Decision
+              ↓
+        Coach Brain
+              ↓
+        API Response
     """
 
+    # Build athlete state
     athlete_state = get_athlete_state(
         db,
         athlete_id,
     )
 
-    memory_context = MemoryContextService(db).build_context(
+    # Load memory context
+    memory_context = MemoryContextService(
+        db
+    ).build_context(
         athlete_id,
     )
 
+    # Analyse memory
     memory_reasoning = (
         MemoryReasoningService().analyse(
             memory_context,
         )
     )
 
+    # Generate coaching decision
     decision = generate_adaptive_coach_decision(
         athlete_id=athlete_id,
         athlete_state=athlete_state,
         memory_context=memory_context,
+    )
+
+    # Build final coach brain output
+    coach_brain = CoachBrainService().build_decision(
+        athlete_state=athlete_state,
+        memory_reasoning=memory_reasoning,
+        decision=decision,
     )
 
     return {
@@ -61,9 +79,7 @@ def run_ai_coach_orchestrator(
         "memory_context": memory_context,
         "memory_reasoning": memory_reasoning,
         "decision": decision,
-        "coach_message": (
-            f"Recommended action: "
-            f"{decision.get('recommendation')}"
-        ),
+        "coach_brain": coach_brain,
+        "coach_message": coach_brain["summary"],
         "ai_coach": True,
     }

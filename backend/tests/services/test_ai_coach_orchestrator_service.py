@@ -59,10 +59,11 @@ def test_ai_coach_orchestrator_returns_athlete_state():
         == "PROGRESS_TRAINING"
     )
 
-    assert (
-        result["coach_message"]
-        ==
-        "Recommended action: "
+    assert result["coach_message"] == (
+        "Readiness 85. "
+        "Fatigue trend stable. "
+        "Injury risk low. "
+        "Recommendation: "
         "Progress training carefully "
         "while maintaining recovery."
     )
