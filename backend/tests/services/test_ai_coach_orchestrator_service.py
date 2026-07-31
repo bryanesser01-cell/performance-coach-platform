@@ -1,0 +1,99 @@
+from unittest.mock import MagicMock, patch
+
+from api.services.ai_coach_orchestrator_service import (
+    run_ai_coach_orchestrator,
+)
+
+
+def test_ai_coach_orchestrator_returns_athlete_state():
+
+    athlete_state = {
+        "athlete": {
+            "id": 1,
+            "name": "Bryan",
+            "primary_event": "5K",
+        },
+        "readiness": {
+            "score": 85,
+            "status": "ready",
+        },
+    }
+
+    decision = {
+        "decision": "PROGRESS_TRAINING",
+        "recommendation": (
+            "Progress training carefully "
+            "while maintaining recovery."
+        ),
+        "reason": (
+            "Performance and readiness "
+            "are improving."
+        ),
+        "learning_confidence": 80,
+    }
+
+    with patch(
+        "api.services.ai_coach_orchestrator_service.get_athlete_state",
+    ) as mock_state, patch(
+        "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
+    ) as mock_decision:
+
+        mock_state.return_value = athlete_state
+
+        mock_decision.return_value = decision
+
+        result = run_ai_coach_orchestrator(
+            db=MagicMock(),
+            athlete_id=1,
+        )
+
+    assert result["athlete_id"] == 1
+
+    assert (
+        result["athlete_state"]
+        == athlete_state
+    )
+
+    assert (
+        result["decision"]["decision"]
+        == "PROGRESS_TRAINING"
+    )
+
+    assert (
+        result["coach_message"]
+        ==
+        "Recommended action: "
+        "Progress training carefully "
+        "while maintaining recovery."
+    )
+
+    assert result["ai_coach"] is True
+
+
+
+def test_ai_coach_orchestrator_calls_state_service():
+
+    with patch(
+        "api.services.ai_coach_orchestrator_service.get_athlete_state",
+    ) as mock_state, patch(
+        "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
+    ) as mock_decision:
+
+        mock_state.return_value = {}
+
+        mock_decision.return_value = {
+            "decision": "RECOVERY_SESSION",
+            "recommendation": "Recover",
+        }
+
+        run_ai_coach_orchestrator(
+            db=MagicMock(),
+            athlete_id=5,
+        )
+
+    mock_state.assert_called_once()
+
+    mock_decision.assert_called_once_with(
+        5,
+        {},
+    )

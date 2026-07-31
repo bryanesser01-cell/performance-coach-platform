@@ -1,5 +1,4 @@
 from unittest.mock import patch
-from uuid import uuid4
 
 from fastapi.testclient import TestClient
 
@@ -8,59 +7,76 @@ from app.main import app
 client = TestClient(app)
 
 
-def test_import_activity_from_garmin():
+def test_ai_coach_existing_endpoint():
+
     with patch(
-        "api.routers.activity.ingest_activity",
-        return_value={
-            "id": 1,
-            "name": "Morning Run",
-            "source": "garmin",
-        },
-    ):
-        response = client.post(
-            "/activities/import",
-            json={
-                "source": "garmin",
-                "activity_id": "garmin-123",
-                "athlete_id": str(uuid4()),
-                "activity_name": "Morning Run",
-                "start_time": "2026-07-28T06:00:00+00:00",
-                "distance": 5000,
-                "duration": 1800,
-            },
+        "api.routers.ai_coach.generate_ai_coach_response",
+    ) as mock_response:
+
+        mock_response.return_value = {
+            "athlete_id": 1,
+            "coach_message": (
+                "Continue current training."
+            ),
+        }
+
+        response = client.get(
+            "/athletes/1/ai-coach",
         )
 
     assert response.status_code == 200
 
     data = response.json()
 
-    assert data["source"] == "garmin"
+    assert data["athlete_id"] == 1
 
 
-def test_import_activity_from_strava():
+def test_ai_coach_orchestrator_endpoint():
+
     with patch(
-        "api.routers.activity.ingest_activity",
-        return_value={
-            "id": 2,
-            "name": "Tempo Run",
-            "source": "strava",
-        },
-    ):
-        response = client.post(
-            "/activities/import",
-            json={
-                "source": "strava",
-                "activity_id": "strava-123",
-                "athlete_id": str(uuid4()),
-                "activity_name": "Tempo Run",
-                "start_time": "2026-07-28T06:00:00+00:00",
-                "distance": 8000,
-                "duration": 2400,
+        "api.routers.ai_coach.run_ai_coach_orchestrator",
+    ) as mock_orchestrator:
+
+        mock_orchestrator.return_value = {
+            "athlete_id": 1,
+            "decision": {
+                "decision": "PROGRESS_TRAINING",
             },
+            "ai_coach": True,
+        }
+
+        response = client.get(
+            "/athletes/1/coach",
         )
 
     assert response.status_code == 200
 
     data = response.json()
 
-    assert data["source"] == "strava"
+    assert data["athlete_id"] == 1
+
+    assert (
+        data["decision"]["decision"]
+        == "PROGRESS_TRAINING"
+    )
+
+    assert data["ai_coach"] is True
+
+
+def test_ai_coach_endpoints_in_openapi():
+
+    response = client.get(
+        "/openapi.json",
+    )
+
+    paths = response.json()["paths"]
+
+    assert (
+        "/athletes/{athlete_id}/ai-coach"
+        in paths
+    )
+
+    assert (
+        "/athletes/{athlete_id}/coach"
+        in paths
+    )
