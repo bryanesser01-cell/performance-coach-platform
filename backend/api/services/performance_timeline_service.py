@@ -77,13 +77,9 @@ def analyse_timeline_progress(
         len(milestones),
     ):
 
-        previous = milestones[
-            index - 1
-        ]
-
         current = milestones[
-            index
-        ]
+    index
+]
 
 
         if (
