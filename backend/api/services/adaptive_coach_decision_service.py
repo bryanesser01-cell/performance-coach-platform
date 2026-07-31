@@ -1,3 +1,5 @@
+from api.models.coach_context import CoachContext
+
 from api.services.coach_learning_memory_service import (
     calculate_decision_confidence,
 )
@@ -16,9 +18,6 @@ def generate_coach_decision(
 
     if memory_context is None:
         memory_context = {}
-
-    memories = memory_context.get("memories", [])
-    previous_decisions = memory_context.get("decisions", [])
 
     if (
         days_to_race is not None
@@ -39,8 +38,10 @@ def generate_coach_decision(
 
     if (
         readiness_score < 60
-        or training_load_status == "high_fatigue"
-        or training_load_status == "high"
+        or training_load_status in (
+            "high",
+            "high_fatigue",
+        )
     ):
         return {
             "decision": "REDUCE_TRAINING",
@@ -97,29 +98,94 @@ def generate_coach_decision(
 
 
 def generate_adaptive_coach_decision(
-    athlete_id: int,
-    athlete_state: dict,
+    athlete_id: int | None = None,
+    athlete_state: dict | None = None,
     memory_context: dict | None = None,
+    context: CoachContext | None = None,
 ) -> dict:
     """
-    Generate a decision using athlete state,
-    previous learning history and memory context.
+    Generate an adaptive coaching decision.
 
-    Flow:
-
-        Athlete State
-              ↓
-        Memory Context
-              ↓
-        Decision Engine
-              ↓
-        Learning Memory
-              ↓
-        Confidence Score
+    Supports both the legacy API and CoachContext.
     """
 
-    if memory_context is None:
-        memory_context = {}
+    #
+    # New CoachContext API
+    #
+    if context is not None:
+
+        readiness = context.athlete_state.get(
+            "readiness",
+            {},
+        )
+
+        training = context.athlete_state.get(
+            "training",
+            {},
+        )
+
+        performance = context.athlete_state.get(
+            "performance",
+            {},
+        )
+
+        race = context.race_intelligence
+
+        result = generate_coach_decision(
+            readiness_score=readiness.get(
+                "score",
+                0,
+            ),
+            training_load_status=training.get(
+                "load_status",
+                "unknown",
+            ),
+            performance_trend=performance.get(
+                "trend",
+                "unknown",
+            ),
+            days_to_race=race.get(
+                "days_until_race",
+            ),
+            memory_context=context.memory_context,
+        )
+
+        confidence = calculate_decision_confidence(
+            athlete_id=context.athlete_id,
+            decision=result["decision"],
+        )
+
+        result = {
+            **result,
+            "athlete_id": context.athlete_id,
+            "learning_confidence": confidence,
+            "learning_context": {
+                "decision": result["decision"],
+                "confidence": confidence,
+                "memory_count": len(
+                    context.memory_context.get(
+                        "memories",
+                        [],
+                    )
+                ),
+                "previous_decisions": len(
+                    context.memory_context.get(
+                        "decisions",
+                        [],
+                    )
+                ),
+            },
+        }
+
+        context.decision = result
+
+        return result
+
+    #
+    # Legacy API
+    #
+    athlete_state = athlete_state or {}
+    memory_context = memory_context or {}
 
     readiness = athlete_state.get(
         "readiness",
@@ -136,7 +202,7 @@ def generate_adaptive_coach_decision(
         {},
     )
 
-    decision = generate_coach_decision(
+    result = generate_coach_decision(
         readiness_score=readiness.get(
             "score",
             0,
@@ -154,15 +220,15 @@ def generate_adaptive_coach_decision(
 
     confidence = calculate_decision_confidence(
         athlete_id=athlete_id,
-        decision=decision["decision"],
+        decision=result["decision"],
     )
 
     return {
-        **decision,
+        **result,
         "athlete_id": athlete_id,
         "learning_confidence": confidence,
         "learning_context": {
-            "decision": decision["decision"],
+            "decision": result["decision"],
             "confidence": confidence,
             "memory_count": len(
                 memory_context.get(
