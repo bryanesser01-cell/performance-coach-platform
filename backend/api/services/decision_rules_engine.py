@@ -5,26 +5,35 @@ Responsible for applying deterministic coaching rules before
 the Coach Brain generates the final response.
 """
 
+from api.models.coach_context import CoachContext
+
 
 class DecisionRulesEngine:
     """
-    Applies coaching rules to determine the recommended action.
+    Applies deterministic coaching rules to determine the
+    recommended coaching action.
     """
 
     def evaluate(
         self,
-        context,
+        context: CoachContext,
     ) -> dict:
         """
-        Evaluate athlete context and return a coaching decision.
+        Evaluate the current athlete context.
         """
 
+        #
+        # Athlete State
+        #
         readiness = (
             context.athlete_state
             .get("readiness", {})
             .get("score", 0)
         )
 
+        #
+        # Memory
+        #
         fatigue = (
             context.memory_reasoning.get(
                 "fatigue_trend",
@@ -39,6 +48,19 @@ class DecisionRulesEngine:
             )
         )
 
+        #
+        # Goal Intelligence
+        #
+        goal_on_track = (
+            context.goal_intelligence.get(
+                "on_track",
+                True,
+            )
+        )
+
+        #
+        # Performance Intelligence
+        #
         performance = (
             context.performance_intelligence.get(
                 "performance_trend",
@@ -49,7 +71,39 @@ class DecisionRulesEngine:
             )
         )
 
+        #
+        # Recovery Intelligence
+        #
+        recovery_status = (
+            context.recovery_intelligence.get(
+                "status",
+                "good",
+            )
+        )
+
+        #
+        # Training Load Intelligence
+        #
+        training_risk = (
+            context.training_load_intelligence.get(
+                "risk",
+                "low",
+            )
+        )
+
+        #
+        # Race Intelligence
+        #
+        race_phase = (
+            context.race_intelligence.get(
+                "phase",
+                "base",
+            )
+        )
+
+        #
         # Rule 1
+        #
         if readiness < 40:
             return {
                 "decision": "RECOVERY_DAY",
@@ -57,7 +111,9 @@ class DecisionRulesEngine:
                 "reason": "Low readiness.",
             }
 
+        #
         # Rule 2
+        #
         if injury == "high":
             return {
                 "decision": "RECOVERY_DAY",
@@ -65,7 +121,29 @@ class DecisionRulesEngine:
                 "reason": "High injury risk.",
             }
 
+        #
         # Rule 3
+        #
+        if recovery_status == "poor":
+            return {
+                "decision": "RECOVERY_DAY",
+                "confidence": 95,
+                "reason": "Poor recovery status.",
+            }
+
+        #
+        # Rule 4
+        #
+        if training_risk == "high":
+            return {
+                "decision": "REDUCE_VOLUME",
+                "confidence": 95,
+                "reason": "High training load risk.",
+            }
+
+        #
+        # Rule 5
+        #
         if (
             fatigue == "increasing"
             and readiness < 60
@@ -76,16 +154,35 @@ class DecisionRulesEngine:
                 "reason": "Accumulating fatigue.",
             }
 
-        # Rule 4
+        #
+        # Rule 6
+        #
+        if (
+            race_phase == "taper"
+            and readiness >= 70
+        ):
+            return {
+                "decision": "RACE_TAPER",
+                "confidence": 95,
+                "reason": "Taper period before race.",
+            }
+
+        #
+        # Rule 7
+        #
         if (
             readiness >= 80
             and performance == "improving"
             and injury == "low"
+            and goal_on_track
         ):
             return {
                 "decision": "PROGRESS_TRAINING",
                 "confidence": 95,
-                "reason": "High readiness and improving fitness.",
+                "reason": (
+                    "High readiness with improving "
+                    "performance and goals on track."
+                ),
             }
 
         return {
