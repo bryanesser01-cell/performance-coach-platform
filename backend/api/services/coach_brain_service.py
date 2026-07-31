@@ -1,36 +1,43 @@
 """
 Coach Brain Service
 
-This service combines all coaching inputs into a single,
-structured coaching decision.
-
-Flow
-
-Athlete State
-      ↓
-Memory Reasoning
-      ↓
-Decision Engine
-      ↓
-Coach Brain
+Central intelligence engine for the AI Coach.
 """
+
+from api.models.coach_context import CoachContext
 
 
 class CoachBrainService:
     """
     Central AI Coach reasoning engine.
+
+    Supports both the existing API and the newer
+    CoachContext API during the migration.
     """
 
     def build_decision(
         self,
-        athlete_state: dict,
-        memory_reasoning: dict,
-        decision: dict,
+        context: CoachContext | None = None,
+        athlete_state: dict | None = None,
+        memory_reasoning: dict | None = None,
+        decision: dict | None = None,
     ) -> dict:
         """
-        Combine all coaching information into a
-        single structured decision.
+        Build the final coaching decision.
+
+        During migration this supports:
+        - CoachContext (new)
+        - Separate dictionaries (legacy)
         """
+
+        if context is not None:
+            athlete_state = context.athlete_state
+            memory_reasoning = context.memory_reasoning
+            decision = context.decision
+
+        athlete_state = athlete_state or {}
+        memory_reasoning = memory_reasoning or {}
+        decision = decision or {}
 
         readiness = (
             athlete_state.get("readiness", {})
@@ -47,15 +54,34 @@ class CoachBrainService:
             {},
         )
 
-        return {
-            "summary": self._build_summary(
-                readiness,
-                memory_reasoning,
-                decision,
-            ),
-            "recommendation": decision.get(
-                "recommendation"
-            ),
+        fatigue = memory_reasoning.get(
+            "fatigue_trend",
+            "unknown",
+        )
+
+        injury = memory_reasoning.get(
+            "injury_risk",
+            "unknown",
+        )
+
+        recommendation = (
+            decision.get(
+                "recommendation",
+                "",
+            ).rstrip(".")
+        )
+
+        summary = (
+            f"Readiness {readiness}. "
+            f"Fatigue trend {fatigue}. "
+            f"Injury risk {injury}. "
+            f"Recommendation: "
+            f"{recommendation}."
+        )
+
+        result = {
+            "summary": summary,
+            "recommendation": recommendation,
             "decision": decision.get(
                 "decision"
             ),
@@ -75,34 +101,7 @@ class CoachBrainService:
             },
         }
 
-    def _build_summary(
-        self,
-        readiness: int,
-        memory_reasoning: dict,
-        decision: dict,
-    ) -> str:
+        if context is not None:
+            context.coach_brain = result
 
-        fatigue = memory_reasoning.get(
-            "fatigue_trend",
-            "unknown",
-        )
-
-        injury = memory_reasoning.get(
-            "injury_risk",
-            "unknown",
-        )
-
-        recommendation = (
-            decision.get(
-                "recommendation",
-                "",
-            ).rstrip(".")
-        )
-
-        return (
-            f"Readiness {readiness}. "
-            f"Fatigue trend {fatigue}. "
-            f"Injury risk {injury}. "
-            f"Recommendation: "
-            f"{recommendation}."
-        )
+        return result
