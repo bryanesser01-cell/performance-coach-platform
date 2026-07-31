@@ -146,3 +146,71 @@ def generate_prediction_summary(
             "a guaranteed result."
         ),
     }
+
+def analyse_performance_prediction(
+    performance_intelligence: dict,
+    athlete_state: dict,
+) -> dict:
+    """
+    Generate structured performance prediction
+    for the AI Coach.
+    """
+
+    current_time = athlete_state.get(
+        "current_time_seconds",
+        0,
+    )
+
+    improvement_rate = (
+        performance_intelligence.get(
+            "improvement_rate",
+            0,
+        )
+        * 100
+    )
+
+    prediction = predict_race_performance(
+        current_time_seconds=current_time,
+        improvement_percentage=improvement_rate,
+    )
+
+    confidence = (
+        calculate_prediction_confidence(
+            training_consistency=
+            performance_intelligence.get(
+                "consistency_score",
+                0,
+            ),
+            performance_trend=
+            performance_intelligence.get(
+                "trend",
+                "stable",
+            ),
+        )
+    )
+
+    prediction_range = (
+        generate_prediction_range(
+            prediction[
+                "predicted_time_seconds"
+            ],
+        )
+    )
+
+    summary = (
+        generate_prediction_summary(
+            athlete_state.get(
+                "primary_event",
+                "event",
+            ),
+            prediction,
+            confidence,
+        )
+    )
+
+    return {
+        "prediction": prediction,
+        "range": prediction_range,
+        "summary": summary,
+        "confidence": confidence,
+    }

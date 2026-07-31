@@ -193,3 +193,289 @@ def generate_performance_insight(
             "using recent training history."
         ),
     }
+
+def analyse_performance_intelligence(
+    sessions: list[dict],
+) -> dict:
+    """
+    Generate structured performance intelligence
+    for the AI Coach.
+
+    Builds upon the existing utility functions and
+    returns richer information for CoachContext.
+    """
+
+    trend = analyse_performance_trend(
+        sessions,
+    )
+
+    consistency = calculate_training_consistency(
+        sessions,
+    )
+
+    average_pace = calculate_average_pace(
+        sessions,
+    )
+
+    if len(sessions) < 6:
+
+        return {
+            "trend": trend.get(
+                "trend",
+                "insufficient_data",
+            ),
+            "confidence": 0.30,
+            "average_pace": average_pace,
+            "improvement_rate": 0.0,
+            "plateau": False,
+            "declining": False,
+            "consistency_score": consistency.get(
+                "consistency_score",
+                0,
+            ),
+            "fatigue_adjusted": False,
+            "recommendation": "collect_more_data",
+        }
+
+    #
+    # Compare first half vs second half
+    #
+
+    midpoint = len(sessions) // 2
+
+    first_half = sessions[:midpoint]
+
+    second_half = sessions[midpoint:]
+
+    previous_average = sum(
+        s.get(
+            "pace_seconds",
+            0,
+        )
+        for s in first_half
+    ) / len(first_half)
+
+    recent_average = sum(
+        s.get(
+            "pace_seconds",
+            0,
+        )
+        for s in second_half
+    ) / len(second_half)
+
+    improvement_rate = (
+        previous_average - recent_average
+    ) / previous_average
+
+    plateau = (
+        abs(
+            previous_average
+            - recent_average
+        )
+        < 3
+    )
+
+    declining = (
+        recent_average
+        > previous_average
+    )
+
+    if plateau:
+
+        recommendation = "maintain"
+
+    elif declining:
+
+        recommendation = "investigate"
+
+    elif improvement_rate > 0.02:
+
+        recommendation = "progress"
+
+    else:
+
+        recommendation = "maintain"
+
+    confidence = min(
+        1.0,
+        0.50
+        + (
+            consistency.get(
+                "consistency_score",
+                0,
+            )
+            / 200
+        ),
+    )
+
+    return {
+        "trend": trend.get(
+            "trend",
+            "stable",
+        ),
+        "confidence": round(
+            confidence,
+            2,
+        ),
+        "average_pace": average_pace,
+        "improvement_rate": round(
+            improvement_rate,
+            3,
+        ),
+        "plateau": plateau,
+        "declining": declining,
+        "consistency_score": consistency.get(
+            "consistency_score",
+            0,
+        ),
+        "fatigue_adjusted": False,
+        "recommendation": recommendation,
+    }
+def analyse_performance_intelligence(
+    sessions: list[dict],
+) -> dict:
+    """
+    Generate structured performance intelligence
+    for the AI Coach.
+
+    This function wraps the lower-level performance
+    utilities into a single intelligence payload that
+    can be consumed by the CoachContext.
+    """
+
+    trend = analyse_performance_trend(
+        sessions,
+    )
+
+    consistency = (
+        calculate_training_consistency(
+            sessions,
+        )
+    )
+
+    average_pace = (
+        calculate_average_pace(
+            sessions,
+        )
+    )
+
+    #
+    # Not enough data
+    #
+    if len(sessions) < 6:
+
+        return {
+            "trend": trend.get(
+                "trend",
+                "insufficient_data",
+            ),
+            "confidence": 0.30,
+            "average_pace": average_pace,
+            "improvement_rate": 0.0,
+            "plateau": False,
+            "declining": False,
+            "consistency_score": consistency.get(
+                "consistency_score",
+                0,
+            ),
+            "fatigue_adjusted": False,
+            "recommendation": "collect_more_data",
+        }
+
+    midpoint = len(sessions) // 2
+
+    first_half = sessions[:midpoint]
+
+    second_half = sessions[midpoint:]
+
+    previous_average = (
+        sum(
+            session.get(
+                "pace_seconds",
+                0,
+            )
+            for session in first_half
+        )
+        / len(first_half)
+    )
+
+    recent_average = (
+        sum(
+            session.get(
+                "pace_seconds",
+                0,
+            )
+            for session in second_half
+        )
+        / len(second_half)
+    )
+
+    improvement_rate = (
+        previous_average
+        - recent_average
+    ) / previous_average
+
+    plateau = (
+        abs(
+            previous_average
+            - recent_average
+        )
+        < 3
+    )
+
+    declining = (
+        recent_average
+        > previous_average
+    )
+
+    if plateau:
+
+        recommendation = "maintain"
+
+    elif declining:
+
+        recommendation = "investigate"
+
+    elif improvement_rate > 0.02:
+
+        recommendation = "progress"
+
+    else:
+
+        recommendation = "maintain"
+
+    confidence = min(
+        1.0,
+        0.50
+        + (
+            consistency.get(
+                "consistency_score",
+                0,
+            )
+            / 200
+        ),
+    )
+
+    return {
+        "trend": trend.get(
+            "trend",
+            "stable",
+        ),
+        "confidence": round(
+            confidence,
+            2,
+        ),
+        "average_pace": average_pace,
+        "improvement_rate": round(
+            improvement_rate,
+            3,
+        ),
+        "plateau": plateau,
+        "declining": declining,
+        "consistency_score": consistency.get(
+            "consistency_score",
+            0,
+        ),
+        "fatigue_adjusted": False,
+        "recommendation": recommendation,
+    }

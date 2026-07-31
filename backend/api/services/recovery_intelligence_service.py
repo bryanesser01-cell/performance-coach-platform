@@ -128,3 +128,70 @@ def generate_recovery_recommendation(
         "status": recovery["status"],
         "recommendation": recommendation,
     }
+
+def analyse_recovery_intelligence(
+    athlete_state: dict,
+) -> dict:
+    """
+    Generate structured recovery intelligence
+    for the AI Coach.
+    """
+
+    readiness = athlete_state.get(
+        "readiness",
+        {},
+    )
+
+    training = athlete_state.get(
+        "training",
+        {},
+    )
+
+    readiness_score = calculate_readiness_score(
+        sleep_score=readiness.get(
+            "sleep_score",
+            0,
+        ),
+        soreness_score=readiness.get(
+            "soreness_score",
+            0,
+        ),
+        energy_score=readiness.get(
+            "energy_score",
+            0,
+        ),
+        motivation_score=readiness.get(
+            "motivation_score",
+            0,
+        ),
+        training_load=training.get(
+            "training_load",
+            0,
+        ),
+    )
+
+    recovery = analyse_recovery_status(
+        readiness_score,
+    )
+
+    recommendation = (
+        generate_recovery_recommendation(
+            readiness_score,
+        )
+    )
+
+    return {
+        "score": readiness_score,
+        "status": recovery["status"],
+        "message": recovery["message"],
+        "recommendation": recommendation[
+            "recommendation"
+        ],
+        "ready_for_quality": (
+            readiness_score >= 80
+        ),
+        "requires_recovery": (
+            readiness_score < 40
+        ),
+        "confidence": 1.0,
+    }
