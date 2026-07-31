@@ -62,6 +62,7 @@ class CoachBrainService:
             "reasoning": self._build_reasoning(
                 athlete_state,
                 memory_reasoning,
+                context,
             ),
             "risks": self._build_risks(
                 context,
@@ -166,7 +167,12 @@ class CoachBrainService:
         self,
         athlete_state: dict,
         memory_reasoning: dict,
+        context: CoachContext | None = None,
     ) -> dict:
+        """
+        Build explainable reasoning while preserving
+        backwards compatibility.
+        """
 
         training = athlete_state.get(
             "training",
@@ -188,15 +194,102 @@ class CoachBrainService:
             )
         )
 
+        strengths = []
+
+        watch_items = []
+
+        #
+        # Readiness
+        #
+        if readiness >= 80:
+            strengths.append(
+                "High readiness",
+            )
+
+        elif readiness < 60:
+            watch_items.append(
+                "Readiness below optimal",
+            )
+
+        #
+        # Performance
+        #
+        trend = performance.get(
+            "trend",
+        )
+
+        if trend == "improving":
+            strengths.append(
+                "Performance improving",
+            )
+
+        elif trend == "declining":
+            watch_items.append(
+                "Performance declining",
+            )
+
+        #
+        # Fatigue
+        #
+        fatigue = memory_reasoning.get(
+            "fatigue_trend",
+        )
+
+        if fatigue == "increasing":
+            watch_items.append(
+                "Fatigue increasing",
+            )
+
+        #
+        # Injury
+        #
+        injury = memory_reasoning.get(
+            "injury_risk",
+        )
+
+        if injury == "high":
+            watch_items.append(
+                "Elevated injury risk",
+            )
+
+        evidence = {
+            "readiness": readiness,
+            "performance": trend,
+            "training_load": training.get(
+                "load_status",
+            ),
+            "fatigue": fatigue,
+            "injury": injury,
+        }
+
+        if context is not None:
+
+            evidence["recovery"] = (
+                context.recovery_intelligence.get(
+                    "status",
+                )
+            )
+
+            evidence["race_phase"] = (
+                context.race_intelligence.get(
+                    "phase",
+                )
+            )
+
+        #
+        # Preserve the existing API while adding
+        # explainable reasoning.
+        #
         return {
             "readiness": readiness,
             "training_load": training.get(
                 "load_status",
             ),
-            "performance_trend": performance.get(
-                "trend",
-            ),
+            "performance_trend": trend,
             "memory": memory_reasoning,
+            "strengths": strengths,
+            "watch_items": watch_items,
+            "evidence": evidence,
         }
 
     def _build_risks(
@@ -237,6 +330,16 @@ class CoachBrainService:
         ):
             risks.append(
                 "Elevated injury risk.",
+            )
+
+        if (
+            context.race_intelligence.get(
+                "phase",
+            )
+            == "taper"
+        ):
+            risks.append(
+                "Approaching race taper.",
             )
 
         return risks
