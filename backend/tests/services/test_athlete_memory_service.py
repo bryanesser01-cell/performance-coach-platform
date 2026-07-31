@@ -2,93 +2,106 @@ from unittest.mock import Mock
 
 from api.services.athlete_memory_service import (
     build_memory_context,
-    recall,
-    recall_by_type,
-    remember,
+    get_memory_summary,
+    remember_performance,
+    remember_race_result,
+    remember_training_response,
 )
 
 
-class MockMemory:
-    def __init__(
-        self,
-        memory_type,
-        memory_value,
-    ):
-        self.memory_type = memory_type
-        self.memory_value = memory_value
-
-
-def test_remember_creates_memory():
+def test_remember_performance():
 
     db = Mock()
 
-    result = remember(
-        db=db,
+    repository = Mock()
+
+    db.repository = repository
+
+    result = remember_performance(
+        db,
         athlete_id=1,
-        memory_type="goal",
-        memory_value="Break 20 minute 5K",
+        event="5K",
+        previous_value="23:05",
+        current_value="22:30",
     )
 
     assert result is not None
 
 
-def test_recall_returns_athlete_memories():
+def test_remember_training_response():
 
     db = Mock()
 
-    memories = recall(
-        db=db,
+    result = remember_training_response(
+        db,
         athlete_id=1,
+        training_block="Threshold Block",
+        response="Improved aerobic capacity",
     )
 
-    assert memories is not None
+    assert result is not None
 
 
-def test_recall_by_type_returns_specific_memories():
+def test_remember_race_result():
 
     db = Mock()
 
-    memories = recall_by_type(
-        db=db,
+    result = remember_race_result(
+        db,
         athlete_id=1,
-        memory_type="goal",
+        race="State Cross Country",
+        result="Top 10 finish",
     )
 
-    assert memories is not None
+    assert result is not None
 
 
 def test_build_memory_context():
 
-    memories = [
-        MockMemory(
-            "goal",
-            "Run sub 20 minute 5K",
-        ),
-        MockMemory(
-            "preference",
-            "Prefers morning training",
-        ),
-        MockMemory(
-            "race",
-            "Australian Cross Country Championships",
-        ),
-    ]
+    memory_one = Mock()
+    memory_one.memory_type = "goal"
+    memory_one.memory_value = "Break 20 minutes for 5K"
+
+    memory_two = Mock()
+    memory_two.memory_type = "preference"
+    memory_two.memory_value = "Prefers morning training"
 
     context = build_memory_context(
-        memories,
+        [
+            memory_one,
+            memory_two,
+        ]
     )
 
-    assert (
-        context["goal"][0]
-        == "Run sub 20 minute 5K"
+    assert context["goal"] == [
+        "Break 20 minutes for 5K",
+    ]
+
+    assert context["preference"] == [
+        "Prefers morning training",
+    ]
+
+
+def test_get_memory_summary():
+
+    memory = Mock()
+
+    memory.memory_type = "performance_improvement"
+    memory.memory_value = (
+        "5K improved from 23:05 to 22:30"
     )
 
-    assert (
-        context["preference"][0]
-        == "Prefers morning training"
+    summary = get_memory_summary(
+        [
+            memory,
+        ]
     )
 
+    assert summary["memory_count"] == 1
+
     assert (
-        context["race"][0]
-        == "Australian Cross Country Championships"
+        "performance_improvement"
+        in summary["categories"]
     )
+
+    assert summary["memory_ready"] is True

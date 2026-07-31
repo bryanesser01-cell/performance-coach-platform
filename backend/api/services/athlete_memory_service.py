@@ -19,6 +19,8 @@ def remember(
     - preference
     - race
     - injury
+    - performance_improvement
+    - training_response
     """
 
     repository = AthleteMemoryRepository(
@@ -29,6 +31,71 @@ def remember(
         athlete_id=athlete_id,
         memory_type=memory_type,
         memory_value=memory_value,
+    )
+
+
+def remember_performance(
+    db: Session,
+    athlete_id: int,
+    event: str,
+    previous_value: str,
+    current_value: str,
+):
+    """
+    Store performance improvement memory.
+
+    Example:
+    5K improved from 23:05 to 22:30.
+    """
+
+    return remember(
+        db,
+        athlete_id,
+        "performance_improvement",
+        (
+            f"{event}: improved from "
+            f"{previous_value} to {current_value}"
+        ),
+    )
+
+
+def remember_training_response(
+    db: Session,
+    athlete_id: int,
+    training_block: str,
+    response: str,
+):
+    """
+    Store athlete response to training.
+    """
+
+    return remember(
+        db,
+        athlete_id,
+        "training_response",
+        (
+            f"{training_block}: {response}"
+        ),
+    )
+
+
+def remember_race_result(
+    db: Session,
+    athlete_id: int,
+    race: str,
+    result: str,
+):
+    """
+    Store race history memory.
+    """
+
+    return remember(
+        db,
+        athlete_id,
+        "race_result",
+        (
+            f"{race}: {result}"
+        ),
     )
 
 
@@ -56,13 +123,6 @@ def recall_by_type(
 ) -> list:
     """
     Retrieve memories by category.
-
-    Examples:
-    goal:
-        "Break 20 minutes for 5K"
-
-    preference:
-        "Prefers morning training"
     """
 
     repository = AthleteMemoryRepository(
@@ -95,3 +155,24 @@ def build_memory_context(
         )
 
     return context
+
+
+def get_memory_summary(
+    memories: list,
+) -> dict:
+    """
+    Create high-level athlete memory summary.
+    """
+
+    context = build_memory_context(
+        memories,
+    )
+
+    return {
+        "memory_count": len(memories),
+        "categories": list(
+            context.keys(),
+        ),
+        "memory_context": context,
+        "memory_ready": bool(memories),
+    }

@@ -45,3 +45,31 @@ def test_athlete_memory_endpoints_in_openapi():
         "/athletes/{athlete_id}/memory"
         in paths
     )
+
+
+def test_athlete_memory_context_endpoint_in_openapi():
+
+    response = client.get(
+        "/openapi.json",
+    )
+
+    paths = response.json()["paths"]
+
+    assert (
+        "/athletes/{athlete_id}/memory/context"
+        in paths
+    )
+
+
+def test_athlete_memory_intelligence_endpoint_in_openapi():
+
+    response = client.get(
+        "/openapi.json",
+    )
+
+    paths = response.json()["paths"]
+
+    assert (
+        "/athletes/{athlete_id}/memory/intelligence"
+        in paths
+    )
