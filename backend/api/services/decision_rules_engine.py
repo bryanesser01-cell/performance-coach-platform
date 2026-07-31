@@ -62,12 +62,20 @@ class DecisionRulesEngine:
         # Performance Intelligence
         #
         performance = (
-            context.performance_intelligence.get(
+            context.performance_intelligence.get("trend")
+            or context.performance_intelligence.get(
                 "performance_trend",
-                {}
+                {},
             ).get(
                 "trend",
                 "stable",
+            )
+        )
+
+        performance_recommendation = (
+            context.performance_intelligence.get(
+                "recommendation",
+                "progress",
             )
         )
 
@@ -98,6 +106,16 @@ class DecisionRulesEngine:
             context.race_intelligence.get(
                 "phase",
                 "base",
+            )
+        )
+
+        #
+        # Performance Prediction
+        #
+        prediction_confidence = (
+            context.performance_prediction.get(
+                "confidence",
+                "medium",
             )
         )
 
@@ -168,6 +186,36 @@ class DecisionRulesEngine:
             }
 
         #
+        # Rule 6A
+        #
+        if (
+            prediction_confidence == "high"
+            and readiness >= 75
+        ):
+            return {
+                "decision": "PROGRESS_TRAINING",
+                "confidence": 90,
+                "reason": (
+                    "High confidence performance prediction."
+                ),
+            }
+
+        #
+        # Rule 6B
+        #
+        if (
+            race_phase == "Peak"
+            and training_risk == "moderate"
+        ):
+            return {
+                "decision": "MAINTAIN_PLAN",
+                "confidence": 90,
+                "reason": (
+                    "Maintain workload during peak phase."
+                ),
+            }
+
+               #
         # Rule 7
         #
         if (
@@ -175,6 +223,8 @@ class DecisionRulesEngine:
             and performance == "improving"
             and injury == "low"
             and goal_on_track
+            and performance_recommendation
+            == "progress"
         ):
             return {
                 "decision": "PROGRESS_TRAINING",
@@ -184,7 +234,6 @@ class DecisionRulesEngine:
                     "performance and goals on track."
                 ),
             }
-
         return {
             "decision": "MAINTAIN_PLAN",
             "confidence": 80,

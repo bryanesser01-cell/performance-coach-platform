@@ -41,9 +41,8 @@ def test_progress_training():
     }
 
     context.performance_intelligence = {
-        "performance_trend": {
-            "trend": "improving",
-        }
+    "trend": "improving",
+    "recommendation": "progress",
     }
 
     result = DecisionRulesEngine().evaluate(

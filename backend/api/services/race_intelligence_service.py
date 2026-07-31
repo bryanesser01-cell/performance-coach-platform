@@ -5,6 +5,7 @@ Responsible for:
 - analysing upcoming races
 - determining training phase
 - recommending training focus
+- providing race intelligence for the AI Coach
 """
 
 from datetime import date
@@ -23,10 +24,17 @@ class RaceIntelligenceService:
         if not race:
             return {
                 "has_race": False,
+                "goal_event": None,
+                "priority": None,
                 "phase": "General Training",
                 "days_until_race": None,
                 "recommended_focus": "Base Fitness",
                 "taper_required": False,
+
+                # Intelligence
+                "race_readiness": "training",
+                "recommendation": "continue_base_training",
+                "confidence": 1.0,
             }
 
         today = date.today()
@@ -38,22 +46,65 @@ class RaceIntelligenceService:
         ).days
 
         if days <= 7:
+
             phase = "Taper"
-            focus = "Recovery and Race Pace"
+
+            focus = (
+                "Recovery and Race Pace"
+            )
+
+            recommendation = (
+                "taper_training"
+            )
+
+            readiness = "race_ready"
 
         elif days <= 28:
+
             phase = "Peak"
-            focus = "Race Specific"
+
+            focus = (
+                "Race Specific"
+            )
+
+            recommendation = (
+                "maintain_peak"
+            )
+
+            readiness = "peaking"
 
         elif days <= 84:
+
             phase = "Build"
-            focus = "Threshold and VO₂ Max"
+
+            focus = (
+                "Threshold and VO₂ Max"
+            )
+
+            recommendation = (
+                "progress_training"
+            )
+
+            readiness = "building"
 
         else:
+
             phase = "Base"
-            focus = "Aerobic Development"
+
+            focus = (
+                "Aerobic Development"
+            )
+
+            recommendation = (
+                "build_aerobic_base"
+            )
+
+            readiness = "base"
 
         return {
+            #
+            # Existing fields
+            #
             "has_race": True,
             "goal_event": race.get(
                 "event",
@@ -66,5 +117,14 @@ class RaceIntelligenceService:
             "days_until_race": days,
             "phase": phase,
             "recommended_focus": focus,
-            "taper_required": days <= 7,
+            "taper_required": (
+                days <= 7
+            ),
+
+            #
+            # Intelligence
+            #
+            "race_readiness": readiness,
+            "recommendation": recommendation,
+            "confidence": 1.0,
         }
