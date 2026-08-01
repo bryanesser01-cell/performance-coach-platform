@@ -1,12 +1,15 @@
 from sqlalchemy.orm import Session
 
 from api.models.coach_context import CoachContext
+from api.services.coach_pipeline import (
+    CoachPipeline,
+)
+from api.services.pipeline_steps.athlete_state_step import (
+    AthleteStateStep,
+)
 
 from api.services.adaptive_coach_decision_service import (
     generate_adaptive_coach_decision,
-)
-from api.services.athlete_state_service import (
-    get_athlete_state,
 )
 from api.services.coach_brain_service import (
     CoachBrainService,
@@ -54,11 +57,16 @@ def run_ai_coach_orchestrator(
     )
 
     #
-    # Athlete State
+    # Pipeline
     #
-    context.athlete_state = get_athlete_state(
-        db,
-        athlete_id,
+    pipeline = CoachPipeline()
+
+    pipeline.add_step(
+    AthleteStateStep(db),
+    )
+
+    pipeline.run(
+    context,
     )
 
     #

@@ -33,7 +33,7 @@ def test_ai_coach_orchestrator_returns_athlete_state():
     }
 
     with patch(
-        "api.services.ai_coach_orchestrator_service.get_athlete_state",
+        "api.services.pipeline_steps.athlete_state_step.get_athlete_state",
     ) as mock_state, patch(
         "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
     ) as mock_decision:
@@ -75,7 +75,7 @@ def test_ai_coach_orchestrator_returns_athlete_state():
 def test_ai_coach_orchestrator_calls_state_service():
 
     with patch(
-        "api.services.ai_coach_orchestrator_service.get_athlete_state",
+        "api.services.pipeline_steps.athlete_state_step.get_athlete_state",
     ) as mock_state, patch(
         "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
     ) as mock_decision:
