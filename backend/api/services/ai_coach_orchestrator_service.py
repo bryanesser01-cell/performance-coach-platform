@@ -37,6 +37,9 @@ from api.services.coach_brain_service import (
 from api.services.pipeline_steps.race_intelligence_step import (
     RaceIntelligenceStep,
 )
+from api.services.pipeline_steps.periodisation_step import (
+    PeriodisationStep,
+)
 
 
 def run_ai_coach_orchestrator(
