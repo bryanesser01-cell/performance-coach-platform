@@ -7,6 +7,9 @@ from api.services.coach_pipeline import (
 from api.services.pipeline_steps.athlete_state_step import (
     AthleteStateStep,
 )
+from api.services.pipeline_steps.goal_intelligence_step import (
+    GoalIntelligenceStep,
+)
 from api.services.pipeline_steps.memory_context_step import (
     MemoryContextStep,
 )
@@ -19,10 +22,6 @@ from api.services.adaptive_coach_decision_service import (
 from api.services.coach_brain_service import (
     CoachBrainService,
 )
-from api.services.goal_intelligence_service import (
-    GoalIntelligenceService,
-)
-
 
 
 
@@ -74,19 +73,14 @@ def run_ai_coach_orchestrator(
         MemoryReasoningStep(),
     )
 
+    pipeline.add_step(
+        GoalIntelligenceStep(),
+    )
+
     pipeline.run(
         context,
     )
 
-    #
-    # Goal Intelligence
-    #
-    context.goal_intelligence = (
-        GoalIntelligenceService()
-        .analyse(
-            context.athlete_state,
-        )
-    )
 
     #
     # Adaptive Decision
