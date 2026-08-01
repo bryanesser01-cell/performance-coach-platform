@@ -34,6 +34,9 @@ from api.services.adaptive_coach_decision_service import (
 from api.services.coach_brain_service import (
     CoachBrainService,
 )
+from api.services.pipeline_steps.race_intelligence_step import (
+    RaceIntelligenceStep,
+)
 
 
 def run_ai_coach_orchestrator(
@@ -104,6 +107,10 @@ def run_ai_coach_orchestrator(
 
     pipeline.add_step(
         TrainingLoadIntelligenceStep(),
+    )
+
+    pipeline.add_step(
+        RaceIntelligenceStep(),
     )
 
     pipeline.run(
