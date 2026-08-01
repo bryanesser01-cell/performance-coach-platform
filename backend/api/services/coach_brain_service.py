@@ -139,6 +139,23 @@ class CoachBrainService:
         Build confidence score.
         """
 
+        #
+        # Prefer the new Confidence Engine
+        #
+        if (
+            context
+            and context.confidence
+        ):
+            return (
+                context.confidence.get(
+                    "confidence",
+                    "medium",
+                )
+            )
+
+        #
+        # Fallback to Decision Scoring
+        #
         if (
             context
             and context.decision_scoring
@@ -150,6 +167,9 @@ class CoachBrainService:
                 )
             )
 
+        #
+        # Legacy fallback
+        #
         return decision.get(
             "learning_confidence",
             0,
