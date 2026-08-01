@@ -13,7 +13,6 @@ class CoachBrainStep:
         self,
         context: CoachContext,
     ) -> None:
-
         CoachBrainService().build_decision(
             context=context,
         )

@@ -35,7 +35,7 @@ def test_ai_coach_orchestrator_returns_athlete_state():
     with patch(
         "api.services.pipeline_steps.athlete_state_step.get_athlete_state",
     ) as mock_state, patch(
-        "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
+        "api.services.pipeline_steps.adaptive_decision_step.generate_adaptive_coach_decision",
     ) as mock_decision:
 
         mock_state.return_value = athlete_state
@@ -49,10 +49,7 @@ def test_ai_coach_orchestrator_returns_athlete_state():
 
     assert result["athlete_id"] == 1
 
-    assert (
-        result["athlete_state"]
-        == athlete_state
-    )
+    assert result["athlete_state"] == athlete_state
 
     assert (
         result["decision"]["decision"]
@@ -71,13 +68,12 @@ def test_ai_coach_orchestrator_returns_athlete_state():
     assert result["ai_coach"] is True
 
 
-
 def test_ai_coach_orchestrator_calls_state_service():
 
     with patch(
         "api.services.pipeline_steps.athlete_state_step.get_athlete_state",
     ) as mock_state, patch(
-        "api.services.ai_coach_orchestrator_service.generate_adaptive_coach_decision",
+        "api.services.pipeline_steps.adaptive_decision_step.generate_adaptive_coach_decision",
     ) as mock_decision:
 
         mock_state.return_value = {}
@@ -98,7 +94,12 @@ def test_ai_coach_orchestrator_calls_state_service():
 
     _, kwargs = mock_decision.call_args
 
-    assert kwargs["athlete_id"] == 5
-    assert kwargs["athlete_state"] == {}
-    assert "memory_context" in kwargs
-    assert isinstance(kwargs["memory_context"], dict)
+    #
+    # New architecture passes the CoachContext
+    # instead of individual arguments.
+    #
+    assert "context" in kwargs
+
+    context = kwargs["context"]
+
+    assert context.athlete_id == 5

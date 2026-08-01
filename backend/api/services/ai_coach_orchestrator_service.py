@@ -27,18 +27,26 @@ from api.services.pipeline_steps.recovery_intelligence_step import (
 from api.services.pipeline_steps.training_load_intelligence_step import (
     TrainingLoadIntelligenceStep,
 )
-
-from api.services.adaptive_coach_decision_service import (
-    generate_adaptive_coach_decision,
-)
-from api.services.coach_brain_service import (
-    CoachBrainService,
-)
 from api.services.pipeline_steps.race_intelligence_step import (
     RaceIntelligenceStep,
 )
 from api.services.pipeline_steps.periodisation_step import (
     PeriodisationStep,
+)
+from api.services.pipeline_steps.decision_rules_step import (
+    DecisionRulesStep,
+)
+from api.services.pipeline_steps.decision_scoring_step import (
+    DecisionScoringStep,
+)
+from api.services.pipeline_steps.confidence_step import (
+    ConfidenceStep,
+)
+from api.services.pipeline_steps.adaptive_decision_step import (
+    AdaptiveDecisionStep,
+)
+from api.services.pipeline_steps.coach_brain_step import (
+    CoachBrainStep,
 )
 
 
@@ -48,28 +56,6 @@ def run_ai_coach_orchestrator(
 ) -> dict:
     """
     Main AI Coach Orchestrator.
-
-    Flow
-
-        Athlete State
-              ↓
-        Memory Context
-              ↓
-        Memory Reasoning
-              ↓
-        Goal Intelligence
-              ↓
-        Performance Intelligence
-              ↓
-        Recovery Intelligence
-              ↓
-        Training Load Intelligence
-              ↓
-        Adaptive Decision
-              ↓
-        Coach Brain
-              ↓
-        API Response
     """
 
     #
@@ -80,7 +66,7 @@ def run_ai_coach_orchestrator(
     )
 
     #
-    # Pipeline
+    # Build AI Coach Pipeline
     #
     pipeline = CoachPipeline()
 
@@ -116,29 +102,35 @@ def run_ai_coach_orchestrator(
         RaceIntelligenceStep(),
     )
 
+    pipeline.add_step(
+        PeriodisationStep(),
+    )
+
+    pipeline.add_step(
+        DecisionRulesStep(),
+    )
+
+    pipeline.add_step(
+        DecisionScoringStep(),
+    )
+
+    pipeline.add_step(
+        ConfidenceStep(),
+    )
+
+    pipeline.add_step(
+        AdaptiveDecisionStep(),
+    )
+
+    pipeline.add_step(
+        CoachBrainStep(),
+    )
+
+    #
+    # Execute the pipeline
+    #
     pipeline.run(
         context,
-    )
-
-    #
-    # Adaptive Decision
-    #
-    # Keep using the legacy API for now so existing
-    # tests and callers continue to work.
-    #
-    context.decision = (
-        generate_adaptive_coach_decision(
-            athlete_id=context.athlete_id,
-            athlete_state=context.athlete_state,
-            memory_context=context.memory_context,
-        )
-    )
-
-    #
-    # Coach Brain
-    #
-    CoachBrainService().build_decision(
-        context=context,
     )
 
     #
@@ -159,8 +151,23 @@ def run_ai_coach_orchestrator(
         "training_load_intelligence": (
             context.training_load_intelligence
         ),
+        "race_intelligence": (
+            context.race_intelligence
+        ),
+        "periodisation": (
+            context.periodisation
+        ),
         "decision": context.decision,
+        "decision_scoring": (
+            context.decision_scoring
+        ),
+        "confidence": context.confidence,
         "coach_brain": context.coach_brain,
-        "coach_message": context.coach_brain["summary"],
+        "coach_message": (
+            context.coach_brain.get(
+                "summary",
+                "",
+            )
+        ),
         "ai_coach": True,
     }
