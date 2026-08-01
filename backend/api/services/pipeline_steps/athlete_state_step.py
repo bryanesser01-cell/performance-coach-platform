@@ -8,7 +8,7 @@ from api.services.athlete_state_service import (
 
 class AthleteStateStep:
     """
-    Loads the athlete state.
+    Loads the athlete state into the coach context.
     """
 
     def __init__(
@@ -21,7 +21,6 @@ class AthleteStateStep:
         self,
         context: CoachContext,
     ) -> None:
-
         context.athlete_state = get_athlete_state(
             self.db,
             context.athlete_id,
