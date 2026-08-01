@@ -10,6 +10,9 @@ from api.services.pipeline_steps.athlete_state_step import (
 from api.services.pipeline_steps.memory_context_step import (
     MemoryContextStep,
 )
+from api.services.pipeline_steps.memory_reasoning_step import (
+    MemoryReasoningStep,
+)
 from api.services.adaptive_coach_decision_service import (
     generate_adaptive_coach_decision,
 )
@@ -20,9 +23,7 @@ from api.services.goal_intelligence_service import (
     GoalIntelligenceService,
 )
 
-from api.services.memory_reasoning_service import (
-    MemoryReasoningService,
-)
+
 
 
 def run_ai_coach_orchestrator(
@@ -69,18 +70,12 @@ def run_ai_coach_orchestrator(
         MemoryContextStep(db),
     )
 
-    pipeline.run(
-        context,
+    pipeline.add_step(
+        MemoryReasoningStep(),
     )
 
-    #
-    # Memory Reasoning
-    #
-    context.memory_reasoning = (
-        MemoryReasoningService()
-        .analyse(
-            context.memory_context,
-        )
+    pipeline.run(
+        context,
     )
 
     #
