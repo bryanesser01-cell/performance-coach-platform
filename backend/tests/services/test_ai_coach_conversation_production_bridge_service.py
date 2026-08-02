@@ -20,15 +20,9 @@ def test_build_production_request():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_execute_ai_coach_brain():
@@ -50,16 +44,11 @@ def test_execute_ai_coach_brain():
             },
         },
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
 
 def test_format_final_response():
@@ -68,27 +57,17 @@ def test_format_final_response():
         {
             "response": {
                 "personalised_response": {
-                    "answer": (
-                        "Recovery recommended."
-                    ),
+                    "answer": ("Recovery recommended."),
                 },
-                "strategy": (
-                    "RECOVERY_FIRST"
-                ),
+                "strategy": ("RECOVERY_FIRST"),
                 "confidence": 90,
             }
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_full_production_bridge():
@@ -97,9 +76,7 @@ def test_full_production_bridge():
         athlete_id=1,
         question="Should I do intervals?",
         ai_response={
-            "coach_message": (
-                "Adjust session."
-            ),
+            "coach_message": ("Adjust session."),
         },
         athlete_profile={
             "sport": "running",
@@ -116,17 +93,8 @@ def test_full_production_bridge():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95
 
-    assert (
-        "answer"
-        in result
-    )
+    assert "answer" in result

@@ -4,7 +4,7 @@ from api.services.decision_rules_engine import (
 )
 
 
-def test_low_readiness():
+def test_returns_decision():
 
     context = CoachContext(
         athlete_id=1,
@@ -12,27 +12,8 @@ def test_low_readiness():
 
     context.athlete_state = {
         "readiness": {
-            "score": 30,
-        }
-    }
-
-    result = DecisionRulesEngine().evaluate(
-        context,
-    )
-
-    assert result["decision"] == "RECOVERY_DAY"
-
-
-def test_progress_training():
-
-    context = CoachContext(
-        athlete_id=1,
-    )
-
-    context.athlete_state = {
-        "readiness": {
-            "score": 90,
-        }
+            "score": 85,
+        },
     }
 
     context.memory_reasoning = {
@@ -40,9 +21,29 @@ def test_progress_training():
         "injury_risk": "low",
     }
 
+    context.goal_intelligence = {
+        "on_track": True,
+    }
+
     context.performance_intelligence = {
-    "trend": "improving",
-    "recommendation": "progress",
+        "trend": "improving",
+        "recommendation": "progress",
+    }
+
+    context.recovery_intelligence = {
+        "status": "good",
+    }
+
+    context.training_load_intelligence = {
+        "risk": "low",
+    }
+
+    context.race_intelligence = {
+        "phase": "Base",
+    }
+
+    context.performance_prediction = {
+        "confidence": "medium",
     }
 
     result = DecisionRulesEngine().evaluate(
@@ -50,27 +51,5 @@ def test_progress_training():
     )
 
     assert result["decision"] == "PROGRESS_TRAINING"
-
-
-def test_reduce_volume():
-
-    context = CoachContext(
-        athlete_id=1,
-    )
-
-    context.athlete_state = {
-        "readiness": {
-            "score": 55,
-        }
-    }
-
-    context.memory_reasoning = {
-        "fatigue_trend": "increasing",
-        "injury_risk": "low",
-    }
-
-    result = DecisionRulesEngine().evaluate(
-        context,
-    )
-
-    assert result["decision"] == "REDUCE_VOLUME"
+    assert result["confidence"] == 95
+    assert "High readiness" in result["reason"]

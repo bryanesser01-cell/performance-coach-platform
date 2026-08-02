@@ -42,13 +42,11 @@ def process_coach_outcome(
     Confidence Update
     """
 
-    learning_event = (
-        capture_coach_decision_outcome(
-            db=db,
-            athlete_id=athlete_id,
-            decision=decision,
-            outcome=outcome,
-        )
+    learning_event = capture_coach_decision_outcome(
+        db=db,
+        athlete_id=athlete_id,
+        decision=decision,
+        outcome=outcome,
     )
 
     return {
@@ -73,17 +71,12 @@ def update_decision_confidence(
         50,
     )
 
-    confidence_change = (
-        learning_event.get(
-            "confidence_change",
-            0,
-        )
+    confidence_change = learning_event.get(
+        "confidence_change",
+        0,
     )
 
-    updated_confidence = (
-        current_confidence
-        + confidence_change
-    )
+    updated_confidence = current_confidence + confidence_change
 
     updated_confidence = max(
         0,

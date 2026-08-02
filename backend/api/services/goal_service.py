@@ -44,9 +44,9 @@ def create_goal_service(
     return {
         "goal": saved_goal,
         "analysis": analysis,
-
-
     }
+
+
 def get_goal_progress_service(
     db: Session,
     athlete_id: int,
@@ -60,9 +60,7 @@ def get_goal_progress_service(
     )
 
     if athlete is None:
-        raise ValueError(
-            f"Athlete {athlete_id} not found."
-        )
+        raise ValueError(f"Athlete {athlete_id} not found.")
 
     goals = goal_repository.get_active_goals(
         athlete_id,

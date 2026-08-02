@@ -50,21 +50,11 @@ def orchestrate_final_coach_response(
     return run_complete_ai_coach_pipeline(
         athlete_id=athlete_id,
         ai_response=ai_response,
-        athlete_profile=pipeline_context[
-            "athlete_profile"
-        ],
-        training_history=pipeline_context[
-            "training_history"
-        ],
-        recovery_history=pipeline_context[
-            "recovery_history"
-        ],
-        decision_analysis=pipeline_context[
-            "decision_analysis"
-        ],
-        current_state=pipeline_context[
-            "current_state"
-        ],
+        athlete_profile=pipeline_context["athlete_profile"],
+        training_history=pipeline_context["training_history"],
+        recovery_history=pipeline_context["recovery_history"],
+        decision_analysis=pipeline_context["decision_analysis"],
+        current_state=pipeline_context["current_state"],
     )
 
 

@@ -26,9 +26,7 @@ def test_generate_progress_dataset():
 
     mock_repository = Mock()
 
-    mock_repository.get_by_athlete_id.return_value = (
-        mock_metrics
-    )
+    mock_repository.get_by_athlete_id.return_value = mock_metrics
 
     with patch(
         "api.services.athlete_progress_repository_service.ActivityMetricRepository",
@@ -40,17 +38,8 @@ def test_generate_progress_dataset():
             athlete_id=1,
         )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["total_activities"]
-        == 2
-    )
+    assert result["total_activities"] == 2
 
-    assert (
-        result["activities"][0]["pace"]
-        == 360
-    )
+    assert result["activities"][0]["pace"] == 360

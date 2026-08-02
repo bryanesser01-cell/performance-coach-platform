@@ -14,20 +14,14 @@ class RecoveryIntelligenceStep:
         context: CoachContext,
     ) -> None:
 
-        readiness = (
-            context.athlete_state
-            .get(
-                "readiness",
-                {},
-            )
-            .get(
-                "score",
-                0,
-            )
+        readiness = context.athlete_state.get(
+            "readiness",
+            {},
+        ).get(
+            "score",
+            0,
         )
 
-        context.recovery_intelligence = (
-            generate_recovery_recommendation(
-                readiness,
-            )
+        context.recovery_intelligence = generate_recovery_recommendation(
+            readiness,
         )

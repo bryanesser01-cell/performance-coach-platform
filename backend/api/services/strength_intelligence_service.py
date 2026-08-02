@@ -102,7 +102,6 @@ def classify_athlete_strength_profile(
             "foundational_strength",
         ]
 
-
     # -------------------------
     # AGE CLASSIFICATION
     # -------------------------
@@ -167,7 +166,6 @@ def classify_athlete_strength_profile(
             "recovery_priority",
         ]
 
-
     # -------------------------
     # BACKWARD COMPATIBILITY
     # -------------------------
@@ -196,7 +194,6 @@ def classify_athlete_strength_profile(
 
         athlete_type = "distance_runner"
 
-
     return {
         "athlete_type": athlete_type,
         "age": age,
@@ -206,12 +203,8 @@ def classify_athlete_strength_profile(
         "training_level": training_level,
         "event_focus": event_focus,
         "age_adjustment": age_adjustment,
-        "strength_focus": (
-            event_focus
-            + age_adjustment
-        ),
+        "strength_focus": (event_focus + age_adjustment),
     }
-
 
 
 def select_strength_focus(
@@ -226,11 +219,7 @@ def select_strength_focus(
         [],
     )
 
-
-    if (
-        "explosive_power" in focus
-        or "power" in focus
-    ):
+    if "explosive_power" in focus or "power" in focus:
 
         objective = "POWER_DEVELOPMENT"
 
@@ -246,12 +235,10 @@ def select_strength_focus(
 
         objective = "FOUNDATIONAL_STRENGTH"
 
-
     return {
         "objective": objective,
         "focus": focus,
     }
-
 
 
 def recommend_strength_exercises(
@@ -266,7 +253,6 @@ def recommend_strength_exercises(
     - New event based system
     - Legacy athlete_type calls
     """
-
 
     # Legacy support
 
@@ -290,7 +276,6 @@ def recommend_strength_exercises(
             },
         ]
 
-
     if athlete_type == "middle_distance_runner":
 
         return [
@@ -310,7 +295,6 @@ def recommend_strength_exercises(
                 "reps": 15,
             },
         ]
-
 
     # New system
 
@@ -337,7 +321,6 @@ def recommend_strength_exercises(
             },
         ]
 
-
     if event_type == "sprint":
 
         return [
@@ -357,7 +340,6 @@ def recommend_strength_exercises(
                 "reps": 6,
             },
         ]
-
 
     if event_type == "middle_distance":
 
@@ -379,7 +361,6 @@ def recommend_strength_exercises(
             },
         ]
 
-
     if event_type == "road_endurance":
 
         return [
@@ -399,7 +380,6 @@ def recommend_strength_exercises(
                 "duration": "45 seconds",
             },
         ]
-
 
     if event_type == "trail":
 
@@ -421,7 +401,6 @@ def recommend_strength_exercises(
             },
         ]
 
-
     return [
         {
             "exercise": "Split Squat",
@@ -429,7 +408,6 @@ def recommend_strength_exercises(
             "reps": 10,
         }
     ]
-
 
 
 def apply_strength_progression_rules(
@@ -448,15 +426,11 @@ def apply_strength_progression_rules(
 
         increase = 10
 
-
     return {
         "weekly_progression_percent": increase,
         "week": current_week,
-        "progression_type": (
-            "gradual_load_increase"
-        ),
+        "progression_type": ("gradual_load_increase"),
     }
-
 
 
 def generate_strength_program(
@@ -474,11 +448,9 @@ def generate_strength_program(
         training_level=training_level,
     )
 
-
     focus = select_strength_focus(
         athlete_profile=profile,
     )
-
 
     exercises = recommend_strength_exercises(
         event_type=profile["event_type"],
@@ -486,12 +458,10 @@ def generate_strength_program(
         athlete_type=profile["athlete_type"],
     )
 
-
     progression = apply_strength_progression_rules(
         age=age,
         current_week=1,
     )
-
 
     return {
         "athlete_profile": profile,

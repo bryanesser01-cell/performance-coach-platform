@@ -18,24 +18,11 @@ def test_convert_apple_health_workout():
         }
     )
 
+    assert result["source"] == "apple_health"
 
-    assert (
-        result["source"]
-        == "apple_health"
-    )
+    assert result["distance_km"] == 5
 
-
-    assert (
-        result["distance_km"]
-        == 5
-    )
-
-
-    assert (
-        result["pace"]
-        == "5:00/km"
-    )
-
+    assert result["pace"] == "5:00/km"
 
 
 def test_apple_health_import_pipeline():
@@ -47,8 +34,4 @@ def test_apple_health_import_pipeline():
         }
     )
 
-
-    assert (
-        result["import_complete"]
-        is True
-    )
+    assert result["import_complete"] is True

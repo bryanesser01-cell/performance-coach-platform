@@ -48,21 +48,11 @@ def generate_live_personalised_response(
     return run_ai_coach_response_orchestrator(
         athlete_id=athlete_id,
         ai_response=ai_response,
-        athlete_profile=context[
-            "athlete_profile"
-        ],
-        training_history=context[
-            "training_history"
-        ],
-        recovery_history=context[
-            "recovery_history"
-        ],
-        decision_analysis=context[
-            "decision_analysis"
-        ],
-        current_state=context[
-            "current_state"
-        ],
+        athlete_profile=context["athlete_profile"],
+        training_history=context["training_history"],
+        recovery_history=context["recovery_history"],
+        decision_analysis=context["decision_analysis"],
+        current_state=context["current_state"],
     )
 
 

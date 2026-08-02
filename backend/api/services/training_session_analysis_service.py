@@ -24,11 +24,7 @@ def analyse_training_outcome(
     - Recovery
     """
 
-    notes = (
-        session.notes.lower()
-        if session.notes
-        else ""
-    )
+    notes = session.notes.lower() if session.notes else ""
 
     if any(
         word in notes
@@ -122,19 +118,13 @@ def recommend_next_adjustment(
     )
 
     if analysis["outcome"] == "positive":
-        recommendation = (
-            "Continue progression."
-        )
+        recommendation = "Continue progression."
 
     elif analysis["outcome"] == "negative":
-        recommendation = (
-            "Reduce load and prioritise recovery."
-        )
+        recommendation = "Reduce load and prioritise recovery."
 
     else:
-        recommendation = (
-            "Maintain current training approach."
-        )
+        recommendation = "Maintain current training approach."
 
     return {
         "session_id": session.id,

@@ -34,10 +34,7 @@ def test_checkin_contains_readiness_score():
 
     data = response.json()
 
-    assert (
-        "readiness_score"
-        in data
-    )
+    assert "readiness_score" in data
 
 
 def test_checkin_endpoint_in_openapi():
@@ -48,7 +45,4 @@ def test_checkin_endpoint_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/checkin"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/checkin" in paths

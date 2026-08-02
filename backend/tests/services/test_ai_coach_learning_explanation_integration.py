@@ -28,20 +28,11 @@ def test_ai_coach_adaptive_response_uses_learning_explanation():
         athlete_state=athlete_state,
     )
 
-    assert (
-        result["intent"]
-        == "adaptive_coaching"
-    )
+    assert result["intent"] == "adaptive_coaching"
 
-    assert (
-        result["answer"]
-        is not None
-    )
+    assert result["answer"] is not None
 
-    assert (
-        "training"
-        in result["answer"].lower()
-    )
+    assert "training" in result["answer"].lower()
 
 
 def test_ai_coach_adaptive_response_contains_decision_context():
@@ -67,14 +58,9 @@ def test_ai_coach_adaptive_response_contains_decision_context():
         athlete_state=athlete_state,
     )
 
-    assert (
-        result["coach_decision_context"]
-        is not None
-    )
+    assert result["coach_decision_context"] is not None
 
     assert (
-        result["coach_decision_context"]
-        ["coach_decision"]
-        ["decision"]
+        result["coach_decision_context"]["coach_decision"]["decision"]
         == "REDUCE_TRAINING"
     )

@@ -90,11 +90,7 @@ def generate_training_progression_message(
         "",
     )
 
-    return (
-        f"Your next session is: "
-        f"{workout}. "
-        f"Purpose: {purpose}."
-    )
+    return f"Your next session is: " f"{workout}. " f"Purpose: {purpose}."
 
 
 def should_modify_training_progression(

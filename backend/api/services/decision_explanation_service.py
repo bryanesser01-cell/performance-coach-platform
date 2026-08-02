@@ -25,14 +25,12 @@ class DecisionExplanationService:
         #
         # Readiness
         #
-        readiness = (
-            context.athlete_state.get(
-                "readiness",
-                {},
-            ).get(
-                "score",
-                0,
-            )
+        readiness = context.athlete_state.get(
+            "readiness",
+            {},
+        ).get(
+            "score",
+            0,
         )
 
         #
@@ -42,64 +40,51 @@ class DecisionExplanationService:
         # service and the legacy Athlete State during
         # migration.
         #
-        performance = (
-            context.performance_intelligence.get(
-                "trend",
-            )
-            or context.athlete_state.get(
-                "performance",
-                {},
-            ).get(
-                "trend",
-                "stable",
-            )
+        performance = context.performance_intelligence.get(
+            "trend",
+        ) or context.athlete_state.get(
+            "performance",
+            {},
+        ).get(
+            "trend",
+            "stable",
         )
 
         #
         # Training Load
         #
-        training_load = (
-            context.training_load_intelligence.get(
-                "risk",
-                "low",
-            )
+        training_load = context.training_load_intelligence.get(
+            "risk",
+            "low",
         )
 
         #
         # Recovery
         #
-        recovery = (
-            context.recovery_intelligence.get(
-                "status",
-                "good",
-            )
+        recovery = context.recovery_intelligence.get(
+            "status",
+            "good",
         )
 
         #
         # Race
         #
-        race_phase = (
-            context.race_intelligence.get(
-                "phase",
-                "base",
-            )
+        race_phase = context.race_intelligence.get(
+            "phase",
+            "base",
         )
 
         #
         # Memory
         #
-        fatigue = (
-            context.memory_reasoning.get(
-                "fatigue_trend",
-                "stable",
-            )
+        fatigue = context.memory_reasoning.get(
+            "fatigue_trend",
+            "stable",
         )
 
-        injury = (
-            context.memory_reasoning.get(
-                "injury_risk",
-                "low",
-            )
+        injury = context.memory_reasoning.get(
+            "injury_risk",
+            "low",
         )
 
         strengths: list[str] = []

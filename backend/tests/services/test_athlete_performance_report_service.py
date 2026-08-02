@@ -28,20 +28,11 @@ def test_generate_complete_athlete_report():
 
     assert result["athlete_id"] == 1
 
-    assert (
-        result["fitness_status"]
-        == "progressing"
-    )
+    assert result["fitness_status"] == "progressing"
 
-    assert (
-        "race_readiness"
-        in result
-    )
+    assert "race_readiness" in result
 
-    assert (
-        "race_prediction"
-        in result
-    )
+    assert "race_prediction" in result
 
 
 def test_report_contains_prediction():
@@ -63,7 +54,4 @@ def test_report_contains_prediction():
             athlete_id=1,
         )
 
-    assert (
-        "predicted_time_seconds"
-        in result["race_prediction"]
-    )
+    assert "predicted_time_seconds" in result["race_prediction"]

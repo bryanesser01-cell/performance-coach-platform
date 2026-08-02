@@ -40,15 +40,9 @@ def test_create_checkin():
         notes="Feeling good",
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["notes"]
-        == "Feeling good"
-    )
+    assert result["notes"] == "Feeling good"
 
 
 def test_generate_recommendation():
@@ -57,7 +51,4 @@ def test_generate_recommendation():
         90,
     )
 
-    assert (
-        "quality training"
-        in recommendation
-    )
+    assert "quality training" in recommendation

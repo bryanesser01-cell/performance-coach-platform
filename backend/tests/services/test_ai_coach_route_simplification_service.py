@@ -17,15 +17,9 @@ def test_simplify_conversation_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_simplify_chat_route():
@@ -40,15 +34,9 @@ def test_simplify_chat_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_route_architecture():
@@ -62,7 +50,4 @@ def test_verify_route_architecture():
         },
     )
 
-    assert (
-        result["architecture_valid"]
-        is True
-    )
+    assert result["architecture_valid"] is True

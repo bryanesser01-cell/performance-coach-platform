@@ -25,17 +25,8 @@ def test_voice_coach_processes_text():
             voice_text="Should I train today?",
         )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["voice_input"]
-        == "Should I train today?"
-    )
+    assert result["voice_input"] == "Should I train today?"
 
-    assert (
-        "training"
-        in result["response_text"]
-    )
+    assert "training" in result["response_text"]

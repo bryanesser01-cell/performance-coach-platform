@@ -16,25 +16,15 @@ def test_ai_coach_conversation_standard_contract():
         "/ai-coach/conversation",
         json={
             "athlete_id": 1,
-            "question": (
-                "Should I train today?"
-            ),
+            "question": ("Should I train today?"),
             "ai_response": {
-                "coach_message": (
-                    "Recover today."
-                ),
-                "decision": (
-                    "REDUCE_TRAINING"
-                ),
-                "recommendation": (
-                    "Easy recovery run."
-                ),
+                "coach_message": ("Recover today."),
+                "decision": ("REDUCE_TRAINING"),
+                "recommendation": ("Easy recovery run."),
                 "confidence": 90,
                 "memory_used": True,
                 "learning_updated": True,
-                "strategy": (
-                    "RECOVERY_FIRST"
-                ),
+                "strategy": ("RECOVERY_FIRST"),
             },
             "decision_analysis": {
                 "REDUCE_TRAINING": {
@@ -47,22 +37,13 @@ def test_ai_coach_conversation_standard_contract():
         },
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     body = response.json()
 
-    assert (
-        body["success"]
-        is True
-    )
+    assert body["success"] is True
 
-    assert (
-    "coach_message"
-    in body
-    )
+    assert "coach_message" in body
 
 
 def test_ai_coach_response_contains_required_fields():
@@ -71,21 +52,14 @@ def test_ai_coach_response_contains_required_fields():
         "/ai-coach/conversation",
         json={
             "athlete_id": 1,
-            "question": (
-                "Should I run?"
-            ),
+            "question": ("Should I run?"),
             "ai_response": {
-                "coach_message": (
-                    "Run easy today."
-                ),
+                "coach_message": ("Run easy today."),
             },
         },
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     data = response.json()
 
@@ -103,18 +77,10 @@ def test_ai_coach_response_contains_required_fields():
 
 def test_ai_coach_health_contract():
 
-    response = client.get(
-        "/ai-coach/health"
-    )
+    response = client.get("/ai-coach/health")
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     body = response.json()
 
-    assert (
-        body["status"]
-        == "healthy"
-    )
+    assert body["status"] == "healthy"

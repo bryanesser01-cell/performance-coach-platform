@@ -15,15 +15,9 @@ def test_prepare_learning_hook():
         athlete_id=1,
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["status"]
-        == "awaiting_outcome"
-    )
+    assert result["status"] == "awaiting_outcome"
 
 
 def test_process_coach_outcome():
@@ -44,10 +38,7 @@ def test_process_coach_outcome():
             outcome="positive",
         )
 
-    assert (
-        result["outcome"]
-        == "positive"
-    )
+    assert result["outcome"] == "positive"
 
 
 def test_update_decision_confidence():
@@ -61,10 +52,7 @@ def test_update_decision_confidence():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 80
-    )
+    assert result["confidence"] == 80
 
 
 def test_create_learning_hook_result():
@@ -75,12 +63,6 @@ def test_create_learning_hook_result():
         confidence=75,
     )
 
-    assert (
-        result["confidence"]
-        == 75
-    )
+    assert result["confidence"] == 75
 
-    assert (
-        result["learning_status"]
-        == "active"
-    )
+    assert result["learning_status"] == "active"

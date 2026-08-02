@@ -12,16 +12,9 @@ def test_positive_learning_update_after_successful_decision():
         fatigue_after="low",
     )
 
-    assert (
-        result["learning_update"]["signal"]
-        == "positive"
-    )
+    assert result["learning_update"]["signal"] == "positive"
 
-    assert (
-        result["learning_update"]
-        ["confidence_update"]
-        == 1
-    )
+    assert result["learning_update"]["confidence_update"] == 1
 
 
 def test_negative_learning_update_after_poor_outcome():
@@ -33,16 +26,9 @@ def test_negative_learning_update_after_poor_outcome():
         fatigue_after="high",
     )
 
-    assert (
-        result["learning_update"]["signal"]
-        == "negative"
-    )
+    assert result["learning_update"]["signal"] == "negative"
 
-    assert (
-        result["learning_update"]
-        ["confidence_update"]
-        == -1
-    )
+    assert result["learning_update"]["confidence_update"] == -1
 
 
 def test_learning_update_handles_incomplete_workout():
@@ -52,10 +38,7 @@ def test_learning_update_handles_incomplete_workout():
         completed=False,
     )
 
-    assert (
-        result["learning_update"]["signal"]
-        == "negative"
-    )
+    assert result["learning_update"]["signal"] == "negative"
 
 
 def test_learning_update_contains_original_decision():
@@ -67,7 +50,4 @@ def test_learning_update_contains_original_decision():
         fatigue_after="low",
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"

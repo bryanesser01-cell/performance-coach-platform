@@ -10,9 +10,7 @@ def test_integrate_pipeline():
     result = integrate_ai_coach_pipeline(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recovery recommended."
-            ),
+            "coach_message": ("Recovery recommended."),
         },
         athlete_profile={
             "sport": "running",
@@ -29,40 +27,24 @@ def test_integrate_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_build_production_response():
 
     result = build_production_coach_response(
         {
-            "answer": (
-                "Take a recovery day."
-            ),
-            "strategy": (
-                "RECOVERY_FIRST"
-            ),
+            "answer": ("Take a recovery day."),
+            "strategy": ("RECOVERY_FIRST"),
             "confidence": 85,
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_complete_pipeline():
@@ -70,9 +52,7 @@ def test_complete_pipeline():
     result = run_complete_ai_coach_pipeline(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={},
         training_history=[],
@@ -87,17 +67,8 @@ def test_complete_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95
 
-    assert (
-        "answer"
-        in result
-    )
+    assert "answer" in result

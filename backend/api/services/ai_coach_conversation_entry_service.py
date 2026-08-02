@@ -52,30 +52,14 @@ def execute_conversation_entry(
     """
 
     return run_live_service_router(
-        athlete_id=entry_request[
-            "athlete_id"
-        ],
-        question=entry_request[
-            "question"
-        ],
-        ai_response=entry_request[
-            "ai_response"
-        ],
-        athlete_profile=entry_request[
-            "athlete_profile"
-        ],
-        training_history=entry_request[
-            "training_history"
-        ],
-        recovery_history=entry_request[
-            "recovery_history"
-        ],
-        decision_analysis=entry_request[
-            "decision_analysis"
-        ],
-        current_state=entry_request[
-            "current_state"
-        ],
+        athlete_id=entry_request["athlete_id"],
+        question=entry_request["question"],
+        ai_response=entry_request["ai_response"],
+        athlete_profile=entry_request["athlete_profile"],
+        training_history=entry_request["training_history"],
+        recovery_history=entry_request["recovery_history"],
+        decision_analysis=entry_request["decision_analysis"],
+        current_state=entry_request["current_state"],
     )
 
 

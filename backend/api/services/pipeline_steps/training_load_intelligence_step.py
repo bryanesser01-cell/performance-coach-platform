@@ -14,12 +14,9 @@ class TrainingLoadIntelligenceStep:
         context: CoachContext,
     ) -> None:
 
-        context.training_load_intelligence = (
-            TrainingLoadIntelligenceService()
-            .analyse(
-                context.athlete_state.get(
-                    "training_sessions",
-                    [],
-                )
+        context.training_load_intelligence = TrainingLoadIntelligenceService().analyse(
+            context.athlete_state.get(
+                "training_sessions",
+                [],
             )
         )

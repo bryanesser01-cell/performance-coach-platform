@@ -14,16 +14,9 @@ def test_calculate_readiness_score():
         recent_training_load=300,
     )
 
-    assert (
-        "readiness_score"
-        in result
-    )
+    assert "readiness_score" in result
 
-    assert (
-        0
-        <= result["readiness_score"]
-        <= 100
-    )
+    assert 0 <= result["readiness_score"] <= 100
 
 
 def test_calculate_training_fatigue():
@@ -33,16 +26,9 @@ def test_calculate_training_fatigue():
         recovery_score=40,
     )
 
-    assert (
-        "fatigue_score"
-        in result
-    )
+    assert "fatigue_score" in result
 
-    assert (
-        0
-        <= result["fatigue_score"]
-        <= 100
-    )
+    assert 0 <= result["fatigue_score"] <= 100
 
 
 def test_calculate_performance_trend():
@@ -55,10 +41,7 @@ def test_calculate_performance_trend():
         ],
     )
 
-    assert (
-        result["trend"]
-        == "IMPROVING"
-    )
+    assert result["trend"] == "IMPROVING"
 
 
 def test_build_athlete_intelligence_profile():
@@ -69,7 +52,4 @@ def test_build_athlete_intelligence_profile():
         performance_trend="IMPROVING",
     )
 
-    assert (
-        result["status"]
-        == "READY_TO_PERFORM"
-    )
+    assert result["status"] == "READY_TO_PERFORM"

@@ -17,15 +17,9 @@ def test_build_athlete_profile():
         goal="Improve race time",
     )
 
-    assert (
-        result["age"]
-        == 11
-    )
+    assert result["age"] == 11
 
-    assert (
-        result["race_distance"]
-        == "1500m"
-    )
+    assert result["race_distance"] == "1500m"
 
 
 def test_remember_training_preferences():
@@ -44,10 +38,7 @@ def test_remember_training_preferences():
         ],
     )
 
-    assert (
-        "strength"
-        in result["preferred_sessions"]
-    )
+    assert "strength" in result["preferred_sessions"]
 
 
 def test_apply_athlete_history():
@@ -67,10 +58,7 @@ def test_apply_athlete_history():
         ],
     )
 
-    assert (
-        result["history_available"]
-        is True
-    )
+    assert result["history_available"] is True
 
 
 def test_personalise_daily_recommendation():
@@ -89,10 +77,7 @@ def test_personalise_daily_recommendation():
         },
     )
 
-    assert (
-        "running economy"
-        in result["personalised_message"]
-    )
+    assert "running economy" in result["personalised_message"]
 
 
 def test_build_personalised_coach_memory():
@@ -105,7 +90,4 @@ def test_build_personalised_coach_memory():
         history={},
     )
 
-    assert (
-        result["memory_ready"]
-        is True
-    )
+    assert result["memory_ready"] is True

@@ -368,6 +368,7 @@ class CoachLearningEvent(Base):
         server_default=func.now(),
     )
 
+
 class CoachDecision(Base):
     """
     Stores AI Coach decisions.

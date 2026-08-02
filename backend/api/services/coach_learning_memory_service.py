@@ -44,9 +44,7 @@ def record_learning_event(
             "athlete_id": event.athlete_id,
             "decision": event.decision,
             "outcome": event.outcome,
-            "confidence_change": (
-                event.confidence_change
-            ),
+            "confidence_change": (event.confidence_change),
         }
 
     event = {
@@ -92,9 +90,7 @@ def build_learning_memory(
             {
                 "decision": event.decision,
                 "outcome": event.outcome,
-                "confidence_change": (
-                    event.confidence_change
-                ),
+                "confidence_change": (event.confidence_change),
             }
             for event in events
         ],
@@ -157,11 +153,7 @@ def calculate_decision_confidence(
             athlete_id=athlete_id,
         )
 
-        matching_events = [
-            event
-            for event in events
-            if event.decision == decision
-        ]
+        matching_events = [event for event in events if event.decision == decision]
 
         adjustment = calculate_confidence_adjustment(
             matching_events,
@@ -179,16 +171,10 @@ def calculate_decision_confidence(
         event
         for event in _learning_history
         if event["decision"] == decision
-        and (
-            athlete_id is None
-            or event["athlete_id"] == athlete_id
-        )
+        and (athlete_id is None or event["athlete_id"] == athlete_id)
     ]
 
-    adjustment = sum(
-        event["confidence_change"]
-        for event in matching_events
-    )
+    adjustment = sum(event["confidence_change"] for event in matching_events)
 
     return max(
         0,

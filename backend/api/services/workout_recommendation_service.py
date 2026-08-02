@@ -21,12 +21,10 @@ def build_workout_recommendation(
     - Race goal
     """
 
-    progression_context = (
-        build_training_progression_context(
-            athlete_state=athlete_state,
-            event=event,
-            goal_time=goal_time,
-        )
+    progression_context = build_training_progression_context(
+        athlete_state=athlete_state,
+        event=event,
+        goal_time=goal_time,
     )
 
     recommendation = progression_context.get(

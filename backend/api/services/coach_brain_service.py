@@ -63,8 +63,7 @@ class CoachBrainService:
                 context,
             ),
             "reasoning": (
-                DecisionExplanationService()
-                .build(
+                DecisionExplanationService().build(
                     context,
                 )
             ),
@@ -95,14 +94,12 @@ class CoachBrainService:
         Build a concise summary for the coach.
         """
 
-        readiness = (
-            athlete_state.get(
-                "readiness",
-                {},
-            ).get(
-                "score",
-                0,
-            )
+        readiness = athlete_state.get(
+            "readiness",
+            {},
+        ).get(
+            "score",
+            0,
         )
 
         fatigue = memory_reasoning.get(
@@ -115,12 +112,10 @@ class CoachBrainService:
             "unknown",
         )
 
-        recommendation = (
-            decision.get(
-                "recommendation",
-                "",
-            ).rstrip(".")
-        )
+        recommendation = decision.get(
+            "recommendation",
+            "",
+        ).rstrip(".")
 
         return (
             f"Readiness {readiness}. "
@@ -142,29 +137,19 @@ class CoachBrainService:
         #
         # Prefer the new Confidence Engine
         #
-        if (
-            context
-            and context.confidence
-        ):
-            return (
-                context.confidence.get(
-                    "confidence",
-                    "medium",
-                )
+        if context and context.confidence:
+            return context.confidence.get(
+                "confidence",
+                "medium",
             )
 
         #
         # Fallback to Decision Scoring
         #
-        if (
-            context
-            and context.decision_scoring
-        ):
-            return (
-                context.decision_scoring.get(
-                    "confidence",
-                    "medium",
-                )
+        if context and context.decision_scoring:
+            return context.decision_scoring.get(
+                "confidence",
+                "medium",
             )
 
         #
@@ -183,15 +168,10 @@ class CoachBrainService:
         Determine today's training focus.
         """
 
-        if (
-            context
-            and context.periodisation
-        ):
-            return (
-                context.periodisation.get(
-                    "weekly_focus",
-                    "General Training",
-                )
+        if context and context.periodisation:
+            return context.periodisation.get(
+                "weekly_focus",
+                "General Training",
             )
 
         return "General Training"
@@ -259,16 +239,12 @@ class CoachBrainService:
         Generate athlete-facing coach message.
         """
 
-        recommendation = (
-            decision.get(
-                "recommendation",
-                "",
-            ).strip()
-        )
+        recommendation = decision.get(
+            "recommendation",
+            "",
+        ).strip()
 
         if recommendation:
             return recommendation
 
-        return (
-            "Continue following your current training plan."
-        )
+        return "Continue following your current training plan."

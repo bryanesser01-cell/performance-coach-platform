@@ -16,7 +16,6 @@ class TrainingProgressionRepository:
     ):
         self.db = db
 
-
     def create_progression(
         self,
         athlete_id: int,
@@ -34,9 +33,7 @@ class TrainingProgressionRepository:
             event=event,
             goal_time=goal_time,
             session_type=session_type,
-            workout_description=(
-                workout_description
-            ),
+            workout_description=(workout_description),
             target_pace=target_pace,
             recovery=recovery,
             purpose=purpose,
@@ -54,7 +51,6 @@ class TrainingProgressionRepository:
 
         return progression
 
-
     def get_latest_progression(
         self,
         athlete_id: int,
@@ -65,8 +61,7 @@ class TrainingProgressionRepository:
                 TrainingProgression,
             )
             .filter(
-                TrainingProgression.athlete_id
-                == athlete_id,
+                TrainingProgression.athlete_id == athlete_id,
             )
             .order_by(
                 TrainingProgression.created_at.desc(),

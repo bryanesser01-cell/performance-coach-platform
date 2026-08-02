@@ -27,9 +27,7 @@ def test_create_training_session():
         status="planned",
     )
 
-    db.refresh.side_effect = (
-        lambda obj: None
-    )
+    db.refresh.side_effect = lambda obj: None
 
     result = create_training_session(
         db=db,
@@ -39,15 +37,9 @@ def test_create_training_session():
         focus="Speed",
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["session_type"]
-        == "interval"
-    )
+    assert result["session_type"] == "interval"
 
 
 def test_complete_training_session():
@@ -67,9 +59,7 @@ def test_complete_training_session():
         status="planned",
     )
 
-    db.query.return_value.filter.return_value.first.return_value = (
-        session
-    )
+    db.query.return_value.filter.return_value.first.return_value = session
 
     result = complete_training_session(
         db=db,
@@ -77,15 +67,9 @@ def test_complete_training_session():
         notes="Felt strong",
     )
 
-    assert (
-        result["status"]
-        == "completed"
-    )
+    assert result["status"] == "completed"
 
-    assert (
-        result["notes"]
-        == "Felt strong"
-    )
+    assert result["notes"] == "Felt strong"
 
 
 def test_get_upcoming_sessions():
@@ -124,12 +108,6 @@ def test_analyse_completed_session():
         session,
     )
 
-    assert (
-        result["status"]
-        == "completed"
-    )
+    assert result["status"] == "completed"
 
-    assert (
-        "recovery"
-        in result["recommendation"]
-    )
+    assert "recovery" in result["recommendation"]

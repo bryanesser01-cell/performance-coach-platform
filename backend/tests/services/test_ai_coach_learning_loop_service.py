@@ -16,15 +16,9 @@ def test_record_coach_interaction():
         outcome="positive",
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
 
 def test_generate_learning_signal_positive():
@@ -35,10 +29,7 @@ def test_generate_learning_signal_positive():
         confidence=90,
     )
 
-    assert (
-        result["signal"]
-        == "REINFORCE"
-    )
+    assert result["signal"] == "REINFORCE"
 
 
 def test_generate_learning_signal_negative():
@@ -49,10 +40,7 @@ def test_generate_learning_signal_negative():
         confidence=80,
     )
 
-    assert (
-        result["signal"]
-        == "ADJUST"
-    )
+    assert result["signal"] == "ADJUST"
 
 
 def test_update_learning_memory():
@@ -64,10 +52,7 @@ def test_update_learning_memory():
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
 
 def test_run_learning_loop():
@@ -80,12 +65,6 @@ def test_run_learning_loop():
         outcome="positive",
     )
 
-    assert (
-        result["memory"]["learning_updated"]
-        is True
-    )
+    assert result["memory"]["learning_updated"] is True
 
-    assert (
-        result["learning_signal"]["signal"]
-        == "REINFORCE"
-    )
+    assert result["learning_signal"]["signal"] == "REINFORCE"

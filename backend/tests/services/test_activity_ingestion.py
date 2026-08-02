@@ -62,9 +62,7 @@ def test_ingest_activity_returns_existing_activity():
 
     mock_repository = Mock()
 
-    mock_repository.get_by_external_id.return_value = (
-        existing_activity
-    )
+    mock_repository.get_by_external_id.return_value = existing_activity
 
     with patch(
         "api.services.activity_ingestion_service.ActivityRepository",

@@ -65,21 +65,11 @@ class TrainingSessionRepository:
         """
 
         interval = WorkoutInterval(
-            training_session_id=(
-                training_session_id
-            ),
-            distance_meters=(
-                distance_meters
-            ),
-            repetitions=(
-                repetitions
-            ),
-            target_time=(
-                target_time
-            ),
-            recovery=(
-                recovery
-            ),
+            training_session_id=(training_session_id),
+            distance_meters=(distance_meters),
+            repetitions=(repetitions),
+            target_time=(target_time),
+            recovery=(recovery),
         )
 
         self.db.add(
@@ -109,8 +99,7 @@ class TrainingSessionRepository:
                 TrainingSession,
             )
             .filter(
-                TrainingSession.athlete_id
-                == athlete_id,
+                TrainingSession.athlete_id == athlete_id,
             )
             .order_by(
                 TrainingSession.session_date.desc(),
@@ -129,10 +118,8 @@ class TrainingSessionRepository:
 
         for session in sessions:
 
-            session.intervals = (
-                self.get_intervals(
-                    session.id,
-                )
+            session.intervals = self.get_intervals(
+                session.id,
             )
 
         return sessions
@@ -150,8 +137,7 @@ class TrainingSessionRepository:
                 WorkoutInterval,
             )
             .filter(
-                WorkoutInterval.training_session_id
-                == training_session_id,
+                WorkoutInterval.training_session_id == training_session_id,
             )
             .all()
         )
@@ -177,18 +163,15 @@ class TrainingSessionRepository:
                 TrainingSession,
             )
             .filter(
-                TrainingSession.id
-                == session_id,
+                TrainingSession.id == session_id,
             )
             .first()
         )
 
         if session:
 
-            session.intervals = (
-                self.get_intervals(
-                    session.id,
-                )
+            session.intervals = self.get_intervals(
+                session.id,
             )
 
         return session

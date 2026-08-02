@@ -21,20 +21,16 @@ def build_personalised_conversation_context(
     - Decision analytics
     """
 
-    strategy_context = (
-        run_personalised_strategy_pipeline(
-            athlete_id=athlete_id,
-            athlete_profile=athlete_profile,
-            training_history=training_history,
-            recovery_history=recovery_history,
-            decision_analysis=decision_analysis,
-            current_state=current_state,
-            decision={
-                "decision": (
-                    "MAINTAIN_TRAINING"
-                ),
-            },
-        )
+    strategy_context = run_personalised_strategy_pipeline(
+        athlete_id=athlete_id,
+        athlete_profile=athlete_profile,
+        training_history=training_history,
+        recovery_history=recovery_history,
+        decision_analysis=decision_analysis,
+        current_state=current_state,
+        decision={
+            "decision": ("MAINTAIN_TRAINING"),
+        },
     )
 
     return {
@@ -52,11 +48,9 @@ def merge_strategy_with_coach_response(
     to coach response.
     """
 
-    strategy_context = (
-        personalised_context.get(
-            "strategy_context",
-            {},
-        )
+    strategy_context = personalised_context.get(
+        "strategy_context",
+        {},
     )
 
     return {
@@ -136,11 +130,9 @@ def run_personalised_conversation_pipeline(
         current_state=current_state,
     )
 
-    merged_response = (
-        merge_strategy_with_coach_response(
-            coach_response=coach_response,
-            personalised_context=context,
-        )
+    merged_response = merge_strategy_with_coach_response(
+        coach_response=coach_response,
+        personalised_context=context,
     )
 
     return generate_personalised_training_advice(

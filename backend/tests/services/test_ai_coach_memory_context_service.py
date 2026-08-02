@@ -35,10 +35,7 @@ def test_get_ai_coach_memory_context(
         athlete_id=1,
     )
 
-    assert (
-        context["goal"][0]
-        == "Run sub 20 minute 5K"
-    )
+    assert context["goal"][0] == "Run sub 20 minute 5K"
 
 
 @patch(
@@ -59,15 +56,9 @@ def test_enrich_coach_prompt(
         question="Should I do intervals today?",
     )
 
-    assert (
-        result["question"]
-        == "Should I do intervals today?"
-    )
+    assert result["question"] == "Should I do intervals today?"
 
-    assert (
-        result["memory_context"]["goal"][0]
-        == "Improve 5K time"
-    )
+    assert result["memory_context"]["goal"][0] == "Improve 5K time"
 
 
 def test_has_memory_context():

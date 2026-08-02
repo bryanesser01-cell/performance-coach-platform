@@ -51,15 +51,9 @@ def generate_performance_trends(
     Generate performance trends from activities.
     """
 
-    distances = [
-        activity["distance_km"]
-        for activity in activities
-    ]
+    distances = [activity["distance_km"] for activity in activities]
 
-    paces = [
-        activity["average_pace"]
-        for activity in activities
-    ]
+    paces = [activity["average_pace"] for activity in activities]
 
     loads = [
         activity.get(

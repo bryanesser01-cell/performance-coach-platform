@@ -44,8 +44,7 @@ def analyse_workout_completion(
             "coach_signal": "RECOVERY_SESSION",
             "athlete_comments": comments,
             "summary": (
-                "Workout was not completed. "
-                "Focus on recovery and consistency."
+                "Workout was not completed. " "Focus on recovery and consistency."
             ),
         }
 
@@ -72,9 +71,7 @@ def analyse_workout_completion(
 
         fatigue_signal = "high"
 
-        coach_signal = (
-            "REDUCE_TRAINING"
-        )
+        coach_signal = "REDUCE_TRAINING"
 
         summary = (
             "Workout completed but "
@@ -86,27 +83,17 @@ def analyse_workout_completion(
 
         fatigue_signal = "moderate"
 
-        coach_signal = (
-            "MAINTAIN_TRAINING"
-        )
+        coach_signal = "MAINTAIN_TRAINING"
 
-        summary = (
-            "Workout completed but "
-            "target performance was not achieved."
-        )
+        summary = "Workout completed but " "target performance was not achieved."
 
     else:
 
         fatigue_signal = "low"
 
-        coach_signal = (
-            "PROGRESS_TRAINING"
-        )
+        coach_signal = "PROGRESS_TRAINING"
 
-        summary = (
-            "Workout completed successfully "
-            "with good execution."
-        )
+        summary = "Workout completed successfully " "with good execution."
 
     return {
         "planned_workout": planned_workout,

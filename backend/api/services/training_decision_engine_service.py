@@ -12,10 +12,7 @@ def evaluate_training_readiness(
     - RECOVERY_REQUIRED
     """
 
-    if (
-        readiness_score >= 80
-        and fatigue_score < 40
-    ):
+    if readiness_score >= 80 and fatigue_score < 40:
         status = "READY"
 
     elif fatigue_score >= 70:
@@ -82,16 +79,11 @@ def generate_daily_training_decision(
     )
 
     intensity = select_training_intensity(
-        readiness_status=readiness[
-            "readiness_status"
-        ],
+        readiness_status=readiness["readiness_status"],
         performance_trend=performance_trend,
     )
 
-    if (
-        readiness["readiness_status"]
-        == "RECOVERY_REQUIRED"
-    ):
+    if readiness["readiness_status"] == "RECOVERY_REQUIRED":
         decision = "RECOVER"
 
     elif intensity["intensity"] == "HIGH":
@@ -106,7 +98,5 @@ def generate_daily_training_decision(
     return {
         "decision": decision,
         "readiness": readiness,
-        "training_intensity": intensity[
-            "intensity"
-        ],
+        "training_intensity": intensity["intensity"],
     }

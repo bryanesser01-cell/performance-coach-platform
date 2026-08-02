@@ -31,13 +31,8 @@ def test_full_adaptive_learning_cycle_positive():
 
     decision = {
         "decision": "PROGRESS_TRAINING",
-        "recommendation": (
-            "Progress training carefully."
-        ),
-        "reason": (
-            "Performance and readiness "
-            "are improving."
-        ),
+        "recommendation": ("Progress training carefully."),
+        "reason": ("Performance and readiness " "are improving."),
         "learning_confidence": 85,
     }
 
@@ -71,20 +66,11 @@ def test_full_adaptive_learning_cycle_positive():
 
     assert result["adaptive"] is True
 
-    assert (
-        result["decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"]["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        result["athlete_state"]["readiness"]["score"]
-        == 85
-    )
+    assert result["athlete_state"]["readiness"]["score"] == 85
 
-    assert (
-        result["decision_record"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision_record"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_full_adaptive_learning_cycle_negative():
@@ -119,17 +105,8 @@ def test_full_adaptive_learning_cycle_negative():
             workout_result=workout_result,
         )
 
-    assert (
-        result["workout_analysis"]["outcome"]
-        == "negative"
-    )
+    assert result["workout_analysis"]["outcome"] == "negative"
 
-    assert (
-        result["learning_update"]["outcome"]
-        == "negative"
-    )
+    assert result["learning_update"]["outcome"] == "negative"
 
-    assert (
-        result["learning_recorded"]
-        is True
-    )
+    assert result["learning_recorded"] is True

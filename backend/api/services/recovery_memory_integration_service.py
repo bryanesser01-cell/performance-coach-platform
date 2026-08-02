@@ -68,19 +68,10 @@ def build_recovery_coach_prompt_context(
     )
 
     return {
-        "readiness_score": (
-            context["readiness_score"]
-        ),
-        "recovery_status": (
-            context["recovery_status"]["status"]
-        ),
-        "recovery_message": (
-            context["recovery_status"]["message"]
-        ),
-        "recommendation": (
-            context["recommendation"]
-            ["recommendation"]
-        ),
+        "readiness_score": (context["readiness_score"]),
+        "recovery_status": (context["recovery_status"]["status"]),
+        "recovery_message": (context["recovery_status"]["message"]),
+        "recommendation": (context["recommendation"]["recommendation"]),
     }
 
 

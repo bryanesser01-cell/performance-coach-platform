@@ -14,15 +14,9 @@ def test_build_recovery_memory_context():
         }
     )
 
-    assert (
-        result["readiness_score"]
-        == 85
-    )
+    assert result["readiness_score"] == 85
 
-    assert (
-        result["recovery_status"]["status"]
-        == "excellent"
-    )
+    assert result["recovery_status"]["status"] == "excellent"
 
 
 def test_low_readiness_context():
@@ -33,10 +27,7 @@ def test_low_readiness_context():
         }
     )
 
-    assert (
-        result["recovery_status"]
-        == "poor"
-    )
+    assert result["recovery_status"] == "poor"
 
 
 def test_recovery_added_to_memory():
@@ -50,10 +41,7 @@ def test_recovery_added_to_memory():
         },
     )
 
-    assert (
-        "recovery_memory"
-        in result
-    )
+    assert "recovery_memory" in result
 
 
 def test_generate_readiness_recommendation():
@@ -64,7 +52,4 @@ def test_generate_readiness_recommendation():
         }
     )
 
-    assert (
-        "recovery"
-        in result.lower()
-    )
+    assert "recovery" in result.lower()

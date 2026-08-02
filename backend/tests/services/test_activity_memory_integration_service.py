@@ -20,11 +20,7 @@ def test_build_activity_memory_context():
         activities,
     )
 
-    assert (
-        result["activity_context"]
-        ["total_training_stress"]
-        == 150
-    )
+    assert result["activity_context"]["total_training_stress"] == 150
 
 
 def test_activity_memory_added_to_context():
@@ -42,10 +38,7 @@ def test_activity_memory_added_to_context():
         activities,
     )
 
-    assert (
-        "activity_memory"
-        in result
-    )
+    assert "activity_memory" in result
 
 
 def test_build_prompt_context():
@@ -58,12 +51,6 @@ def test_build_prompt_context():
         ],
     )
 
-    assert (
-        result["recent_activity_count"]
-        == 1
-    )
+    assert result["recent_activity_count"] == 1
 
-    assert (
-        "training_risk"
-        in result
-    )
+    assert "training_risk" in result

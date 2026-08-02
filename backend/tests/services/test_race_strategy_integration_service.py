@@ -25,22 +25,11 @@ def test_build_race_strategy_context():
         target_time="4:45",
     )
 
-    assert (
-        context["race_goal"]["target_time"]
-        == "4:45"
-    )
+    assert context["race_goal"]["target_time"] == "4:45"
 
-    assert (
-        context["race_strategy"]["event"]
-        == "1500m"
-    )
+    assert context["race_strategy"]["event"] == "1500m"
 
-    assert (
-        len(
-            context["race_strategy"]["checkpoints"]
-        )
-        == 4
-    )
+    assert len(context["race_strategy"]["checkpoints"]) == 4
 
 
 def test_generate_race_coach_message():

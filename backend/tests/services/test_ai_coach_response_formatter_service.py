@@ -11,38 +11,21 @@ def test_format_ai_coach_response():
         athlete_id=1,
         question="Should I train today?",
         coach_response={
-            "coach_message": (
-                "Recover today."
-            ),
-            "decision": (
-                "REDUCE_TRAINING"
-            ),
-            "recommendation": (
-                "Easy recovery run."
-            ),
+            "coach_message": ("Recover today."),
+            "decision": ("REDUCE_TRAINING"),
+            "recommendation": ("Easy recovery run."),
             "confidence": 90,
             "memory_used": True,
             "learning_updated": True,
-            "strategy": (
-                "RECOVERY_FIRST"
-            ),
+            "strategy": ("RECOVERY_FIRST"),
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_build_standard_response():
@@ -59,20 +42,11 @@ def test_build_standard_response():
         strategy="EASY_DAY",
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["strategy"]
-        == "EASY_DAY"
-    )
+    assert result["strategy"] == "EASY_DAY"
 
-    assert (
-        result["memory_used"]
-        is True
-    )
+    assert result["memory_used"] is True
 
 
 def test_validate_response():
@@ -81,14 +55,9 @@ def test_validate_response():
         {
             "success": True,
             "athlete_id": 1,
-            "coach_message": (
-                "Recovery recommended."
-            ),
+            "coach_message": ("Recovery recommended."),
             "confidence": 80,
         }
     )
 
-    assert (
-        result
-        is True
-    )
+    assert result is True

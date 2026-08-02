@@ -21,20 +21,11 @@ def test_coach_decision_integration_reduces_training():
         athlete_state,
     )
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        "decision_explanation"
-        in result
-    )
+    assert "decision_explanation" in result
 
-    assert (
-        "athlete_message"
-        in result["decision_explanation"]
-    )
+    assert "athlete_message" in result["decision_explanation"]
 
 
 def test_coach_decision_integration_progresses_training():
@@ -55,10 +46,7 @@ def test_coach_decision_integration_progresses_training():
         athlete_state,
     )
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_coach_decision_context_contains_state():
@@ -79,12 +67,6 @@ def test_coach_decision_context_contains_state():
         athlete_state,
     )
 
-    assert (
-        result["athlete_state"]
-        == athlete_state
-    )
+    assert result["athlete_state"] == athlete_state
 
-    assert (
-        result["coach_decision"]
-        is not None
-    )
+    assert result["coach_decision"] is not None

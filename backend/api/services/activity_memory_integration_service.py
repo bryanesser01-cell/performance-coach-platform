@@ -70,22 +70,9 @@ def build_activity_coach_prompt_context(
     )
 
     return {
-        "recent_activity_count": (
-            context["activity_context"]["activity_count"]
-        ),
-        "training_stress": (
-            context["activity_context"]
-            ["total_training_stress"]
-        ),
-        "fitness_trend": (
-            context["activity_context"]
-            ["fitness_trend"]
-        ),
-        "training_risk": (
-            context["training_risk"]["risk"]
-        ),
-        "recommendation": (
-            context["recommendation"]
-            ["recommendation"]
-        ),
+        "recent_activity_count": (context["activity_context"]["activity_count"]),
+        "training_stress": (context["activity_context"]["total_training_stress"]),
+        "fitness_trend": (context["activity_context"]["fitness_trend"]),
+        "training_risk": (context["training_risk"]["risk"]),
+        "recommendation": (context["recommendation"]["recommendation"]),
     }

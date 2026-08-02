@@ -22,15 +22,9 @@ def test_merge_training_intelligence():
         },
     )
 
-    assert (
-        result["training"]["sessions"]
-        == 5
-    )
+    assert result["training"]["sessions"] == 5
 
-    assert (
-        result["activity"]["training_stress"]
-        == 200
-    )
+    assert result["activity"]["training_stress"] == 200
 
 
 def test_build_coach_context():
@@ -56,15 +50,9 @@ def test_build_coach_context():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "intelligence"
-        in result
-    )
+    assert "intelligence" in result
 
 
 def test_generate_context_summary():
@@ -88,12 +76,6 @@ def test_generate_context_summary():
         context,
     )
 
-    assert (
-        summary["readiness_score"]
-        == 80
-    )
+    assert summary["readiness_score"] == 80
 
-    assert (
-        summary["learning_confidence"]
-        == 25
-    )
+    assert summary["learning_confidence"] == 25

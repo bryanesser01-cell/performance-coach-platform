@@ -44,19 +44,9 @@ def test_analyse_decision_history():
         history,
     )
 
-    assert (
-        result[
-            "REDUCE_TRAINING"
-        ]["times_used"]
-        == 3
-    )
+    assert result["REDUCE_TRAINING"]["times_used"] == 3
 
-    assert (
-        result[
-            "REDUCE_TRAINING"
-        ]["success_rate"]
-        == 66
-    )
+    assert result["REDUCE_TRAINING"]["success_rate"] == 66
 
 
 def test_generate_coach_performance_report():
@@ -76,12 +66,6 @@ def test_generate_coach_performance_report():
         history,
     )
 
-    assert (
-        result["total_decisions"]
-        == 2
-    )
+    assert result["total_decisions"] == 2
 
-    assert (
-        result["overall_success_rate"]
-        == 100
-    )
+    assert result["overall_success_rate"] == 100

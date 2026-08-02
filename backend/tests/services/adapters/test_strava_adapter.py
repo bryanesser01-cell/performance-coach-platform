@@ -18,24 +18,11 @@ def test_convert_strava_activity():
         }
     )
 
+    assert result["source"] == "strava"
 
-    assert (
-        result["source"]
-        == "strava"
-    )
+    assert result["distance_km"] == 5
 
-
-    assert (
-        result["distance_km"]
-        == 5
-    )
-
-
-    assert (
-        result["pace"]
-        == "5:00/km"
-    )
-
+    assert result["pace"] == "5:00/km"
 
 
 def test_strava_import_pipeline():
@@ -47,8 +34,4 @@ def test_strava_import_pipeline():
         }
     )
 
-
-    assert (
-        result["import_complete"]
-        is True
-    )
+    assert result["import_complete"] is True

@@ -33,10 +33,8 @@ def submit_checkin(
         notes=notes,
     )
 
-    checkin["recommendation"] = (
-        generate_checkin_recommendation(
-            checkin["readiness_score"],
-        )
+    checkin["recommendation"] = generate_checkin_recommendation(
+        checkin["readiness_score"],
     )
 
     return checkin

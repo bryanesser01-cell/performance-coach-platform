@@ -45,18 +45,14 @@ class TrainingLoadRepository:
         in the last 7 days.
         """
 
-        start_date = (
-            datetime.now(UTC)
-            - timedelta(days=7)
-        )
+        start_date = datetime.now(UTC) - timedelta(days=7)
 
         return (
             self.db.query(
                 Activity,
             )
             .filter(
-                Activity.athlete_id
-                == athlete_id,
+                Activity.athlete_id == athlete_id,
             )
             .filter(
                 Activity.started_at >= start_date,
@@ -77,10 +73,8 @@ class TrainingLoadRepository:
         <3 sessions = low
         """
 
-        activity_count = (
-            self.get_recent_activity_count(
-                athlete_id,
-            )
+        activity_count = self.get_recent_activity_count(
+            athlete_id,
         )
 
         # Protect against mocked or

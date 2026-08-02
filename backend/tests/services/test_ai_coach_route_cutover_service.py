@@ -17,15 +17,9 @@ def test_execute_conversation_cutover():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_execute_chat_cutover():
@@ -40,15 +34,9 @@ def test_execute_chat_cutover():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_cutover_response():
@@ -62,7 +50,4 @@ def test_verify_cutover_response():
         },
     )
 
-    assert (
-        result["cutover_successful"]
-        is True
-    )
+    assert result["cutover_successful"] is True

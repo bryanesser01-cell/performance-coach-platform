@@ -89,6 +89,10 @@ class CoachContext:
         default_factory=dict,
     )
 
+    training_plan: dict = field(
+        default_factory=dict,
+    )
+
     coach_response: dict = field(
         default_factory=dict,
     )

@@ -74,7 +74,4 @@ def test_detects_preferred_decision():
 
     result = service.analyse(context)
 
-    assert (
-        result["preferred_decision"]
-        == "RECOVERY_SESSION"
-    )
+    assert result["preferred_decision"] == "RECOVERY_SESSION"

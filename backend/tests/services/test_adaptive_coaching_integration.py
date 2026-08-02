@@ -15,10 +15,7 @@ def test_adaptive_coaching_integration_reduces_training():
         "rpe": 9,
         "target_hit": False,
         "difficulty": "very_hard",
-        "comments": (
-            "Could not maintain pace "
-            "on final repetitions."
-        ),
+        "comments": ("Could not maintain pace " "on final repetitions."),
     }
 
     result = run_adaptive_coaching_loop(
@@ -29,20 +26,11 @@ def test_adaptive_coaching_integration_reduces_training():
         performance_trend="stable",
     )
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["workout_analysis"]["fatigue_signal"]
-        == "high"
-    )
+    assert result["workout_analysis"]["fatigue_signal"] == "high"
 
-    assert (
-        result["recommendation"]
-        is not None
-    )
+    assert result["recommendation"] is not None
 
 
 def test_adaptive_coaching_integration_progresses_training():
@@ -57,9 +45,7 @@ def test_adaptive_coaching_integration_progresses_training():
         "rpe": 6,
         "target_hit": True,
         "difficulty": "manageable",
-        "comments": (
-            "Workout felt controlled."
-        ),
+        "comments": ("Workout felt controlled."),
     }
 
     result = run_adaptive_coaching_loop(
@@ -70,18 +56,13 @@ def test_adaptive_coaching_integration_progresses_training():
         performance_trend="improving",
     )
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_adaptive_coaching_integration_race_taper():
 
     result = run_adaptive_coaching_loop(
-        planned_workout={
-            "session": "Race preparation"
-        },
+        planned_workout={"session": "Race preparation"},
         athlete_feedback={
             "completed": True,
             "rpe": 5,
@@ -93,7 +74,4 @@ def test_adaptive_coaching_integration_race_taper():
         days_to_race=7,
     )
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "RACE_TAPER"
-    )
+    assert result["coach_decision"]["decision"] == "RACE_TAPER"

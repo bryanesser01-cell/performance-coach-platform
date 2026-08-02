@@ -36,29 +36,19 @@ class DecisionScoringEngine:
         #
         # Readiness
         #
-        readiness = (
-            context.athlete_state
-            .get("readiness", {})
-            .get("score", 0)
-        )
+        readiness = context.athlete_state.get("readiness", {}).get("score", 0)
 
         if readiness < 40:
             scores["RECOVERY_DAY"] += 100
-            reasons.append(
-                "Very low readiness."
-            )
+            reasons.append("Very low readiness.")
 
         elif readiness < 60:
             scores["REDUCE_VOLUME"] += 50
-            reasons.append(
-                "Moderate readiness."
-            )
+            reasons.append("Moderate readiness.")
 
         elif readiness >= 80:
             scores["PROGRESS_TRAINING"] += 30
-            reasons.append(
-                "High readiness."
-            )
+            reasons.append("High readiness.")
 
         #
         # Goal Intelligence
@@ -68,36 +58,26 @@ class DecisionScoringEngine:
             True,
         ):
             scores["PROGRESS_TRAINING"] += 20
-            reasons.append(
-                "Goal is on track."
-            )
+            reasons.append("Goal is on track.")
         else:
             scores["MAINTAIN_PLAN"] += 10
-            reasons.append(
-                "Goal needs attention."
-            )
+            reasons.append("Goal needs attention.")
 
         #
         # Performance Intelligence
         #
-        trend = (
-            context.performance_intelligence.get(
-                "trend",
-                "stable",
-            )
+        trend = context.performance_intelligence.get(
+            "trend",
+            "stable",
         )
 
         if trend == "improving":
             scores["PROGRESS_TRAINING"] += 20
-            reasons.append(
-                "Performance improving."
-            )
+            reasons.append("Performance improving.")
 
         elif trend == "declining":
             scores["MAINTAIN_PLAN"] += 20
-            reasons.append(
-                "Performance declining."
-            )
+            reasons.append("Performance declining.")
 
         #
         # Performance Prediction
@@ -109,9 +89,7 @@ class DecisionScoringEngine:
             == "high"
         ):
             scores["PROGRESS_TRAINING"] += 10
-            reasons.append(
-                "High prediction confidence."
-            )
+            reasons.append("High prediction confidence.")
 
         #
         # Recovery Intelligence
@@ -123,47 +101,35 @@ class DecisionScoringEngine:
             == "poor"
         ):
             scores["RECOVERY_DAY"] += 40
-            reasons.append(
-                "Poor recovery."
-            )
+            reasons.append("Poor recovery.")
 
         #
         # Training Load Intelligence
         #
-        risk = (
-            context.training_load_intelligence.get(
-                "risk",
-                "low",
-            )
+        risk = context.training_load_intelligence.get(
+            "risk",
+            "low",
         )
 
         if risk == "high":
             scores["REDUCE_VOLUME"] += 40
-            reasons.append(
-                "High training load."
-            )
+            reasons.append("High training load.")
 
         elif risk == "moderate":
             scores["MAINTAIN_PLAN"] += 10
-            reasons.append(
-                "Moderate training load."
-            )
+            reasons.append("Moderate training load.")
 
         #
         # Race Intelligence
         #
-        phase = (
-            context.race_intelligence.get(
-                "phase",
-                "",
-            )
+        phase = context.race_intelligence.get(
+            "phase",
+            "",
         )
 
         if phase.lower() == "taper":
             scores["RACE_TAPER"] += 60
-            reasons.append(
-                "Taper phase."
-            )
+            reasons.append("Taper phase.")
 
         #
         # Determine best decision
@@ -173,9 +139,7 @@ class DecisionScoringEngine:
             key=scores.get,
         )
 
-        score = scores[
-            decision
-        ]
+        score = scores[decision]
 
         #
         # Confidence

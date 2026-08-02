@@ -30,9 +30,7 @@ def test_coach_intelligence_includes_improving_trend():
     )
 
     mock_training_repository = Mock()
-    mock_training_repository.get_recent_sessions.return_value = (
-        mock_sessions
-    )
+    mock_training_repository.get_recent_sessions.return_value = mock_sessions
 
     mock_goal_repository = Mock()
     mock_goal_repository.get_active_goals.return_value = []
@@ -70,10 +68,7 @@ def test_coach_intelligence_includes_improving_trend():
             athlete_id=1,
         )
 
-    assert (
-        "Running pace is improving over recent activities."
-        in result["insights"]
-    )
+    assert "Running pace is improving over recent activities." in result["insights"]
 
 
 def test_coach_intelligence_detects_training_load_increase():

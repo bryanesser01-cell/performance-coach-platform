@@ -39,11 +39,7 @@ def get_learning_history(
     for an athlete.
     """
 
-    return [
-        event
-        for event in _learning_history
-        if event["athlete_id"] == athlete_id
-    ]
+    return [event for event in _learning_history if event["athlete_id"] == athlete_id]
 
 
 def calculate_decision_confidence(
@@ -68,9 +64,7 @@ def calculate_decision_confidence(
 
         if event["decision"] == decision:
 
-            confidence += event[
-                "confidence_change"
-            ]
+            confidence += event["confidence_change"]
 
     return max(
         0,

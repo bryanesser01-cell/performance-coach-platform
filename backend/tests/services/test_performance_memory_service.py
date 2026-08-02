@@ -13,11 +13,7 @@ def test_personal_best_improvement():
         previous_best="5:00",
     )
 
-    assert (
-        result["personal_best_improved"]
-        is True
-    )
-
+    assert result["personal_best_improved"] is True
 
 
 def test_store_training_response():
@@ -27,11 +23,7 @@ def test_store_training_response():
         response="positive",
     )
 
-    assert (
-        result["response"]
-        == "positive"
-    )
-
+    assert result["response"] == "positive"
 
 
 def test_build_performance_memory():
@@ -49,11 +41,7 @@ def test_build_performance_memory():
         ],
     )
 
-    assert (
-        result["memory_ready"]
-        is True
-    )
-
+    assert result["memory_ready"] is True
 
 
 def test_memory_insight():
@@ -69,7 +57,4 @@ def test_memory_insight():
         }
     )
 
-    assert (
-        "tempo"
-        in result["athlete_learning"]["responds_well_to"]
-    )
+    assert "tempo" in result["athlete_learning"]["responds_well_to"]

@@ -22,10 +22,7 @@ def test_build_adaptive_conversation_context():
         },
     )
 
-    assert (
-        "adaptive_decision"
-        in result
-    )
+    assert "adaptive_decision" in result
 
 
 def test_generate_adaptive_coach_message():
@@ -33,17 +30,12 @@ def test_generate_adaptive_coach_message():
     result = generate_adaptive_coach_message(
         {
             "adaptive_decision": {
-                "message": (
-                    "Continue progressive training."
-                ),
+                "message": ("Continue progressive training."),
             }
         }
     )
 
-    assert (
-        "Continue"
-        in result
-    )
+    assert "Continue" in result
 
 
 def test_integrate_learning_into_response():
@@ -57,10 +49,7 @@ def test_integrate_learning_into_response():
         },
     )
 
-    assert (
-        result["learning_confidence"]
-        == 25
-    )
+    assert result["learning_confidence"] == 25
 
 
 def test_full_adaptive_conversation():
@@ -79,12 +68,6 @@ def test_full_adaptive_conversation():
         },
     )
 
-    assert (
-        "message"
-        in result
-    )
+    assert "message" in result
 
-    assert (
-        result["learning_confidence"]
-        == 10
-    )
+    assert result["learning_confidence"] == 10

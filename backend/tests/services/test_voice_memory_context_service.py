@@ -12,13 +12,9 @@ def test_build_voice_memory_context():
 
     mock_message = Mock()
 
-    mock_message.user_message = (
-        "Should I train today?"
-    )
+    mock_message.user_message = "Should I train today?"
 
-    mock_message.coach_response = (
-        "Your readiness looks good."
-    )
+    mock_message.coach_response = "Your readiness looks good."
 
     with patch(
         "api.services.voice_memory_context_service.VoiceSessionRepository",
@@ -34,17 +30,9 @@ def test_build_voice_memory_context():
             session_id="session-001",
         )
 
-    assert (
-        result["has_history"]
-        is True
-    )
+    assert result["has_history"] is True
 
-    assert (
-        result["conversation_history"][0][
-            "athlete"
-        ]
-        == "Should I train today?"
-    )
+    assert result["conversation_history"][0]["athlete"] == "Should I train today?"
 
 
 def test_empty_voice_memory_context():
@@ -63,10 +51,7 @@ def test_empty_voice_memory_context():
             session_id="session-001",
         )
 
-    assert (
-        result["has_history"]
-        is False
-    )
+    assert result["has_history"] is False
 
 
 def test_generate_voice_memory_summary():
@@ -85,7 +70,4 @@ def test_generate_voice_memory_summary():
         context,
     )
 
-    assert (
-        "1 previous"
-        in summary
-    )
+    assert "1 previous" in summary

@@ -14,16 +14,9 @@ def calculate_decision_success_rate(
     if not outcomes:
         return 0
 
-    positive_count = sum(
-        1
-        for outcome in outcomes
-        if outcome == "positive"
-    )
+    positive_count = sum(1 for outcome in outcomes if outcome == "positive")
 
-    return int(
-        (positive_count / len(outcomes))
-        * 100
-    )
+    return int((positive_count / len(outcomes)) * 100)
 
 
 def analyse_decision_history(
@@ -58,33 +51,21 @@ def analyse_decision_history(
             "neutral",
         )
 
-        analysis[decision][
-            "times_used"
-        ] += 1
+        analysis[decision]["times_used"] += 1
 
-        analysis[decision][
-            "outcomes"
-        ].append(
-            outcome
-        )
+        analysis[decision]["outcomes"].append(outcome)
 
         if outcome == "positive":
 
-            analysis[decision][
-                "positive_outcomes"
-            ] += 1
+            analysis[decision]["positive_outcomes"] += 1
 
     result = {}
 
     for decision, data in analysis.items():
 
         result[decision] = {
-            "times_used": data[
-                "times_used"
-            ],
-            "positive_outcomes": data[
-                "positive_outcomes"
-            ],
+            "times_used": data["times_used"],
+            "positive_outcomes": data["positive_outcomes"],
             "success_rate": (
                 calculate_decision_success_rate(
                     data["outcomes"],
@@ -123,19 +104,11 @@ def generate_coach_performance_report(
 
     if total_decisions:
 
-        overall_success_rate = int(
-            (
-                positive_results
-                / total_decisions
-            )
-            * 100
-        )
+        overall_success_rate = int((positive_results / total_decisions) * 100)
 
     return {
         "total_decisions": total_decisions,
         "positive_outcomes": positive_results,
-        "overall_success_rate": (
-            overall_success_rate
-        ),
+        "overall_success_rate": (overall_success_rate),
         "decision_analysis": analysis,
     }

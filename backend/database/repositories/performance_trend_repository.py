@@ -30,18 +30,14 @@ class PerformanceTrendRepository:
         Retrieve recent athlete activities.
         """
 
-        start_date = (
-            datetime.now(UTC)
-            - timedelta(days=days)
-        )
+        start_date = datetime.now(UTC) - timedelta(days=days)
 
         activities = (
             self.db.query(
                 Activity,
             )
             .filter(
-                Activity.athlete_id
-                == athlete_id,
+                Activity.athlete_id == athlete_id,
             )
             .filter(
                 Activity.started_at >= start_date,

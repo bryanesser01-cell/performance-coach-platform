@@ -18,7 +18,6 @@ def record_learning_event(
     }
 
 
-
 def calculate_learning_update(
     signal: str,
 ) -> int:
@@ -35,7 +34,6 @@ def calculate_learning_update(
     return 0
 
 
-
 def capture_coach_decision_outcome(
     db,
     athlete_id: int,
@@ -46,12 +44,7 @@ def capture_coach_decision_outcome(
     Capture coach decision outcome.
     """
 
-    confidence_change = (
-        calculate_learning_update(
-            outcome
-        )
-    )
-
+    confidence_change = calculate_learning_update(outcome)
 
     return {
         **record_learning_event(
@@ -60,21 +53,14 @@ def capture_coach_decision_outcome(
                 "decision": decision,
             }
         ),
-
         "outcome": outcome,
-
         "confidence_change": confidence_change,
     }
     """
     Capture coach decision outcome.
     """
 
-    confidence_change = (
-        calculate_learning_update(
-            outcome
-        )
-    )
-
+    confidence_change = calculate_learning_update(outcome)
 
     return {
         **record_learning_event(
@@ -84,10 +70,8 @@ def capture_coach_decision_outcome(
                 "outcome": outcome,
             }
         ),
-
         "confidence_change": confidence_change,
     }
-
 
 
 def store_learning_feedback(
@@ -112,7 +96,6 @@ def store_learning_feedback(
 
         outcome = "positive"
 
-
     elif performance_change in [
         "declined",
         "worse",
@@ -121,15 +104,9 @@ def store_learning_feedback(
 
         outcome = "negative"
 
-
     else:
 
-        outcome = (
-            "positive"
-            if completed
-            else "negative"
-        )
-
+        outcome = "positive" if completed else "negative"
 
     return {
         **record_learning_event(
@@ -140,6 +117,5 @@ def store_learning_feedback(
                 "performance_change": performance_change,
             }
         ),
-
         "outcome": outcome,
     }

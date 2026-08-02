@@ -28,10 +28,7 @@ def test_builds_goal_intelligence():
 
         GoalIntelligenceStep()(context)
 
-        assert (
-            context.goal_intelligence
-            == expected
-        )
+        assert context.goal_intelligence == expected
 
 
 def test_calls_goal_service():

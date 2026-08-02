@@ -12,21 +12,13 @@ def test_build_training_memory():
 
     session = Mock()
 
-    session.session_date = (
-        "2026-08-01"
-    )
+    session.session_date = "2026-08-01"
 
-    session.session_type = (
-        "interval"
-    )
+    session.session_type = "interval"
 
-    session.focus = (
-        "5K speed"
-    )
+    session.focus = "5K speed"
 
-    session.status = (
-        "completed"
-    )
+    session.status = "completed"
 
     with patch(
         "api.services.training_memory_service.TrainingSessionRepository",
@@ -41,17 +33,9 @@ def test_build_training_memory():
             athlete_id=1,
         )
 
-    assert (
-        result["has_training_history"]
-        is True
-    )
+    assert result["has_training_history"] is True
 
-    assert (
-        result["training_history"][0][
-            "type"
-        ]
-        == "interval"
-    )
+    assert result["training_history"][0]["type"] == "interval"
 
 
 def test_empty_training_memory():
@@ -69,10 +53,7 @@ def test_empty_training_memory():
             athlete_id=1,
         )
 
-    assert (
-        result["has_training_history"]
-        is False
-    )
+    assert result["has_training_history"] is False
 
 
 def test_training_memory_summary():
@@ -80,13 +61,8 @@ def test_training_memory_summary():
     summary = generate_training_memory_summary(
         {
             "has_training_history": True,
-            "training_history": [
-                {}
-            ],
+            "training_history": [{}],
         }
     )
 
-    assert (
-        "1 recent"
-        in summary
-    )
+    assert "1 recent" in summary

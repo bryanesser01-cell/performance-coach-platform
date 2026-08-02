@@ -7,9 +7,7 @@ def calculate_pace(
     """
 
     if distance_km <= 0:
-        raise ValueError(
-            "Distance must be greater than zero."
-        )
+        raise ValueError("Distance must be greater than zero.")
 
     return duration_seconds / distance_km
 
@@ -23,9 +21,7 @@ def calculate_speed(
     """
 
     if duration_seconds <= 0:
-        raise ValueError(
-            "Duration must be greater than zero."
-        )
+        raise ValueError("Duration must be greater than zero.")
 
     hours = duration_seconds / 3600
 
@@ -48,9 +44,7 @@ def calculate_training_load(
 
     duration_minutes = duration_seconds / 60
 
-    return duration_minutes * (
-        average_heart_rate / 100
-    )
+    return duration_minutes * (average_heart_rate / 100)
 
 
 def generate_metric_summary(

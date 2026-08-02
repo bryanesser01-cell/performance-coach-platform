@@ -14,9 +14,6 @@ class GoalIntelligenceStep:
         context: CoachContext,
     ) -> None:
 
-        context.goal_intelligence = (
-            GoalIntelligenceService()
-            .analyse(
-                context.athlete_state,
-            )
+        context.goal_intelligence = GoalIntelligenceService().analyse(
+            context.athlete_state,
         )

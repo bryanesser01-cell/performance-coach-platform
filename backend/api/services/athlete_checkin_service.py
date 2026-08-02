@@ -44,12 +44,7 @@ def calculate_readiness_score(
     Higher score = better readiness.
     """
 
-    score = (
-        energy
-        + sleep_quality
-        + motivation
-        + (10 - soreness)
-    ) / 4
+    score = (energy + sleep_quality + motivation + (10 - soreness)) / 4
 
     return round(score * 10)
 
@@ -62,16 +57,9 @@ def generate_checkin_recommendation(
     """
 
     if readiness_score >= 80:
-        return (
-            "Ready for quality training. "
-            "Proceed with planned session."
-        )
+        return "Ready for quality training. " "Proceed with planned session."
 
     if readiness_score >= 60:
-        return (
-            "Train as planned but monitor fatigue."
-        )
+        return "Train as planned but monitor fatigue."
 
-    return (
-        "Prioritise recovery and reduce intensity."
-    )
+    return "Prioritise recovery and reduce intensity."

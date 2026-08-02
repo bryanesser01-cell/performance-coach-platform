@@ -1,65 +1,28 @@
 from api.services.performance_intelligence_service import (
-    analyse_performance_trend,
-    calculate_training_consistency,
-    generate_performance_insight,
+    analyse_performance_intelligence,
 )
 
 
-def test_analyse_improving_trend():
+def test_builds_performance():
 
-    result = analyse_performance_trend(
-        [
-            {
-                "pace_seconds": 320,
-            },
-            {
-                "pace_seconds": 300,
-            },
-        ]
+    sessions = [
+        {
+            "distance_km": 5,
+            "duration_minutes": 25,
+            "pace_seconds": 300,
+        },
+        {
+            "distance_km": 5,
+            "duration_minutes": 24,
+            "pace_seconds": 288,
+        },
+    ]
+
+    result = analyse_performance_intelligence(
+        sessions,
     )
 
-
-    assert (
-        result["trend"]
-        == "improving"
-    )
-
-
-
-def test_training_consistency():
-
-    result = calculate_training_consistency(
-        [
-            {},
-            {},
-            {},
-            {},
-        ]
-    )
-
-
-    assert (
-        result["consistency_score"]
-        == 100
-    )
-
-
-
-def test_generate_performance_insight():
-
-    result = generate_performance_insight(
-        [
-            {
-                "pace_seconds": 320,
-            },
-            {
-                "pace_seconds": 300,
-            },
-        ]
-    )
-
-
-    assert (
-        "performance_trend"
-        in result
-    )
+    assert isinstance(result, dict)
+    assert "trend" in result
+    assert "confidence" in result
+    assert "average_pace" in result

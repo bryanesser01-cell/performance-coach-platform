@@ -59,12 +59,8 @@ def process_adaptive_workout_outcome(
 
     return {
         "athlete_id": athlete_id,
-
         "decision": decision,
-
         "workout_analysis": analysis,
-
         "learning_update": learning,
-
         "learning_recorded": True,
     }

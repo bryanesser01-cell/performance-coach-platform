@@ -16,31 +16,16 @@ def test_garmin_conversion():
         },
     )
 
+    assert result["distance_km"] == 5
 
-    assert (
-        result["distance_km"]
-        == 5
-    )
-
-    assert (
-        result["avg_heart_rate"]
-        == 145
-    )
-
+    assert result["avg_heart_rate"] == 145
 
 
 def test_source_identification():
 
-    result = identify_training_source(
-        "garmin"
-    )
+    result = identify_training_source("garmin")
 
-
-    assert (
-        result["supported"]
-        is True
-    )
-
+    assert result["supported"] is True
 
 
 def test_import_pipeline():
@@ -53,8 +38,4 @@ def test_import_pipeline():
         },
     )
 
-
-    assert (
-        result["import_complete"]
-        is True
-    )
+    assert result["import_complete"] is True

@@ -18,12 +18,10 @@ def build_complete_workout_coach_context(
     - Training explanation
     """
 
-    recommendation = (
-        build_workout_recommendation(
-            athlete_state=athlete_state,
-            event=event,
-            goal_time=goal_time,
-        )
+    recommendation = build_workout_recommendation(
+        athlete_state=athlete_state,
+        event=event,
+        goal_time=goal_time,
     )
 
     message = generate_workout_coach_message(

@@ -58,12 +58,10 @@ class VoiceSessionRepository:
                 VoiceSession,
             )
             .filter(
-                VoiceSession.athlete_id
-                == athlete_id,
+                VoiceSession.athlete_id == athlete_id,
             )
             .filter(
-                VoiceSession.session_id
-                == session_id,
+                VoiceSession.session_id == session_id,
             )
             .order_by(
                 VoiceSession.created_at.asc(),

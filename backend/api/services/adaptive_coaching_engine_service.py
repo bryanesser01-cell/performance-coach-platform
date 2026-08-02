@@ -63,10 +63,7 @@ def apply_learning_adjustment(
         50,
     )
 
-    adjusted_confidence = (
-        original_confidence
-        + confidence
-    )
+    adjusted_confidence = original_confidence + confidence
 
     adjusted_confidence = max(
         0,
@@ -110,10 +107,7 @@ def generate_adaptive_coaching_response(
             "learning_confidence",
             50,
         ),
-        "message": (
-            f"{action} "
-            f"{explanation}"
-        ),
+        "message": (f"{action} " f"{explanation}"),
     }
 
 

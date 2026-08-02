@@ -26,7 +26,6 @@ def classify_training_age_group(
     return "MASTERS_PLUS"
 
 
-
 def _get_event_phases(
     event: str,
 ) -> list[dict]:
@@ -64,7 +63,6 @@ def _get_event_phases(
         "ultra_marathon",
     ]
 
-
     if event in sprint_events:
 
         return [
@@ -99,7 +97,6 @@ def _get_event_phases(
                 ],
             },
         ]
-
 
     if event in middle_distance_events:
 
@@ -136,7 +133,6 @@ def _get_event_phases(
             },
         ]
 
-
     if event in endurance_events:
 
         return [
@@ -168,7 +164,6 @@ def _get_event_phases(
                 ],
             },
         ]
-
 
     if event in marathon_events:
 
@@ -204,7 +199,6 @@ def _get_event_phases(
             },
         ]
 
-
     if event in trail_events:
 
         return [
@@ -239,7 +233,6 @@ def _get_event_phases(
             },
         ]
 
-
     return [
         {
             "phase": "BASE",
@@ -268,7 +261,6 @@ def _get_event_phases(
     ]
 
 
-
 def create_training_plan(
     goal: str,
     event: str,
@@ -295,24 +287,14 @@ def create_training_plan(
         "timeline_weeks": weeks,
         "current_time": current_time,
         "target_time": target_time,
-
-        "age_group": (
-            classify_training_age_group(age)
-        ),
-
+        "age_group": (classify_training_age_group(age)),
         "age": age,
-
         "training_age": training_age,
-
-        "experience_level": (
-            experience_level
-        ),
-
+        "experience_level": (experience_level),
         "phases": _get_event_phases(
             event,
         ),
     }
-
 
 
 def adjust_weekly_load(
@@ -335,19 +317,13 @@ def adjust_weekly_load(
 
         change = 0
 
-
-    new_load = int(
-        previous_load
-        * (1 + change / 100)
-    )
-
+    new_load = int(previous_load * (1 + change / 100))
 
     return {
         "previous_load": previous_load,
         "change_percent": change,
         "new_load": new_load,
     }
-
 
 
 def adapt_plan_from_results(
@@ -365,11 +341,7 @@ def adapt_plan_from_results(
 
         minutes, seconds = value.split(":")
 
-        return (
-            int(minutes) * 60
-            + int(seconds)
-        )
-
+        return int(minutes) * 60 + int(seconds)
 
     race_seconds = convert_time(
         race_result,
@@ -378,7 +350,6 @@ def adapt_plan_from_results(
     target_seconds = convert_time(
         target_result,
     )
-
 
     if fatigue_score > 70:
 
@@ -392,14 +363,12 @@ def adapt_plan_from_results(
 
         action = "MODIFY_PLAN"
 
-
     return {
         "race_result": race_result,
         "target_result": target_result,
         "fatigue_score": fatigue_score,
         "action": action,
     }
-
 
 
 def generate_race_preparation_plan(
@@ -416,9 +385,7 @@ def generate_race_preparation_plan(
         "event": event,
         "race_date": race_date,
         "goal": goal,
-        "age_group": (
-            classify_training_age_group(age)
-        ),
+        "age_group": (classify_training_age_group(age)),
         "strategy": [
             "build fitness",
             "race specific preparation",

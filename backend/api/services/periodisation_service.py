@@ -71,7 +71,6 @@ class PeriodisationEngine:
             #
             "phase": phase,
             **plan,
-
             #
             # Intelligence
             #

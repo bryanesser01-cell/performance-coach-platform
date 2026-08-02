@@ -31,11 +31,7 @@ class BaseRepository(Generic[ModelType]):
         Retrieve a record by primary key.
         """
 
-        return (
-            self.db.query(self.model)
-            .filter(self.model.id == record_id)
-            .first()
-        )
+        return self.db.query(self.model).filter(self.model.id == record_id).first()
 
     def get_all(
         self,
@@ -44,10 +40,7 @@ class BaseRepository(Generic[ModelType]):
         Retrieve all records.
         """
 
-        return (
-            self.db.query(self.model)
-            .all()
-        )
+        return self.db.query(self.model).all()
 
     def delete(
         self,

@@ -16,9 +16,7 @@ def test_completed_workout_with_high_fatigue():
         "rpe": 9,
         "target_hit": False,
         "difficulty": "very_hard",
-        "comments": (
-            "Last two reps were difficult"
-        ),
+        "comments": ("Last two reps were difficult"),
     }
 
     result = analyse_workout_completion(
@@ -26,13 +24,9 @@ def test_completed_workout_with_high_fatigue():
         athlete_feedback,
     )
 
-    assert result["coach_signal"] == (
-        "REDUCE_TRAINING"
-    )
+    assert result["coach_signal"] == ("REDUCE_TRAINING")
 
-    assert result["fatigue_signal"] == (
-        "high"
-    )
+    assert result["fatigue_signal"] == ("high")
 
     assert result["execution_score"] < 100
 
@@ -49,9 +43,7 @@ def test_completed_workout_progression_signal():
         "rpe": 6,
         "target_hit": True,
         "difficulty": "manageable",
-        "comments": (
-            "Felt controlled"
-        ),
+        "comments": ("Felt controlled"),
     }
 
     result = analyse_workout_completion(
@@ -59,13 +51,9 @@ def test_completed_workout_progression_signal():
         athlete_feedback,
     )
 
-    assert result["coach_signal"] == (
-        "PROGRESS_TRAINING"
-    )
+    assert result["coach_signal"] == ("PROGRESS_TRAINING")
 
-    assert result["fatigue_signal"] == (
-        "low"
-    )
+    assert result["fatigue_signal"] == ("low")
 
 
 def test_incomplete_workout_returns_recovery():
@@ -77,23 +65,13 @@ def test_incomplete_workout_returns_recovery():
         },
     )
 
-    assert result["coach_signal"] == (
-        "RECOVERY_SESSION"
-    )
+    assert result["coach_signal"] == ("RECOVERY_SESSION")
 
     assert result["execution_score"] == 0
 
 
 def test_build_coach_feedback():
 
-    result = build_coach_feedback(
-        {
-            "summary": (
-                "Good workout execution."
-            )
-        }
-    )
+    result = build_coach_feedback({"summary": ("Good workout execution.")})
 
-    assert result == (
-        "Good workout execution."
-    )
+    assert result == ("Good workout execution.")

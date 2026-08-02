@@ -13,15 +13,9 @@ def test_ai_coach_recommends_recovery_when_fatigued():
         performance_trend="declining",
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        "recovery"
-        in result["recommendation"]
-    )
+    assert "recovery" in result["recommendation"]
 
 
 def test_ai_coach_progresses_when_ready():
@@ -34,10 +28,7 @@ def test_ai_coach_progresses_when_ready():
         performance_trend="improving",
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
 
 def test_ai_coach_tapers_before_race():
@@ -51,10 +42,7 @@ def test_ai_coach_tapers_before_race():
         days_to_race=7,
     )
 
-    assert (
-        result["decision"]
-        == "RACE_TAPER"
-    )
+    assert result["decision"] == "RACE_TAPER"
 
 
 def test_ai_coach_message_contains_question():
@@ -67,7 +55,4 @@ def test_ai_coach_message_contains_question():
         performance_trend="stable",
     )
 
-    assert (
-        "Should I run today?"
-        in result["coach_message"]
-    )
+    assert "Should I run today?" in result["coach_message"]

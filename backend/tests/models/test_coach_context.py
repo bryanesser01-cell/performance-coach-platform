@@ -30,12 +30,6 @@ def test_context_stores_values():
         },
     )
 
-    assert (
-        context.athlete_state["readiness"]["score"]
-        == 82
-    )
+    assert context.athlete_state["readiness"]["score"] == 82
 
-    assert (
-        context.decision["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert context.decision["decision"] == "PROGRESS_TRAINING"

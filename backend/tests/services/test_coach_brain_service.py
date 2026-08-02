@@ -29,28 +29,17 @@ def test_build_decision_basic():
 
     context.decision = {
         "decision": "PROGRESS_TRAINING",
-        "recommendation": (
-            "Progress training."
-        ),
+        "recommendation": ("Progress training."),
         "learning_confidence": 90,
     }
 
-    result = (
-        CoachBrainService()
-        .build_decision(
-            context=context,
-        )
+    result = CoachBrainService().build_decision(
+        context=context,
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        result["recommendation"]
-        == "Progress training"
-    )
+    assert result["recommendation"] == "Progress training"
 
     assert result["confidence"] == 90
 
@@ -80,11 +69,8 @@ def test_reasoning_contains_new_fields():
 
     context.decision = {}
 
-    result = (
-        CoachBrainService()
-        .build_decision(
-            context=context,
-        )
+    result = CoachBrainService().build_decision(
+        context=context,
     )
 
     reasoning = result["reasoning"]
@@ -93,15 +79,9 @@ def test_reasoning_contains_new_fields():
     assert "watch_items" in reasoning
     assert "evidence" in reasoning
 
-    assert (
-        "High readiness"
-        in reasoning["strengths"]
-    )
+    assert "High readiness" in reasoning["strengths"]
 
-    assert (
-        "Performance improving"
-        in reasoning["strengths"]
-    )
+    assert "Performance improving" in reasoning["strengths"]
 
 
 def test_risk_detection():
@@ -126,11 +106,8 @@ def test_risk_detection():
         "phase": "taper",
     }
 
-    result = (
-        CoachBrainService()
-        .build_decision(
-            context=context,
-        )
+    result = CoachBrainService().build_decision(
+        context=context,
     )
 
     risks = result["risks"]
@@ -147,14 +124,8 @@ def test_today_focus_defaults():
         athlete_id=1,
     )
 
-    result = (
-        CoachBrainService()
-        .build_decision(
-            context=context,
-        )
+    result = CoachBrainService().build_decision(
+        context=context,
     )
 
-    assert (
-        result["today_focus"]
-        == "General Training"
-    )
+    assert result["today_focus"] == "General Training"

@@ -18,24 +18,11 @@ def test_convert_coros_activity():
         }
     )
 
+    assert result["source"] == "coros"
 
-    assert (
-        result["source"]
-        == "coros"
-    )
+    assert result["distance_km"] == 10
 
-
-    assert (
-        result["distance_km"]
-        == 10
-    )
-
-
-    assert (
-        result["pace"]
-        == "5:00/km"
-    )
-
+    assert result["pace"] == "5:00/km"
 
 
 def test_coros_import_pipeline():
@@ -47,8 +34,4 @@ def test_coros_import_pipeline():
         }
     )
 
-
-    assert (
-        result["import_complete"]
-        is True
-    )
+    assert result["import_complete"] is True

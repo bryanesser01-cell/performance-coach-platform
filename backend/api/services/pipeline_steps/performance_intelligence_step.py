@@ -14,11 +14,9 @@ class PerformanceIntelligenceStep:
         context: CoachContext,
     ) -> None:
 
-        context.performance_intelligence = (
-            generate_performance_insight(
-                context.athlete_state.get(
-                    "training_sessions",
-                    [],
-                )
+        context.performance_intelligence = generate_performance_insight(
+            context.athlete_state.get(
+                "training_sessions",
+                [],
             )
         )

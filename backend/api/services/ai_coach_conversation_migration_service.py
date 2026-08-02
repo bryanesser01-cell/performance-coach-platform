@@ -38,28 +38,14 @@ def migrate_conversation_response(
     """
 
     return run_conversation_cutover(
-        athlete_id=migration_context[
-            "athlete_id"
-        ],
-        question=migration_context[
-            "question"
-        ],
+        athlete_id=migration_context["athlete_id"],
+        question=migration_context["question"],
         ai_response=ai_response,
-        athlete_profile=migration_context[
-            "athlete_profile"
-        ],
-        training_history=migration_context[
-            "training_history"
-        ],
-        recovery_history=migration_context[
-            "recovery_history"
-        ],
-        decision_analysis=migration_context[
-            "decision_analysis"
-        ],
-        current_state=migration_context[
-            "current_state"
-        ],
+        athlete_profile=migration_context["athlete_profile"],
+        training_history=migration_context["training_history"],
+        recovery_history=migration_context["recovery_history"],
+        decision_analysis=migration_context["decision_analysis"],
+        current_state=migration_context["current_state"],
     )
 
 

@@ -14,8 +14,6 @@ class AdaptiveDecisionStep:
         context: CoachContext,
     ) -> None:
 
-        context.decision = (
-            generate_adaptive_coach_decision(
-                context=context,
-            )
+        context.decision = generate_adaptive_coach_decision(
+            context=context,
         )

@@ -13,11 +13,7 @@ def test_calculate_running_pace():
         duration_minutes=25,
     )
 
-    assert (
-        result
-        == "5:00/km"
-    )
-
+    assert result == "5:00/km"
 
 
 def test_calculate_session_load():
@@ -27,11 +23,7 @@ def test_calculate_session_load():
         intensity=2,
     )
 
-    assert (
-        result
-        == 60
-    )
-
+    assert result == 60
 
 
 def test_create_training_session():
@@ -44,16 +36,9 @@ def test_create_training_session():
         athlete_feedback="good",
     )
 
-    assert (
-        result["pace"]
-        == "5:00/km"
-    )
+    assert result["pace"] == "5:00/km"
 
-    assert (
-        result["session_type"]
-        == "run"
-    )
-
+    assert result["session_type"] == "run"
 
 
 def test_training_week_summary():
@@ -68,7 +53,4 @@ def test_training_week_summary():
         ]
     )
 
-    assert (
-        result["total_distance_km"]
-        == 5
-    )
+    assert result["total_distance_km"] == 5

@@ -30,7 +30,6 @@ class RaceIntelligenceService:
                 "days_until_race": None,
                 "recommended_focus": "Base Fitness",
                 "taper_required": False,
-
                 # Intelligence
                 "race_readiness": "training",
                 "recommendation": "continue_base_training",
@@ -41,21 +40,15 @@ class RaceIntelligenceService:
 
         race_date = race["date"]
 
-        days = (
-            race_date - today
-        ).days
+        days = (race_date - today).days
 
         if days <= 7:
 
             phase = "Taper"
 
-            focus = (
-                "Recovery and Race Pace"
-            )
+            focus = "Recovery and Race Pace"
 
-            recommendation = (
-                "taper_training"
-            )
+            recommendation = "taper_training"
 
             readiness = "race_ready"
 
@@ -63,13 +56,9 @@ class RaceIntelligenceService:
 
             phase = "Peak"
 
-            focus = (
-                "Race Specific"
-            )
+            focus = "Race Specific"
 
-            recommendation = (
-                "maintain_peak"
-            )
+            recommendation = "maintain_peak"
 
             readiness = "peaking"
 
@@ -77,13 +66,9 @@ class RaceIntelligenceService:
 
             phase = "Build"
 
-            focus = (
-                "Threshold and VO₂ Max"
-            )
+            focus = "Threshold and VO₂ Max"
 
-            recommendation = (
-                "progress_training"
-            )
+            recommendation = "progress_training"
 
             readiness = "building"
 
@@ -91,13 +76,9 @@ class RaceIntelligenceService:
 
             phase = "Base"
 
-            focus = (
-                "Aerobic Development"
-            )
+            focus = "Aerobic Development"
 
-            recommendation = (
-                "build_aerobic_base"
-            )
+            recommendation = "build_aerobic_base"
 
             readiness = "base"
 
@@ -117,10 +98,7 @@ class RaceIntelligenceService:
             "days_until_race": days,
             "phase": phase,
             "recommended_focus": focus,
-            "taper_required": (
-                days <= 7
-            ),
-
+            "taper_required": (days <= 7),
             #
             # Intelligence
             #

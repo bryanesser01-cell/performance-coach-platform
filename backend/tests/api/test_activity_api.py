@@ -15,9 +15,7 @@ def test_ai_coach_existing_endpoint():
 
         mock_response.return_value = {
             "athlete_id": 1,
-            "coach_message": (
-                "Continue current training."
-            ),
+            "coach_message": ("Continue current training."),
         }
 
         response = client.get(
@@ -55,10 +53,7 @@ def test_ai_coach_orchestrator_endpoint():
 
     assert data["athlete_id"] == 1
 
-    assert (
-        data["decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert data["decision"]["decision"] == "PROGRESS_TRAINING"
 
     assert data["ai_coach"] is True
 
@@ -71,12 +66,6 @@ def test_ai_coach_endpoints_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/ai-coach"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/ai-coach" in paths
 
-    assert (
-        "/athletes/{athlete_id}/coach"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/coach" in paths

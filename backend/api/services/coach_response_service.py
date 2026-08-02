@@ -4,5 +4,4 @@ class CoachResponseService:
         athlete_state,
         coaching_decision,
         memories,
-    ):
-        ...
+    ): ...

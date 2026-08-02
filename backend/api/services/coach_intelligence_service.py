@@ -139,8 +139,6 @@ def generate_coach_insights(
             "Training load is increasing. Monitor fatigue and recovery.",
         )
 
-
-
     # -----------------------------
     # Goal Intelligence
     # -----------------------------
@@ -172,29 +170,29 @@ def generate_coach_insights(
         status = "needs_attention"
 
         # -----------------------------
-# Coach Recommendation
-# -----------------------------
+    # Coach Recommendation
+    # -----------------------------
 
     recommendation = generate_recommendation(
-    status=status,
-    pace_trend=trends["pace_trend"],
-    training_load_trend=trends["training_load_trend"],
-)
+        status=status,
+        pace_trend=trends["pace_trend"],
+        training_load_trend=trends["training_load_trend"],
+    )
 
     return {
-    "athlete_id": athlete_id,
-    "status": status,
-    "metrics": {
-        "total_sessions": analysis.total_sessions,
-        "total_distance": analysis.total_distance,
-        "training_load": analysis.total_training_load,
-        "average_pace": analysis.average_pace,
-        "average_heart_rate": analysis.average_heart_rate,
-        "longest_run": analysis.longest_run,
-    },
-    "performance_trends": trends,
-    "goals": goal_insights,
-    "insights": insights,
-    "recommendations": recommendations,
-    "coach_recommendation": recommendation,
-}
+        "athlete_id": athlete_id,
+        "status": status,
+        "metrics": {
+            "total_sessions": analysis.total_sessions,
+            "total_distance": analysis.total_distance,
+            "training_load": analysis.total_training_load,
+            "average_pace": analysis.average_pace,
+            "average_heart_rate": analysis.average_heart_rate,
+            "longest_run": analysis.longest_run,
+        },
+        "performance_trends": trends,
+        "goals": goal_insights,
+        "insights": insights,
+        "recommendations": recommendations,
+        "coach_recommendation": recommendation,
+    }

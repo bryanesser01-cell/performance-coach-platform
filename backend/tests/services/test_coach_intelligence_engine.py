@@ -65,10 +65,7 @@ def test_coach_intelligence_engine_detects_improving_performance():
 
     assert result["status"] == "progressing"
 
-    assert (
-        "Running pace is improving over recent activities."
-        in result["insights"]
-    )
+    assert "Running pace is improving over recent activities." in result["insights"]
 
 
 def test_coach_intelligence_engine_detects_training_load_risk():

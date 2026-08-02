@@ -14,9 +14,6 @@ class PeriodisationStep:
         context: CoachContext,
     ) -> None:
 
-        context.periodisation = (
-            PeriodisationEngine()
-            .build_plan(
-                context.race_intelligence,
-            )
+        context.periodisation = PeriodisationEngine().build_plan(
+            context.race_intelligence,
         )

@@ -39,41 +39,23 @@ def execute_ai_coach_chat(
     """
 
     result = run_api_coach_controller(
-        athlete_id=context[
-            "athlete_id"
-        ],
-        question=context[
-            "question"
-        ],
+        athlete_id=context["athlete_id"],
+        question=context["question"],
         ai_response=ai_response,
-        athlete_profile=context[
-            "athlete_profile"
-        ],
-        training_history=context[
-            "training_history"
-        ],
-        recovery_history=context[
-            "recovery_history"
-        ],
-        decision_analysis=context[
-            "decision_analysis"
-        ],
-        current_state=context[
-            "current_state"
-        ],
+        athlete_profile=context["athlete_profile"],
+        training_history=context["training_history"],
+        recovery_history=context["recovery_history"],
+        decision_analysis=context["decision_analysis"],
+        current_state=context["current_state"],
     )
 
     return format_ai_coach_response(
-    athlete_id=context[
-        "athlete_id"
-    ],
-    question=context[
-        "question"
-    ],
-    coach_response={
-        **result,
-        **ai_response,
-    },
+        athlete_id=context["athlete_id"],
+        question=context["question"],
+        coach_response={
+            **result,
+            **ai_response,
+        },
     )
 
 

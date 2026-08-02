@@ -49,10 +49,7 @@ def test_create_checkin():
         motivation_score=8,
     )
 
-    assert (
-        checkin.athlete_id
-        == 1
-    )
+    assert checkin.athlete_id == 1
 
 
 def test_repository_has_latest_method():

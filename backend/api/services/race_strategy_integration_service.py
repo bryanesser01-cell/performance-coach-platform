@@ -70,32 +70,23 @@ def generate_race_coach_message(
     AI Coach message.
     """
 
-    event = race_context[
-        "race_strategy"
-    ].get(
+    event = race_context["race_strategy"].get(
         "event",
         "race",
     )
 
-    target = race_context[
-        "race_goal"
-    ].get(
+    target = race_context["race_goal"].get(
         "target_time",
         "",
     )
 
-    checkpoints = race_context[
-        "race_strategy"
-    ].get(
+    checkpoints = race_context["race_strategy"].get(
         "checkpoints",
         [],
     )
 
     if not checkpoints:
-        return (
-            f"Your {event} race plan "
-            f"is targeting {target}."
-        )
+        return f"Your {event} race plan " f"is targeting {target}."
 
     first_checkpoint = checkpoints[0]
 

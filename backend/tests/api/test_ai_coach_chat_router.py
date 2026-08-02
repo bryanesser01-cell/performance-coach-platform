@@ -17,13 +17,9 @@ def test_ai_coach_chat_endpoint():
     response = client.post(
         "/athletes/1/ai-coach/chat",
         json={
-            "question": (
-                "Should I train today?"
-            ),
+            "question": ("Should I train today?"),
             "ai_response": {
-                "coach_message": (
-                    "Recover today."
-                ),
+                "coach_message": ("Recover today."),
                 "confidence": 90,
                 "memory_used": True,
             },
@@ -37,22 +33,13 @@ def test_ai_coach_chat_endpoint():
         },
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     body = response.json()
 
-    assert (
-        body["success"]
-        is True
-    )
+    assert body["success"] is True
 
-    assert (
-        body["athlete_id"]
-        == 1
-    )
+    assert body["athlete_id"] == 1
 
 
 def test_ai_coach_chat_contract():
@@ -60,22 +47,15 @@ def test_ai_coach_chat_contract():
     response = client.post(
         "/athletes/5/ai-coach/chat",
         json={
-            "question": (
-                "How should I train?"
-            ),
+            "question": ("How should I train?"),
             "ai_response": {
-                "coach_message": (
-                    "Complete an easy session."
-                ),
+                "coach_message": ("Complete an easy session."),
                 "confidence": 80,
             },
         },
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     body = response.json()
 

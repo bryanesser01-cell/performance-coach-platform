@@ -16,10 +16,7 @@ def convert_time_to_seconds(
         minutes = int(parts[0])
         seconds = int(parts[1])
 
-        return (
-            minutes * 60
-            + seconds
-        )
+        return minutes * 60 + seconds
 
     return int(time_string)
 
@@ -35,9 +32,7 @@ def convert_seconds_to_time(
 
     remaining = seconds % 60
 
-    return (
-        f"{minutes}:{remaining:02d}"
-    )
+    return f"{minutes}:{remaining:02d}"
 
 
 def calculate_split_time(
@@ -49,10 +44,7 @@ def calculate_split_time(
     Calculate cumulative split time.
     """
 
-    pace = (
-        total_seconds
-        / total_distance
-    )
+    pace = total_seconds / total_distance
 
     return round(
         pace * distance,
@@ -71,26 +63,22 @@ def get_race_checkpoints(
     event = event.lower()
 
     checkpoints = {
-
         "800m": [
             400,
             800,
         ],
-
         "1500m": [
             300,
             700,
             1100,
             1500,
         ],
-
         "mile": [
             409,
             809,
             1209,
             1609,
         ],
-
         "3000m": [
             400,
             800,
@@ -101,7 +89,6 @@ def get_race_checkpoints(
             2800,
             3000,
         ],
-
         "5000m": [
             1000,
             2000,
@@ -109,7 +96,6 @@ def get_race_checkpoints(
             4000,
             5000,
         ],
-
         "10k": [
             1000,
             2000,
@@ -122,7 +108,6 @@ def get_race_checkpoints(
             9000,
             10000,
         ],
-
     }
 
     return checkpoints.get(
@@ -144,11 +129,7 @@ def generate_race_strategy(
         event,
     )
 
-    total_distance = (
-        checkpoints[-1]
-        if checkpoints
-        else 0
-    )
+    total_distance = checkpoints[-1] if checkpoints else 0
 
     total_seconds = convert_time_to_seconds(
         target_time,
@@ -158,12 +139,10 @@ def generate_race_strategy(
 
     for checkpoint in checkpoints:
 
-        cumulative_seconds = (
-            calculate_split_time(
-                total_seconds,
-                checkpoint,
-                total_distance,
-            )
+        cumulative_seconds = calculate_split_time(
+            total_seconds,
+            checkpoint,
+            total_distance,
         )
 
         splits.append(
@@ -192,27 +171,23 @@ def generate_race_instruction(
     """
 
     strategies = {
-
         "1500m": [
             "Control the first 300m.",
             "Settle into race rhythm.",
             "Increase effort after 1100m.",
             "Attack the final 300m.",
         ],
-
         "800m": [
             "Run controlled first 200m.",
             "Maintain position at 400m.",
             "Commit from 500m.",
             "Sprint home.",
         ],
-
         "5000m": [
             "Avoid going out too fast.",
             "Hold even pace.",
             "Increase effort in final kilometre.",
         ],
-
     }
 
     return strategies.get(

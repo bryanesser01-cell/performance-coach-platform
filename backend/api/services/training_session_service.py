@@ -156,7 +156,5 @@ def analyse_completed_session(
         "session_type": session.session_type,
         "focus": session.focus,
         "status": session.status,
-        "recommendation": (
-            "Review recovery before the next session."
-        ),
+        "recommendation": ("Review recovery before the next session."),
     }

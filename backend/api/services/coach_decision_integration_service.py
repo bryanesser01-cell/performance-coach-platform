@@ -67,29 +67,20 @@ def generate_coach_decision(
         return {
             "decision": "recover",
             "priority": "recovery",
-            "reason": (
-                "Readiness is low. "
-                "Recovery is recommended."
-            ),
+            "reason": ("Readiness is low. " "Recovery is recommended."),
         }
 
     if training_load == "high":
         return {
             "decision": "reduce_load",
             "priority": "easy_session",
-            "reason": (
-                "Training load is elevated. "
-                "Reduce intensity."
-            ),
+            "reason": ("Training load is elevated. " "Reduce intensity."),
         }
 
     return {
         "decision": "maintain_training",
         "priority": "normal_session",
-        "reason": (
-            "Maintain current training approach "
-            "and continue monitoring."
-        ),
+        "reason": ("Maintain current training approach " "and continue monitoring."),
     }
 
 
@@ -156,10 +147,7 @@ def generate_coach_decision_context(
         decision = {
             "decision": "REDUCE_TRAINING",
             "priority": "recovery",
-            "reason": (
-                "Readiness is low and recovery "
-                "requires attention."
-            ),
+            "reason": ("Readiness is low and recovery " "requires attention."),
         }
 
     elif training_load == "high":
@@ -167,10 +155,7 @@ def generate_coach_decision_context(
         decision = {
             "decision": "REDUCE_TRAINING",
             "priority": "easy_session",
-            "reason": (
-                "Training load is elevated. "
-                "Reduce intensity."
-            ),
+            "reason": ("Training load is elevated. " "Reduce intensity."),
         }
 
     else:
@@ -178,10 +163,7 @@ def generate_coach_decision_context(
         decision = {
             "decision": "MAINTAIN_TRAINING",
             "priority": "normal_session",
-            "reason": (
-                "Training load and performance "
-                "are currently balanced."
-            ),
+            "reason": ("Training load and performance " "are currently balanced."),
         }
 
     explanation = explain_coach_decision(

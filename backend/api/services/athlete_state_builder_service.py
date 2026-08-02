@@ -18,12 +18,8 @@ def build_athlete_state(
 
     return {
         "readiness": readiness,
-
         "training": training,
-
         "performance": performance,
-
         "memory": memory_context or {},
-
         "state_ready": True,
     }

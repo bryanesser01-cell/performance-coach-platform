@@ -21,10 +21,7 @@ def test_generate_recovery_plan_when_needs_attention():
         training_load="stable",
     )
 
-    assert (
-        result["weekly_sessions"][0]["workout"]
-        == "Recovery Run"
-    )
+    assert result["weekly_sessions"][0]["workout"] == "Recovery Run"
 
 
 def test_generate_plan_with_increasing_load():
@@ -34,7 +31,4 @@ def test_generate_plan_with_increasing_load():
         training_load="increasing",
     )
 
-    assert (
-        result["weekly_sessions"][1]["workout"]
-        == "Threshold Session"
-    )
+    assert result["weekly_sessions"][1]["workout"] == "Threshold Session"

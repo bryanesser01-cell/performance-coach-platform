@@ -18,15 +18,9 @@ def test_build_complete_pipeline():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "decision_analysis"
-        in result
-    )
+    assert "decision_analysis" in result
 
 
 def test_generate_final_response():
@@ -34,9 +28,7 @@ def test_generate_final_response():
     result = generate_final_athlete_response(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         pipeline_context={
             "athlete_profile": {},
@@ -53,15 +45,9 @@ def test_generate_final_response():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_full_orchestration_pipeline():
@@ -69,9 +55,7 @@ def test_full_orchestration_pipeline():
     result = orchestrate_coach_conversation(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recovery recommended."
-            ),
+            "coach_message": ("Recovery recommended."),
         },
         athlete_profile={
             "sport": "running",
@@ -88,12 +72,6 @@ def test_full_orchestration_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

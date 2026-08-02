@@ -17,15 +17,9 @@ def test_cleanup_conversation_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_cleanup_chat_route():
@@ -40,15 +34,9 @@ def test_cleanup_chat_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_no_legacy_path():
@@ -62,7 +50,4 @@ def test_verify_no_legacy_path():
         },
     )
 
-    assert (
-        result["legacy_removed"]
-        is True
-    )
+    assert result["legacy_removed"] is True

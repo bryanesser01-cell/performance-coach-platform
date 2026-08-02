@@ -14,10 +14,7 @@ def test_low_readiness_reduces_training():
         fitness_trend="stable",
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
 
 def test_improving_fitness_progresses_training():
@@ -28,10 +25,7 @@ def test_improving_fitness_progresses_training():
         fitness_trend="improving",
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
 
 def test_select_coach_action():
@@ -42,10 +36,7 @@ def test_select_coach_action():
         }
     )
 
-    assert (
-        "recovery"
-        in result["action"].lower()
-    )
+    assert "recovery" in result["action"].lower()
 
 
 def test_generate_explanation():
@@ -57,10 +48,7 @@ def test_generate_explanation():
         }
     )
 
-    assert (
-        "MAINTAIN_TRAINING"
-        in result["explanation"]
-    )
+    assert "MAINTAIN_TRAINING" in result["explanation"]
 
 
 def test_full_coach_decision():
@@ -72,12 +60,6 @@ def test_full_coach_decision():
         learning_confidence=75,
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        result["learning_confidence"]
-        == 75
-    )
+    assert result["learning_confidence"] == 75

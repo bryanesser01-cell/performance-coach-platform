@@ -14,62 +14,43 @@ def build_athlete_strategy_profile(
     - Decision success history
     """
 
-    preferred_strategy = (
-        "BALANCED_TRAINING"
-    )
+    preferred_strategy = "BALANCED_TRAINING"
 
     confidence = 50
 
-    reason = (
-        "Insufficient history available. "
-        "Using balanced approach."
+    reason = "Insufficient history available. " "Using balanced approach."
+
+    recovery_success = decision_analysis.get(
+        "REDUCE_TRAINING",
+        {},
+    ).get(
+        "success_rate",
+        0,
     )
 
-    recovery_success = (
-        decision_analysis.get(
-            "REDUCE_TRAINING",
-            {},
-        ).get(
-            "success_rate",
-            0,
-        )
-    )
-
-    progression_success = (
-        decision_analysis.get(
-            "PROGRESS_TRAINING",
-            {},
-        ).get(
-            "success_rate",
-            0,
-        )
+    progression_success = decision_analysis.get(
+        "PROGRESS_TRAINING",
+        {},
+    ).get(
+        "success_rate",
+        0,
     )
 
     if recovery_success > progression_success:
 
-        preferred_strategy = (
-            "RECOVERY_FIRST"
-        )
+        preferred_strategy = "RECOVERY_FIRST"
 
         confidence = recovery_success
 
-        reason = (
-            "Athlete historically responds "
-            "better when recovery is prioritised."
-        )
+        reason = "Athlete historically responds " "better when recovery is prioritised."
 
     elif progression_success > recovery_success:
 
-        preferred_strategy = (
-            "PROGRESSION_FOCUSED"
-        )
+        preferred_strategy = "PROGRESSION_FOCUSED"
 
         confidence = progression_success
 
-        reason = (
-            "Athlete historically responds "
-            "well to progressive training."
-        )
+        reason = "Athlete historically responds " "well to progressive training."
 
     return {
         "preferred_strategy": preferred_strategy,
@@ -93,11 +74,9 @@ def select_personalised_training_strategy(
     and current condition.
     """
 
-    preferred_strategy = (
-        athlete_strategy_profile.get(
-            "preferred_strategy",
-            "BALANCED_TRAINING",
-        )
+    preferred_strategy = athlete_strategy_profile.get(
+        "preferred_strategy",
+        "BALANCED_TRAINING",
     )
 
     readiness = current_state.get(
@@ -107,15 +86,11 @@ def select_personalised_training_strategy(
 
     if readiness < 40:
 
-        recommendation = (
-            "RECOVERY_FIRST"
-        )
+        recommendation = "RECOVERY_FIRST"
 
     else:
 
-        recommendation = (
-            preferred_strategy
-        )
+        recommendation = preferred_strategy
 
     return {
         "strategy": recommendation,
@@ -145,8 +120,7 @@ def generate_strategy_recommendation(
             50,
         ),
         "message": (
-            "Training strategy personalised "
-            "from your historical responses."
+            "Training strategy personalised " "from your historical responses."
         ),
     }
 

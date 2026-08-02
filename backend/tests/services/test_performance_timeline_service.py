@@ -10,7 +10,6 @@ def test_add_performance_milestone():
 
     timeline = []
 
-
     result = add_performance_milestone(
         timeline,
         event="5K",
@@ -18,12 +17,7 @@ def test_add_performance_milestone():
         date="2026-01-01",
     )
 
-
-    assert (
-        result[0]["event"]
-        == "5K"
-    )
-
+    assert result[0]["event"] == "5K"
 
 
 def test_create_performance_timeline():
@@ -37,12 +31,7 @@ def test_create_performance_timeline():
         ]
     )
 
-
-    assert (
-        result["total_milestones"]
-        == 1
-    )
-
+    assert result["total_milestones"] == 1
 
 
 def test_analyse_timeline_progress():
@@ -54,7 +43,6 @@ def test_analyse_timeline_progress():
                 "value": "23:05",
                 "improved": False,
             },
-
             {
                 "event": "5K",
                 "value": "22:30",
@@ -63,12 +51,7 @@ def test_analyse_timeline_progress():
         ]
     )
 
-
-    assert (
-        result["trend"]
-        == "improving"
-    )
-
+    assert result["trend"] == "improving"
 
 
 def test_generate_timeline_summary():
@@ -79,8 +62,4 @@ def test_generate_timeline_summary():
         }
     )
 
-
-    assert (
-        "improving"
-        in result["message"]
-    )
+    assert "improving" in result["message"]

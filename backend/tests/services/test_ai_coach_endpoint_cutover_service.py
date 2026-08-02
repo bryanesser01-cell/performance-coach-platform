@@ -17,15 +17,9 @@ def test_cutover_conversation_endpoint():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_cutover_chat_endpoint():
@@ -40,15 +34,9 @@ def test_cutover_chat_endpoint():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_endpoint_contract():
@@ -62,7 +50,4 @@ def test_verify_endpoint_contract():
         },
     )
 
-    assert (
-        result["valid"]
-        is True
-    )
+    assert result["valid"] is True

@@ -17,30 +17,18 @@ def process_coach_learning_update(
     and create learning update.
     """
 
-
-    learning_update = (
-        analyse_coach_decision_outcome(
-            decision=decision,
-            completed=completed,
-            athlete_rpe=athlete_rpe,
-            fatigue_after=fatigue_after,
-        )
+    learning_update = analyse_coach_decision_outcome(
+        decision=decision,
+        completed=completed,
+        athlete_rpe=athlete_rpe,
+        fatigue_after=fatigue_after,
     )
 
-
-    confidence_change = (
-        calculate_learning_update(
-            learning_update["signal"]
-        )
-    )
-
+    confidence_change = calculate_learning_update(learning_update["signal"])
 
     return {
         "decision": decision,
-
         "learning_update": learning_update,
-
         "confidence_change": confidence_change,
-
         "learning_processed": True,
     }

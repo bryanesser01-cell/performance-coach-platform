@@ -16,15 +16,9 @@ def test_create_training_plan():
         target_time="4:45",
     )
 
-    assert (
-        result["timeline_weeks"]
-        == 12
-    )
+    assert result["timeline_weeks"] == 12
 
-    assert (
-        len(result["phases"])
-        == 4
-    )
+    assert len(result["phases"]) == 4
 
 
 def test_adjust_weekly_load_improving():
@@ -34,10 +28,7 @@ def test_adjust_weekly_load_improving():
         performance_response="improving",
     )
 
-    assert (
-        result["new_load"]
-        == 550
-    )
+    assert result["new_load"] == 550
 
 
 def test_adjust_weekly_load_fatigued():
@@ -47,10 +38,7 @@ def test_adjust_weekly_load_fatigued():
         performance_response="fatigued",
     )
 
-    assert (
-        result["new_load"]
-        == 400
-    )
+    assert result["new_load"] == 400
 
 
 def test_adapt_plan_from_results():
@@ -61,10 +49,7 @@ def test_adapt_plan_from_results():
         fatigue_score=30,
     )
 
-    assert (
-        result["action"]
-        == "CONTINUE_PROGRESS"
-    )
+    assert result["action"] == "CONTINUE_PROGRESS"
 
 
 def test_generate_race_preparation_plan():
@@ -75,12 +60,6 @@ def test_generate_race_preparation_plan():
         goal="Personal Best",
     )
 
-    assert (
-        result["event"]
-        == "1500m"
-    )
+    assert result["event"] == "1500m"
 
-    assert (
-        len(result["strategy"])
-        > 0
-    )
+    assert len(result["strategy"]) > 0

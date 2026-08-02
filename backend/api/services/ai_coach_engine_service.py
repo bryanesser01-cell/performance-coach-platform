@@ -60,10 +60,6 @@ def generate_ai_coach_response(
         "coach_insights": coach_insights,
         "race_readiness": race_readiness,
         "race_prediction": race_prediction,
-        "coach_message": narrative[
-            "summary"
-        ],
-        "recommendation": narrative[
-            "recommendation"
-        ],
+        "coach_message": narrative["summary"],
+        "recommendation": narrative["recommendation"],
     }

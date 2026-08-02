@@ -33,18 +33,14 @@ def process_voice_session(
         athlete_id=athlete_id,
         session_id=session_id,
         user_message=voice_text,
-        coach_response=response[
-            "response_text"
-        ],
+        coach_response=response["response_text"],
     )
 
     return {
         "session_id": session_id,
         "athlete_id": athlete_id,
         "question": voice_text,
-        "answer": response[
-            "response_text"
-        ],
+        "answer": response["response_text"],
         "decision": response.get(
             "decision",
         ),

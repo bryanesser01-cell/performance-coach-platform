@@ -32,15 +32,9 @@ def test_adaptive_decision_uses_previous_positive_learning():
         athlete_state=athlete_state,
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["learning_confidence"]
-        >= 70
-    )
+    assert result["learning_confidence"] >= 70
 
 
 def test_adaptive_decision_returns_learning_context():
@@ -62,7 +56,4 @@ def test_adaptive_decision_returns_learning_context():
         athlete_state=athlete_state,
     )
 
-    assert (
-        "learning_confidence"
-        in result
-    )
+    assert "learning_confidence" in result

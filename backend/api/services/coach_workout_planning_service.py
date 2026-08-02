@@ -19,18 +19,14 @@ def build_coach_workout_plan(
     - Training explanation
     """
 
-    adjustment_required = (
-        needs_coach_adjustment(
-            athlete_state,
-        )
+    adjustment_required = needs_coach_adjustment(
+        athlete_state,
     )
 
-    workout_context = (
-        build_complete_workout_coach_context(
-            athlete_state=athlete_state,
-            event=event,
-            goal_time=goal_time,
-        )
+    workout_context = build_complete_workout_coach_context(
+        athlete_state=athlete_state,
+        event=event,
+        goal_time=goal_time,
     )
 
     recommendation = workout_context.get(
@@ -48,10 +44,7 @@ def build_coach_workout_plan(
         workout = {
             **workout,
             "adjusted": True,
-            "coach_note": (
-                "Workout adjusted due to "
-                "current recovery status."
-            ),
+            "coach_note": ("Workout adjusted due to " "current recovery status."),
         }
 
     else:
@@ -59,10 +52,7 @@ def build_coach_workout_plan(
         workout = {
             **workout,
             "adjusted": False,
-            "coach_note": (
-                "Current readiness supports "
-                "planned training."
-            ),
+            "coach_note": ("Current readiness supports " "planned training."),
         }
 
     return {
@@ -89,15 +79,9 @@ def get_coach_workout_decision(
         False,
     ):
 
-        return (
-            "The workout has been modified "
-            "to protect recovery."
-        )
+        return "The workout has been modified " "to protect recovery."
 
-    return (
-        "The planned workout is suitable "
-        "for your current fitness."
-    )
+    return "The planned workout is suitable " "for your current fitness."
 
 
 def should_skip_quality_session(

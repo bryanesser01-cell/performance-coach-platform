@@ -14,12 +14,7 @@ def test_calculate_overall_score():
         improvement_score=85,
     )
 
-
-    assert (
-        result
-        == 85
-    )
-
+    assert result == 85
 
 
 def test_generate_performance_scorecard():
@@ -32,18 +27,9 @@ def test_generate_performance_scorecard():
         trend="improving",
     )
 
+    assert result["overall_score"] == 85
 
-    assert (
-        result["overall_score"]
-        == 85
-    )
-
-
-    assert (
-        result["status"]
-        == "excellent"
-    )
-
+    assert result["status"] == "excellent"
 
 
 def test_generate_scorecard_summary():
@@ -51,15 +37,9 @@ def test_generate_scorecard_summary():
     result = generate_scorecard_summary(
         {
             "overall_score": 85,
-
             "status": "excellent",
-
             "trend": "improving",
         }
     )
 
-
-    assert (
-        "excellent"
-        in result["headline"]
-    )
+    assert "excellent" in result["headline"]

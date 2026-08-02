@@ -98,11 +98,9 @@ def generate_adaptive_conversation_response(
     Coach Message
     """
 
-    adaptive_context = (
-        build_adaptive_conversation_context(
-            coach_context=coach_context,
-            learning_memory=learning_memory,
-        )
+    adaptive_context = build_adaptive_conversation_context(
+        coach_context=coach_context,
+        learning_memory=learning_memory,
     )
 
     message = generate_adaptive_coach_message(

@@ -13,7 +13,4 @@ def test_progress_timeline_endpoint_exists():
 
     assert response.status_code == 200
 
-    assert (
-        response.json()["athlete_id"]
-        == 1
-    )
+    assert response.json()["athlete_id"] == 1

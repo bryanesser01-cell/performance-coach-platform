@@ -56,18 +56,10 @@ def build_training_memory(
 
             workout.append(
                 {
-                    "distance_meters": (
-                        interval.distance_meters
-                    ),
-                    "repetitions": (
-                        interval.repetitions
-                    ),
-                    "target_time": (
-                        interval.target_time
-                    ),
-                    "recovery": (
-                        interval.recovery
-                    ),
+                    "distance_meters": (interval.distance_meters),
+                    "repetitions": (interval.repetitions),
+                    "target_time": (interval.target_time),
+                    "recovery": (interval.recovery),
                 }
             )
 
@@ -76,15 +68,9 @@ def build_training_memory(
                 "date": str(
                     session.session_date,
                 ),
-                "type": (
-                    session.session_type
-                ),
-                "focus": (
-                    session.focus
-                ),
-                "status": (
-                    session.status
-                ),
+                "type": (session.session_type),
+                "focus": (session.focus),
+                "status": (session.status),
                 "workout": workout,
             }
         )
@@ -111,10 +97,7 @@ def generate_training_memory_summary(
         "has_training_history",
         False,
     ):
-        return (
-            "No previous training sessions "
-            "available."
-        )
+        return "No previous training sessions " "available."
 
     count = len(
         context.get(
@@ -123,7 +106,4 @@ def generate_training_memory_summary(
         )
     )
 
-    return (
-        f"Athlete has {count} recent "
-        "training session(s) recorded."
-    )
+    return f"Athlete has {count} recent " "training session(s) recorded."

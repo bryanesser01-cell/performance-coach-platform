@@ -41,10 +41,7 @@ def test_athlete_memory_endpoints_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/memory"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/memory" in paths
 
 
 def test_athlete_memory_context_endpoint_in_openapi():
@@ -55,10 +52,7 @@ def test_athlete_memory_context_endpoint_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/memory/context"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/memory/context" in paths
 
 
 def test_athlete_memory_intelligence_endpoint_in_openapi():
@@ -69,7 +63,4 @@ def test_athlete_memory_intelligence_endpoint_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/memory/intelligence"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/memory/intelligence" in paths

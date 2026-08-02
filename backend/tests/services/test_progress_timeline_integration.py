@@ -29,9 +29,7 @@ def test_progress_timeline_uses_real_activity_data():
 
     repository = Mock()
 
-    repository.get_by_athlete_id.return_value = (
-        mock_metrics
-    )
+    repository.get_by_athlete_id.return_value = mock_metrics
 
     with patch(
         "api.services.athlete_progress_repository_service.ActivityMetricRepository",
@@ -56,20 +54,11 @@ def test_progress_timeline_uses_real_activity_data():
         activities,
     )
 
-    assert (
-        timeline["fitness_trend"]
-        == "improving"
-    )
+    assert timeline["fitness_trend"] == "improving"
 
-    assert (
-        timeline["pace_improvement_seconds_per_km"]
-        == 30
-    )
+    assert timeline["pace_improvement_seconds_per_km"] == 30
 
-    assert (
-        timeline["consistency_score"]
-        == 20
-    )
+    assert timeline["consistency_score"] == 20
 
 
 def test_progress_timeline_handles_no_history():
@@ -78,12 +67,6 @@ def test_progress_timeline_handles_no_history():
         [],
     )
 
-    assert (
-        timeline["fitness_trend"]
-        == "insufficient_data"
-    )
+    assert timeline["fitness_trend"] == "insufficient_data"
 
-    assert (
-        timeline["consistency_score"]
-        == 0
-    )
+    assert timeline["consistency_score"] == 0

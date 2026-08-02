@@ -85,16 +85,14 @@ def generate_final_ai_coach_answer(
     Final Answer
     """
 
-    personalised_response = (
-        run_personalised_response_pipeline(
-            athlete_id=athlete_id,
-            athlete_profile=athlete_profile,
-            training_history=training_history,
-            recovery_history=recovery_history,
-            decision_analysis=decision_analysis,
-            current_state=current_state,
-            coach_response=ai_response,
-        )
+    personalised_response = run_personalised_response_pipeline(
+        athlete_id=athlete_id,
+        athlete_profile=athlete_profile,
+        training_history=training_history,
+        recovery_history=recovery_history,
+        decision_analysis=decision_analysis,
+        current_state=current_state,
+        coach_response=ai_response,
     )
 
     return combine_ai_and_personalised_response(

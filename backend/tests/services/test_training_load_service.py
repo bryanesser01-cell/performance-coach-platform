@@ -20,11 +20,7 @@ def test_calculate_training_load():
         ]
     )
 
-    assert (
-        result["training_load"]
-        == 110
-    )
-
+    assert result["training_load"] == 110
 
 
 def test_recovery_status():
@@ -35,11 +31,7 @@ def test_recovery_status():
         resting_hr_change=12,
     )
 
-    assert (
-        result["readiness"]
-        == "REDUCE_TRAINING"
-    )
-
+    assert result["readiness"] == "REDUCE_TRAINING"
 
 
 def test_training_readiness_report():
@@ -51,7 +43,4 @@ def test_training_readiness_report():
         resting_hr_change=0,
     )
 
-    assert (
-        result["ready_to_train"]
-        is True
-    )
+    assert result["ready_to_train"] is True

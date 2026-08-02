@@ -31,10 +31,7 @@ def test_positive_training_outcome():
         session,
     )
 
-    assert (
-        result["outcome"]
-        == "positive"
-    )
+    assert result["outcome"] == "positive"
 
 
 def test_negative_training_outcome():
@@ -47,10 +44,7 @@ def test_negative_training_outcome():
         session,
     )
 
-    assert (
-        result["outcome"]
-        == "negative"
-    )
+    assert result["outcome"] == "negative"
 
 
 def test_learning_event_created():
@@ -75,10 +69,7 @@ def test_learning_event_created():
             decision="PROGRESS_TRAINING",
         )
 
-    assert (
-        result["analysis"]["outcome"]
-        == "positive"
-    )
+    assert result["analysis"]["outcome"] == "positive"
 
 
 def test_recommendation_positive():
@@ -91,7 +82,4 @@ def test_recommendation_positive():
         session,
     )
 
-    assert (
-        "progression"
-        in result["recommendation"]
-    )
+    assert "progression" in result["recommendation"]

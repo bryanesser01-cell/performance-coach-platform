@@ -47,9 +47,7 @@ def generate_athlete_performance_report(
 
     prediction = predict_race_time(
         recent_time_seconds=1200,
-        readiness_score=readiness[
-            "race_readiness_score"
-        ],
+        readiness_score=readiness["race_readiness_score"],
         performance_trend="improving",
     )
 

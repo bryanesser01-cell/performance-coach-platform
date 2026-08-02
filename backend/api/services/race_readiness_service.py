@@ -29,7 +29,6 @@ def calculate_race_readiness_score(
 
     score = 0
 
-
     # Training consistency
     if training_consistency >= 80:
         score += 30
@@ -40,14 +39,12 @@ def calculate_race_readiness_score(
     else:
         score += 10
 
-
     # Performance trend
     if performance_trend == "improving":
         score += 30
 
     elif performance_trend == "stable":
         score += 20
-
 
     # Recovery
     if recovery_status == "good":
@@ -56,14 +53,12 @@ def calculate_race_readiness_score(
     elif recovery_status == "moderate":
         score += 15
 
-
     # Training load
     if recent_training_load == "appropriate":
         score += 15
 
     elif recent_training_load == "high":
         score += 5
-
 
     if score >= 80:
         status = "ready"
@@ -74,13 +69,10 @@ def calculate_race_readiness_score(
     else:
         status = "not_ready"
 
-
     return {
         "readiness_score": score,
-
         "status": status,
     }
-
 
 
 def analyse_race_readiness(
@@ -95,30 +87,24 @@ def analyse_race_readiness(
             "training_consistency",
             0,
         ),
-
         performance_trend=athlete_data.get(
             "performance_trend",
             "unknown",
         ),
-
         recovery_status=athlete_data.get(
             "recovery_status",
             "unknown",
         ),
-
         recent_training_load=athlete_data.get(
             "recent_training_load",
             "unknown",
         ),
     )
 
-
     return {
         "athlete": athlete_data,
-
         "race_readiness": readiness,
     }
-
 
 
 def generate_race_readiness_summary(
@@ -128,16 +114,10 @@ def generate_race_readiness_summary(
     Generate athlete-facing message.
     """
 
-    status = readiness_result[
-        "race_readiness"
-    ][
-        "status"
-    ]
-
+    status = readiness_result["race_readiness"]["status"]
 
     return {
         "status": status,
-
         "message": (
             f"Race readiness status is "
             f"{status}. "
@@ -145,6 +125,7 @@ def generate_race_readiness_summary(
             "recent training indicators."
         ),
     }
+
 
 def generate_race_readiness_report(
     training_load: int,
@@ -165,19 +146,8 @@ def generate_race_readiness_report(
     """
 
     readiness_score = round(
-        (
-            training_load
-            +
-            performance_score
-            +
-            fatigue_score
-            +
-            consistency_score
-        )
-        /
-        4
+        (training_load + performance_score + fatigue_score + consistency_score) / 4
     )
-
 
     if readiness_score >= 85:
         status = "ready"
@@ -188,26 +158,17 @@ def generate_race_readiness_report(
     else:
         status = "not_ready"
 
-
     return {
-    "race_readiness_score": readiness_score,
-
-    "readiness_score": readiness_score,
-
-    "status": status,
-
-    "training_load": training_load,
-
-    "performance_score": performance_score,
-
-    "fatigue_score": fatigue_score,
-
-    "consistency_score": consistency_score,
-
-    "recommendation": (
-        "Athlete is ready to race."
-        if status == "ready"
-        else
-        "Continue preparation."
-    ),
-}
+        "race_readiness_score": readiness_score,
+        "readiness_score": readiness_score,
+        "status": status,
+        "training_load": training_load,
+        "performance_score": performance_score,
+        "fatigue_score": fatigue_score,
+        "consistency_score": consistency_score,
+        "recommendation": (
+            "Athlete is ready to race."
+            if status == "ready"
+            else "Continue preparation."
+        ),
+    }

@@ -25,10 +25,7 @@ def test_prepare_api_request():
 
     assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_execute_api_request():
@@ -54,15 +51,9 @@ def test_execute_api_request():
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_generate_api_response():
@@ -86,10 +77,7 @@ def test_generate_api_response():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_api_controller():
@@ -115,12 +103,6 @@ def test_full_api_controller():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

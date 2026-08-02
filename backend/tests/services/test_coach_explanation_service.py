@@ -14,16 +14,9 @@ def test_running_session_explanation():
         goal="improve performance",
     )
 
-    assert (
-        "why_this_session"
-        in result
-    )
+    assert "why_this_session" in result
 
-    assert (
-        "running economy"
-        in result["what_to_focus_on"]
-    )
-
+    assert "running economy" in result["what_to_focus_on"]
 
 
 def test_strength_explanation():
@@ -36,11 +29,7 @@ def test_strength_explanation():
         ],
     )
 
-    assert (
-        result["session_type"]
-        == "strength"
-    )
-
+    assert result["session_type"] == "strength"
 
 
 def test_complete_coach_explanation():
@@ -53,7 +42,4 @@ def test_complete_coach_explanation():
         goal="marathon preparation",
     )
 
-    assert (
-        result["session"]
-        == "60 minute easy run"
-    )
+    assert result["session"] == "60 minute easy run"

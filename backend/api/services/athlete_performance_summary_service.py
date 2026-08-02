@@ -10,10 +10,7 @@ def calculate_weekly_distance(
     Calculate total weekly distance.
     """
 
-    return sum(
-        activity["distance_km"]
-        for activity in activities
-    )
+    return sum(activity["distance_km"] for activity in activities)
 
 
 def calculate_average_pace(
@@ -26,15 +23,9 @@ def calculate_average_pace(
     if not activities:
         return 0.0
 
-    total_distance = sum(
-        activity["distance_km"]
-        for activity in activities
-    )
+    total_distance = sum(activity["distance_km"] for activity in activities)
 
-    total_duration = sum(
-        activity["duration_seconds"]
-        for activity in activities
-    )
+    total_duration = sum(activity["duration_seconds"] for activity in activities)
 
     if total_distance == 0:
         return 0.0

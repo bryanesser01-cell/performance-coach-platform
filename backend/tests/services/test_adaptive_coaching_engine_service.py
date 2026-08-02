@@ -19,10 +19,7 @@ def test_build_adaptive_training_decision():
         }
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
 
 def test_learning_adjustment():
@@ -36,10 +33,7 @@ def test_learning_adjustment():
         },
     )
 
-    assert (
-        result["learning_confidence"]
-        == 70
-    )
+    assert result["learning_confidence"] == 70
 
 
 def test_generate_adaptive_response():
@@ -53,15 +47,9 @@ def test_generate_adaptive_response():
         }
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 80
-    )
+    assert result["confidence"] == 80
 
 
 def test_full_adaptive_engine():
@@ -80,12 +68,6 @@ def test_full_adaptive_engine():
         },
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 70
-    )
+    assert result["confidence"] == 70

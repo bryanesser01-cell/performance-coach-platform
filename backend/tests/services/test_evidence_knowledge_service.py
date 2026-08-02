@@ -16,10 +16,7 @@ def test_store_research_reference():
         evidence_level="high",
     )
 
-    assert (
-        result["source_name"]
-        == "AIS"
-    )
+    assert result["source_name"] == "AIS"
 
 
 def test_classify_youth_age():
@@ -28,10 +25,7 @@ def test_classify_youth_age():
         age=11,
     )
 
-    assert (
-        result["age_group"]
-        == "YOUTH_U12"
-    )
+    assert result["age_group"] == "YOUTH_U12"
 
 
 def test_classify_adult_age():
@@ -40,10 +34,7 @@ def test_classify_adult_age():
         age=45,
     )
 
-    assert (
-        result["age_group"]
-        == "MASTERS"
-    )
+    assert result["age_group"] == "MASTERS"
 
 
 def test_apply_age_training_rules():
@@ -52,10 +43,7 @@ def test_apply_age_training_rules():
         age_group="YOUTH_U12",
     )
 
-    assert (
-        "coordination"
-        in result["training_rules"]
-    )
+    assert "coordination" in result["training_rules"]
 
 
 def test_apply_evidence_rules():
@@ -66,15 +54,9 @@ def test_apply_evidence_rules():
         goal="improve performance",
     )
 
-    assert (
-        result["evidence_applied"]
-        is True
-    )
+    assert result["evidence_applied"] is True
 
-    assert (
-        "power"
-        in result["event_rules"]
-    )
+    assert "power" in result["event_rules"]
 
 
 def test_generate_evidence_based_recommendation():
@@ -85,12 +67,6 @@ def test_generate_evidence_based_recommendation():
         goal="improve performance",
     )
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
-    assert (
-        "AIS"
-        in result["sources"]
-    )
+    assert "AIS" in result["sources"]

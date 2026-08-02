@@ -73,12 +73,10 @@ def complete_coach_interaction(
     Final Response
     """
 
-    learning_response = (
-        orchestrate_learning_after_response(
-            athlete_id=athlete_id,
-            question=question,
-            response=response,
-        )
+    learning_response = orchestrate_learning_after_response(
+        athlete_id=athlete_id,
+        question=question,
+        response=response,
     )
 
     return attach_learning_context(

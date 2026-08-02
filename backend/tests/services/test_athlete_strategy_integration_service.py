@@ -25,15 +25,9 @@ def test_build_personalised_context():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "personalised_strategy"
-        in result
-    )
+    assert "personalised_strategy" in result
 
 
 def test_apply_strategy_to_decision():
@@ -44,23 +38,15 @@ def test_apply_strategy_to_decision():
         },
         {
             "personalised_strategy": {
-                "recommended_strategy": (
-                    "RECOVERY_FIRST"
-                ),
+                "recommended_strategy": ("RECOVERY_FIRST"),
                 "confidence": 85,
             }
         },
     )
 
-    assert (
-        result["athlete_strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["athlete_strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["strategy_confidence"]
-        == 85
-    )
+    assert result["strategy_confidence"] == 85
 
 
 def test_generate_personalised_response():
@@ -68,22 +54,14 @@ def test_generate_personalised_response():
     result = generate_personalised_coach_response(
         {
             "decision": "REDUCE_TRAINING",
-            "athlete_strategy": (
-                "RECOVERY_FIRST"
-            ),
+            "athlete_strategy": ("RECOVERY_FIRST"),
             "strategy_confidence": 90,
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_full_personalised_strategy_pipeline():
@@ -108,12 +86,6 @@ def test_full_personalised_strategy_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90

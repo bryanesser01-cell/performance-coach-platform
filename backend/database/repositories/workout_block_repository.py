@@ -26,9 +26,7 @@ class WorkoutBlockRepository:
     ):
 
         block = WorkoutBlock(
-            training_session_id=(
-                training_session_id
-            ),
+            training_session_id=(training_session_id),
             block_type=block_type,
             description=description,
             order_number=order_number,
@@ -59,9 +57,7 @@ class WorkoutBlockRepository:
     ):
 
         detail = WorkoutDetail(
-            workout_block_id=(
-                workout_block_id
-            ),
+            workout_block_id=(workout_block_id),
             detail_type=detail_type,
             distance_meters=distance_meters,
             duration_minutes=duration_minutes,
@@ -93,8 +89,7 @@ class WorkoutBlockRepository:
                 WorkoutBlock,
             )
             .filter(
-                WorkoutBlock.training_session_id
-                == training_session_id,
+                WorkoutBlock.training_session_id == training_session_id,
             )
             .order_by(
                 WorkoutBlock.order_number,
@@ -110,10 +105,8 @@ class WorkoutBlockRepository:
 
         for block in blocks:
 
-            block.details = (
-                self.get_details(
-                    block.id,
-                )
+            block.details = self.get_details(
+                block.id,
             )
 
         return blocks
@@ -128,8 +121,7 @@ class WorkoutBlockRepository:
                 WorkoutDetail,
             )
             .filter(
-                WorkoutDetail.workout_block_id
-                == workout_block_id,
+                WorkoutDetail.workout_block_id == workout_block_id,
             )
             .all()
         )

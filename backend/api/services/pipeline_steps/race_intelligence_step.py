@@ -14,11 +14,8 @@ class RaceIntelligenceStep:
         context: CoachContext,
     ) -> None:
 
-        context.race_intelligence = (
-            RaceIntelligenceService()
-            .analyse(
-                context.athlete_state.get(
-                    "next_race",
-                )
+        context.race_intelligence = RaceIntelligenceService().analyse(
+            context.athlete_state.get(
+                "next_race",
             )
         )

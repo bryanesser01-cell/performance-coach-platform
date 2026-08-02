@@ -21,9 +21,7 @@ def record_coach_interaction(
         "decision": decision,
         "confidence": confidence,
         "outcome": outcome,
-        "recorded_at": datetime.now(
-            timezone.utc
-        ).isoformat(),
+        "recorded_at": datetime.now(timezone.utc).isoformat(),
     }
 
 

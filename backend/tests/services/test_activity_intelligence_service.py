@@ -37,15 +37,9 @@ def test_analyse_activity():
         intensity="moderate",
     )
 
-    assert (
-        result["activity_id"]
-        == 1
-    )
+    assert result["activity_id"] == 1
 
-    assert (
-        result["training_stress"]
-        == 60
-    )
+    assert result["training_stress"] == 60
 
 
 def test_detect_improving_fitness_trend():
@@ -61,10 +55,7 @@ def test_detect_improving_fitness_trend():
         ]
     )
 
-    assert (
-        result["trend"]
-        == "improving"
-    )
+    assert result["trend"] == "improving"
 
 
 def test_generate_activity_learning_event():
@@ -76,7 +67,4 @@ def test_generate_activity_learning_event():
         }
     )
 
-    assert (
-        result["outcome"]
-        == "high_load"
-    )
+    assert result["outcome"] == "high_load"

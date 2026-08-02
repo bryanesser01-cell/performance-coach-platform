@@ -51,16 +51,12 @@ def explain_coach_decision(
     if fatigue_signal == "high":
 
         message += (
-            " Your recent feedback showed high fatigue, "
-            "so recovery is the priority."
+            " Your recent feedback showed high fatigue, " "so recovery is the priority."
         )
 
     if execution_score is not None:
 
-        message += (
-            f" Your workout execution score was "
-            f"{execution_score}/100."
-        )
+        message += f" Your workout execution score was " f"{execution_score}/100."
 
     return {
         "decision": decision,

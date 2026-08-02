@@ -36,7 +36,6 @@ def select_adapter(
     return "manual"
 
 
-
 def import_training_session(
     source: str,
     raw_data: dict,
@@ -55,13 +54,11 @@ def import_training_session(
         source,
     )
 
-
     if adapter == "garmin":
 
         session = convert_garmin_activity(
             raw_data,
         )
-
 
     elif adapter == "apple_health":
 
@@ -69,13 +66,11 @@ def import_training_session(
             raw_data,
         )
 
-
     elif adapter == "coros":
 
         session = convert_coros_activity(
             raw_data,
         )
-
 
     elif adapter == "strava":
 
@@ -83,22 +78,17 @@ def import_training_session(
             raw_data,
         )
 
-
     else:
 
         session = create_manual_training_entry(
             **raw_data,
         )
 
-
     return {
         "source": adapter,
-
         "training_session": session,
-
         "import_complete": True,
     }
-
 
 
 def validate_import(
@@ -113,16 +103,13 @@ def validate_import(
         {},
     )
 
-
     required_fields = [
         "distance_km",
         "duration_minutes",
         "session_type",
     ]
 
-
     missing = []
-
 
     for field in required_fields:
 
@@ -130,13 +117,10 @@ def validate_import(
 
             missing.append(field)
 
-
     return {
         "valid": len(missing) == 0,
-
         "missing_fields": missing,
     }
-
 
 
 def build_training_import_result(
@@ -152,18 +136,12 @@ def build_training_import_result(
         raw_data=raw_data,
     )
 
-
     validation = validate_import(
         record,
     )
 
-
     return {
         "training_record": record,
-
         "validation": validation,
-
-        "ready_for_coach": (
-            validation["valid"]
-        ),
+        "ready_for_coach": (validation["valid"]),
     }

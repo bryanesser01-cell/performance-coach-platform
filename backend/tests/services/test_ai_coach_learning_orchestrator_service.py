@@ -17,19 +17,14 @@ def test_orchestrate_learning_after_response():
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
 
 def test_attach_learning_context():
 
     result = attach_learning_context(
         response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         learning_response={
             "learning_updated": True,
@@ -39,17 +34,9 @@ def test_attach_learning_context():
         },
     )
 
-    assert (
-        result["learning_context"]
-        ["learning_updated"]
-        is True
-    )
+    assert result["learning_context"]["learning_updated"] is True
 
-    assert (
-        result["learning_context"]
-        ["learning_result"]["signal"]
-        == "REINFORCE"
-    )
+    assert result["learning_context"]["learning_result"]["signal"] == "REINFORCE"
 
 
 def test_complete_coach_interaction():
@@ -64,8 +51,4 @@ def test_complete_coach_interaction():
         },
     )
 
-    assert (
-        result["learning_context"]
-        ["learning_updated"]
-        is True
-    )
+    assert result["learning_context"]["learning_updated"] is True

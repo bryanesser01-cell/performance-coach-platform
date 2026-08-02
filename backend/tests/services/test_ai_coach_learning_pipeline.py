@@ -23,32 +23,19 @@ def test_ai_coach_creates_learning_context():
     ), patch(
         "api.services.ai_coach_conversation_service.generate_ai_coach_response",
         return_value={
-            "coach_message": (
-                "Take an easy recovery run."
-            ),
+            "coach_message": ("Take an easy recovery run."),
         },
     ):
 
-        result = (
-            generate_coach_conversation_response(
-                db=db,
-                athlete_id=1,
-                question=(
-                    "Should I train today?"
-                ),
-            )
+        result = generate_coach_conversation_response(
+            db=db,
+            athlete_id=1,
+            question=("Should I train today?"),
         )
 
-    assert (
-        "learning_memory"
-        in result
-    )
+    assert "learning_memory" in result
 
-    assert (
-        result["learning_memory"]
-        ["confidence_adjustment"]
-        == 20
-    )
+    assert result["learning_memory"]["confidence_adjustment"] == 20
 
 
 def test_ai_coach_context_contains_decision_context():
@@ -59,9 +46,7 @@ def test_ai_coach_context_contains_decision_context():
         "api.services.ai_coach_conversation_service.generate_coach_decision_context",
         return_value={
             "coach_decision": {
-                "decision": (
-                    "REDUCE_TRAINING"
-                ),
+                "decision": ("REDUCE_TRAINING"),
             }
         },
     ), patch(
@@ -71,20 +56,14 @@ def test_ai_coach_context_contains_decision_context():
         },
     ):
 
-        result = (
-            generate_coach_conversation_response(
-                db=db,
-                athlete_id=1,
-                question=(
-                    "Should I train today?"
-                ),
-            )
+        result = generate_coach_conversation_response(
+            db=db,
+            athlete_id=1,
+            question=("Should I train today?"),
         )
 
     assert (
-        result["coach_decision_context"]
-        ["coach_decision"]
-        ["decision"]
+        result["coach_decision_context"]["coach_decision"]["decision"]
         == "REDUCE_TRAINING"
     )
 
@@ -96,28 +75,16 @@ def test_learning_pipeline_returns_response():
     with patch(
         "api.services.ai_coach_conversation_service.generate_ai_coach_response",
         return_value={
-            "coach_message": (
-                "Keep progressing."
-            ),
+            "coach_message": ("Keep progressing."),
         },
     ):
 
-        result = (
-            generate_coach_conversation_response(
-                db=db,
-                athlete_id=5,
-                question=(
-                    "How should I train?"
-                ),
-            )
+        result = generate_coach_conversation_response(
+            db=db,
+            athlete_id=5,
+            question=("How should I train?"),
         )
 
-    assert (
-        result["response"]
-        is not None
-    )
+    assert result["response"] is not None
 
-    assert (
-        result["answer"]
-        is not None
-    )
+    assert result["answer"] is not None

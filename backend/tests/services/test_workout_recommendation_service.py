@@ -25,37 +25,22 @@ def test_complete_workout_recommendation():
         goal_time="4:45",
     )
 
-    assert (
-        result["event"]
-        == "1500m"
-    )
+    assert result["event"] == "1500m"
 
-    assert (
-        result["workout"]["session_type"]
-        == "interval"
-    )
+    assert result["workout"]["session_type"] == "interval"
 
-    assert (
-        "athlete_explanation"
-        in result["workout"]
-    )
+    assert "athlete_explanation" in result["workout"]
 
 
 def test_workout_coach_message():
 
     recommendation = {
         "workout": {
-            "workout": (
-                "5 x 400m at race pace"
-            ),
+            "workout": ("5 x 400m at race pace"),
             "athlete_explanation": {
                 "effort": "8-9/10",
-                "feeling": (
-                    "Fast and controlled."
-                ),
-                "purpose": (
-                    "Improve speed."
-                ),
+                "feeling": ("Fast and controlled."),
+                "purpose": ("Improve speed."),
             },
         }
     }
@@ -64,15 +49,9 @@ def test_workout_coach_message():
         recommendation,
     )
 
-    assert (
-        "5 x 400m"
-        in message
-    )
+    assert "5 x 400m" in message
 
-    assert (
-        "8-9/10"
-        in message
-    )
+    assert "8-9/10" in message
 
 
 def test_low_readiness_adjusts_workout():

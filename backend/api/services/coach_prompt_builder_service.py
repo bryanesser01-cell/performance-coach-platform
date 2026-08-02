@@ -19,34 +19,14 @@ def build_coach_prompt(
     """
 
     return {
-    "question": question,
-    "athlete_state": athlete_state,
-    "memory_context": (
-        memory_context
-        if memory_context
-        else {}
-    ),
-    "voice_memory": (
-        voice_memory_context
-        if voice_memory_context
-        else {}
-    ),
-    "training_memory": (
-        training_memory
-        if training_memory
-        else {}
-    ),
-    "coach_decision": (
-        coach_decision
-        if coach_decision
-        else {}
-    ),
-    "race_strategy": (
-        race_strategy_context
-        if race_strategy_context
-        else {}
-    ),
-}
+        "question": question,
+        "athlete_state": athlete_state,
+        "memory_context": (memory_context if memory_context else {}),
+        "voice_memory": (voice_memory_context if voice_memory_context else {}),
+        "training_memory": (training_memory if training_memory else {}),
+        "coach_decision": (coach_decision if coach_decision else {}),
+        "race_strategy": (race_strategy_context if race_strategy_context else {}),
+    }
 
 
 def generate_prompt_summary(
@@ -110,6 +90,7 @@ def has_training_memory(
         "has_training_history",
         False,
     )
+
 
 def has_race_strategy(
     prompt_context: dict,

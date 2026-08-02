@@ -11,10 +11,7 @@ def test_reduce_training_when_fatigue_is_high():
         performance_trend="declining",
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
 
 def test_progress_training_when_improving():
@@ -25,10 +22,7 @@ def test_progress_training_when_improving():
         performance_trend="improving",
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
 
 def test_maintain_training_when_balanced():
@@ -39,10 +33,7 @@ def test_maintain_training_when_balanced():
         performance_trend="stable",
     )
 
-    assert (
-        result["decision"]
-        == "MAINTAIN_TRAINING"
-    )
+    assert result["decision"] == "MAINTAIN_TRAINING"
 
 
 def test_race_taper_before_event():
@@ -54,10 +45,7 @@ def test_race_taper_before_event():
         days_to_race=7,
     )
 
-    assert (
-        result["decision"]
-        == "RACE_TAPER"
-    )
+    assert result["decision"] == "RACE_TAPER"
 
 
 def test_recovery_session_when_needs_attention():
@@ -68,7 +56,4 @@ def test_recovery_session_when_needs_attention():
         performance_trend="declining",
     )
 
-    assert (
-        result["decision"]
-        == "RECOVERY_SESSION"
-    )
+    assert result["decision"] == "RECOVERY_SESSION"

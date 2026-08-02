@@ -43,28 +43,14 @@ def generate_live_service_response(
     """
 
     return run_production_controller(
-        athlete_id=request[
-            "athlete_id"
-        ],
-        question=request[
-            "question"
-        ],
+        athlete_id=request["athlete_id"],
+        question=request["question"],
         ai_response=ai_response,
-        athlete_profile=request[
-            "athlete_profile"
-        ],
-        training_history=request[
-            "training_history"
-        ],
-        recovery_history=request[
-            "recovery_history"
-        ],
-        decision_analysis=request[
-            "decision_analysis"
-        ],
-        current_state=request[
-            "current_state"
-        ],
+        athlete_profile=request["athlete_profile"],
+        training_history=request["training_history"],
+        recovery_history=request["recovery_history"],
+        decision_analysis=request["decision_analysis"],
+        current_state=request["current_state"],
     )
 
 

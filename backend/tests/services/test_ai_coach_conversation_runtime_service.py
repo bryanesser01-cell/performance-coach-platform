@@ -20,15 +20,9 @@ def test_build_runtime_context():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_execute_runtime_conversation():
@@ -50,21 +44,13 @@ def test_execute_runtime_conversation():
             },
         },
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_generate_runtime_response():
@@ -73,9 +59,7 @@ def test_generate_runtime_response():
         athlete_id=1,
         question="Should I reduce training?",
         ai_response={
-            "coach_message": (
-                "Reduce load."
-            ),
+            "coach_message": ("Reduce load."),
         },
         athlete_profile={},
         training_history=[],
@@ -90,10 +74,7 @@ def test_generate_runtime_response():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_runtime_pipeline():
@@ -102,9 +83,7 @@ def test_full_runtime_pipeline():
         athlete_id=1,
         question="Should I do intervals?",
         ai_response={
-            "coach_message": (
-                "Adjust session."
-            ),
+            "coach_message": ("Adjust session."),
         },
         athlete_profile={
             "sport": "running",
@@ -121,12 +100,6 @@ def test_full_runtime_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

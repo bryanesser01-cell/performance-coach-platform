@@ -17,15 +17,9 @@ def test_process_ai_coach_request():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_process_ai_coach_conversation():
@@ -40,10 +34,7 @@ def test_process_ai_coach_conversation():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
 
 def test_process_ai_coach_chat():
@@ -58,12 +49,6 @@ def test_process_ai_coach_chat():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True

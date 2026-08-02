@@ -14,18 +14,9 @@ def test_race_readiness_score():
         recent_training_load="appropriate",
     )
 
+    assert result["status"] == "ready"
 
-    assert (
-        result["status"]
-        == "ready"
-    )
-
-
-    assert (
-        result["readiness_score"]
-        == 100
-    )
-
+    assert result["readiness_score"] == 100
 
 
 def test_analyse_race_readiness():
@@ -39,12 +30,7 @@ def test_analyse_race_readiness():
         }
     )
 
-
-    assert (
-        "race_readiness"
-        in result
-    )
-
+    assert "race_readiness" in result
 
 
 def test_generate_race_readiness_summary():
@@ -57,8 +43,4 @@ def test_generate_race_readiness_summary():
         }
     )
 
-
-    assert (
-        result["status"]
-        == "ready"
-    )
+    assert result["status"] == "ready"

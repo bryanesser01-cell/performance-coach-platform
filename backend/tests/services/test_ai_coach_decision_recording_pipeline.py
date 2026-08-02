@@ -14,18 +14,14 @@ def test_ai_coach_records_adaptive_decision():
         return_value={
             "coach_decision": {
                 "decision": "REDUCE_TRAINING",
-                "reason": (
-                    "Recovery status requires adjustment."
-                ),
+                "reason": ("Recovery status requires adjustment."),
             },
             "learning_confidence": 80,
         },
     ), patch(
         "api.services.ai_coach_conversation_service.generate_ai_coach_response",
         return_value={
-            "coach_message": (
-                "Take a recovery day."
-            ),
+            "coach_message": ("Take a recovery day."),
         },
     ), patch(
         "api.services.ai_coach_conversation_service.record_coach_decision",
@@ -35,30 +31,20 @@ def test_ai_coach_records_adaptive_decision():
         },
     ) as record_mock:
 
-        result = (
-            generate_coach_conversation_response(
-                db=db,
-                athlete_id=1,
-                question=(
-                    "Should I train today?"
-                ),
-                athlete_state={
-                    "readiness": {
-                        "score": 40,
-                    }
-                },
-            )
+        result = generate_coach_conversation_response(
+            db=db,
+            athlete_id=1,
+            question=("Should I train today?"),
+            athlete_state={
+                "readiness": {
+                    "score": 40,
+                }
+            },
         )
 
-    assert (
-        result["response"]
-        is not None
-    )
+    assert result["response"] is not None
 
-    assert (
-        record_mock.called
-        is True
-    )
+    assert record_mock.called is True
 
 
 def test_ai_coach_decision_record_contains_confidence():
@@ -83,12 +69,6 @@ def test_ai_coach_decision_record_contains_confidence():
 
     args = record_mock.call_args.kwargs
 
-    assert (
-        args["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert args["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        args["confidence"]
-        == 85
-    )
+    assert args["confidence"] == 85

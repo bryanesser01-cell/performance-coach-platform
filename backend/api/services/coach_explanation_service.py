@@ -77,35 +77,29 @@ def classify_explanation_context(
             "general development",
         ]
 
-
     if age < 12:
 
         athlete_message = (
-            "Focus on skill development, "
-            "coordination and safe progression."
+            "Focus on skill development, " "coordination and safe progression."
         )
 
     elif age < 18:
 
         athlete_message = (
-            "Focus on developing athletic "
-            "qualities while progressing safely."
+            "Focus on developing athletic " "qualities while progressing safely."
         )
 
     else:
 
         athlete_message = (
-            "Focus on performance optimisation "
-            "and managing training load."
+            "Focus on performance optimisation " "and managing training load."
         )
-
 
     return {
         "event_focus": focus,
         "athlete_message": athlete_message,
         "training_phase": training_phase,
     }
-
 
 
 def explain_running_session(
@@ -125,43 +119,27 @@ def explain_running_session(
         training_phase=training_phase,
     )
 
-
     return {
         "session": session,
-
         "goal": goal,
-
         "why_this_session": (
             f"This session supports {event} "
-            "performance by developing "
-            + ", ".join(
-                context["event_focus"]
-            )
-            + "."
+            "performance by developing " + ", ".join(context["event_focus"]) + "."
         ),
-
-        "what_to_focus_on": (
-            context["event_focus"]
-        ),
-
+        "what_to_focus_on": (context["event_focus"]),
         "what_you_should_feel": (
             "Controlled effort with good "
             "technique. Finish feeling like "
             "you could complete the session "
             "with quality."
         ),
-
         "avoid": [
             "Poor technique",
             "Going faster than prescribed",
             "Ignoring fatigue signals",
         ],
-
-        "coach_tip": (
-            context["athlete_message"]
-        ),
+        "coach_tip": (context["athlete_message"]),
     }
-
 
 
 def explain_strength_session(
@@ -190,33 +168,26 @@ def explain_strength_session(
             "resilience."
         )
 
-
     return {
         "session_type": "strength",
-
         "exercises": exercises,
-
         "why_this_session": reason,
-
         "what_to_focus_on": [
             "Quality movement",
             "Controlled technique",
             "Consistency",
         ],
-
         "avoid": [
             "Poor technique",
             "Training through pain",
             "Excessive load progression",
         ],
-
         "coach_tip": (
             "Strength supports running "
             "performance when combined with "
             "appropriate endurance training."
         ),
     }
-
 
 
 def build_coach_explanation(
@@ -240,7 +211,6 @@ def build_coach_explanation(
                 session,
             ],
         )
-
 
     return explain_running_session(
         age=age,

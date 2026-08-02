@@ -22,36 +22,24 @@ class MemoryContextService:
 
         memories = (
             self.db.query(AthleteMemory)
-            .filter(
-                AthleteMemory.athlete_id == athlete_id
-            )
-            .order_by(
-                AthleteMemory.created_at.desc()
-            )
+            .filter(AthleteMemory.athlete_id == athlete_id)
+            .order_by(AthleteMemory.created_at.desc())
             .limit(20)
             .all()
         )
 
         decisions = (
             self.db.query(CoachDecision)
-            .filter(
-                CoachDecision.athlete_id == athlete_id
-            )
-            .order_by(
-                CoachDecision.created_at.desc()
-            )
+            .filter(CoachDecision.athlete_id == athlete_id)
+            .order_by(CoachDecision.created_at.desc())
             .limit(20)
             .all()
         )
 
         learning_events = (
             self.db.query(CoachLearningEvent)
-            .filter(
-                CoachLearningEvent.athlete_id == athlete_id
-            )
-            .order_by(
-                CoachLearningEvent.timestamp.desc()
-            )
+            .filter(CoachLearningEvent.athlete_id == athlete_id)
+            .order_by(CoachLearningEvent.timestamp.desc())
             .limit(20)
             .all()
         )

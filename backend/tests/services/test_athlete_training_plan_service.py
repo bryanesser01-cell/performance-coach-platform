@@ -28,10 +28,7 @@ def test_generate_athlete_training_plan():
 
     assert result["athlete_id"] == 1
 
-    assert (
-        result["coach_recommendation"]["recommendation"]
-        == "continue_progression"
-    )
+    assert result["coach_recommendation"]["recommendation"] == "continue_progression"
 
     assert (
         len(
@@ -62,7 +59,4 @@ def test_training_plan_uses_training_load_trend():
 
     sessions = result["training_plan"]["weekly_sessions"]
 
-    assert (
-        sessions[1]["workout"]
-        == "Threshold Session"
-    )
+    assert sessions[1]["workout"] == "Threshold Session"

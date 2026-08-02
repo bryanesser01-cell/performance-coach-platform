@@ -22,7 +22,6 @@ def store_research_reference(
     }
 
 
-
 def classify_age_group(
     age: int,
 ) -> dict:
@@ -60,7 +59,6 @@ def classify_age_group(
     }
 
 
-
 def apply_age_training_rules(
     age_group: str,
 ) -> dict:
@@ -69,45 +67,38 @@ def apply_age_training_rules(
     """
 
     rules = {
-
         "YOUTH_U12": [
             "movement_quality",
             "coordination",
             "skill_development",
             "safe_strength_foundation",
         ],
-
         "YOUTH_U14": [
             "technique",
             "athletic_development",
             "strength_foundation",
         ],
-
         "U18": [
             "progressive_strength",
             "power_development",
             "injury_prevention",
         ],
-
         "ADULT": [
             "performance_optimisation",
             "progressive_overload",
             "recovery_management",
         ],
-
         "MASTERS": [
             "strength_maintenance",
             "injury_prevention",
             "recovery_priority",
         ],
-
         "MASTERS_PLUS": [
             "mobility",
             "strength_retention",
             "recovery_focus",
         ],
     }
-
 
     return {
         "age_group": age_group,
@@ -116,7 +107,6 @@ def apply_age_training_rules(
             [],
         ),
     }
-
 
 
 def apply_event_specific_rules(
@@ -129,97 +119,81 @@ def apply_event_specific_rules(
     """
 
     event_rules = {
-
         "100m": [
             "acceleration",
             "maximum_speed",
             "explosive_power",
         ],
-
         "200m": [
             "speed",
             "power",
             "speed_endurance",
         ],
-
         "400m": [
             "speed_endurance",
             "lactate_tolerance",
             "power",
         ],
-
         "800m": [
             "speed",
             "aerobic_power",
             "race_pace",
         ],
-
         "1500m": [
             "running_economy",
             "aerobic_power",
             "power",
             "strength_power",
         ],
-
         "mile": [
             "running_economy",
             "speed_reserve",
             "aerobic_capacity",
         ],
-
         "3000m": [
             "aerobic_capacity",
             "strength_endurance",
             "fatigue_resistance",
         ],
-
         "5000m": [
             "aerobic_capacity",
             "running_economy",
             "durability",
         ],
-
         "10000m": [
             "aerobic_capacity",
             "fatigue_resistance",
             "endurance",
         ],
-
         "5K": [
             "aerobic_capacity",
             "running_economy",
         ],
-
         "10K": [
             "threshold",
             "endurance",
         ],
-
         "half_marathon": [
             "aerobic_endurance",
             "fuel_management",
             "durability",
         ],
-
         "marathon": [
             "endurance_development",
             "fuel_strategy",
             "fatigue_resistance",
         ],
-
         "trail": [
             "terrain_adaptation",
             "single_leg_strength",
             "elevation_strength",
         ],
-
         "ultra_marathon": [
             "resilience",
             "fatigue_resistance",
             "nutrition_strategy",
         ],
     }
-
 
     return {
         "event": event,
@@ -230,7 +204,6 @@ def apply_event_specific_rules(
             ],
         ),
     }
-
 
 
 def apply_evidence_rules(
@@ -252,38 +225,23 @@ def apply_evidence_rules(
         age=age,
     )
 
-
     age_rules = apply_age_training_rules(
-        age_group=age_profile[
-            "age_group"
-        ],
+        age_group=age_profile["age_group"],
     )
-
 
     event_rules = apply_event_specific_rules(
         event=event,
     )
 
-
     return {
         "athlete_age": age,
-        "age_group": age_profile[
-            "age_group"
-        ],
+        "age_group": age_profile["age_group"],
         "event": event,
         "goal": goal,
-
-        "age_rules": age_rules[
-            "training_rules"
-        ],
-
-        "event_rules": event_rules[
-            "event_focus"
-        ],
-
+        "age_rules": age_rules["training_rules"],
+        "event_rules": event_rules["event_focus"],
         "evidence_applied": True,
     }
-
 
 
 def generate_evidence_based_recommendation(
@@ -307,17 +265,12 @@ def generate_evidence_based_recommendation(
         goal=goal,
     )
 
-
     return {
         "recommendation": (
-            "Generate training using "
-            "age and event specific evidence."
+            "Generate training using " "age and event specific evidence."
         ),
-
         "confidence": 90,
-
         "evidence": evidence,
-
         "sources": [
             "AIS",
             "Athletics Australia",

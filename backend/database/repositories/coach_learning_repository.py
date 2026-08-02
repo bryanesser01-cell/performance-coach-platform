@@ -52,8 +52,7 @@ def get_learning_history(
     return (
         db.query(CoachLearningEvent)
         .filter(
-            CoachLearningEvent.athlete_id
-            == athlete_id,
+            CoachLearningEvent.athlete_id == athlete_id,
         )
         .order_by(
             CoachLearningEvent.timestamp.desc(),
@@ -75,19 +74,14 @@ def get_recent_decisions(
     Retrieve recent decisions of a type.
     """
 
-    query = (
-        db.query(CoachLearningEvent)
-        .filter(
-            CoachLearningEvent.athlete_id
-            == athlete_id,
-        )
+    query = db.query(CoachLearningEvent).filter(
+        CoachLearningEvent.athlete_id == athlete_id,
     )
 
     if decision:
 
         query = query.filter(
-            CoachLearningEvent.decision
-            == decision,
+            CoachLearningEvent.decision == decision,
         )
 
     return (
@@ -112,7 +106,4 @@ def calculate_confidence_adjustment(
     if not events:
         return 0
 
-    return sum(
-        event.confidence_change
-        for event in events
-    )
+    return sum(event.confidence_change for event in events)

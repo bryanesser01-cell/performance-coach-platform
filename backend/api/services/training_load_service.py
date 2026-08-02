@@ -24,16 +24,12 @@ def calculate_training_load(
             1,
         )
 
-        total_load += (
-            duration * intensity
-        )
-
+        total_load += duration * intensity
 
     return {
         "training_load": total_load,
         "sessions_completed": len(sessions),
     }
-
 
 
 def calculate_weekly_load_change(
@@ -52,14 +48,7 @@ def calculate_weekly_load_change(
 
     else:
 
-        change = (
-            (
-                current_load
-                - previous_load
-            )
-            / previous_load
-        ) * 100
-
+        change = ((current_load - previous_load) / previous_load) * 100
 
     return {
         "current_load": current_load,
@@ -69,7 +58,6 @@ def calculate_weekly_load_change(
             2,
         ),
     }
-
 
 
 def classify_fatigue_level(
@@ -90,7 +78,6 @@ def classify_fatigue_level(
     return "LOW"
 
 
-
 def calculate_recovery_status(
     sleep_hours: float,
     fatigue_score: int,
@@ -102,27 +89,17 @@ def calculate_recovery_status(
 
     issues = []
 
-
     if sleep_hours < 7:
 
-        issues.append(
-            "insufficient_sleep"
-        )
-
+        issues.append("insufficient_sleep")
 
     if fatigue_score >= 70:
 
-        issues.append(
-            "high_fatigue"
-        )
-
+        issues.append("high_fatigue")
 
     if resting_hr_change >= 10:
 
-        issues.append(
-            "elevated_resting_heart_rate"
-        )
-
+        issues.append("elevated_resting_heart_rate")
 
     if len(issues) >= 2:
 
@@ -136,12 +113,10 @@ def calculate_recovery_status(
 
         readiness = "READY"
 
-
     return {
         "readiness": readiness,
         "issues": issues,
     }
-
 
 
 def recommend_training_adjustment(
@@ -157,41 +132,25 @@ def recommend_training_adjustment(
 
         recommendation = planned_session
 
-        reason = (
-            "Athlete readiness supports "
-            "planned training."
-        )
-
+        reason = "Athlete readiness supports " "planned training."
 
     elif recovery_status == "MODIFY_SESSION":
 
-        recommendation = (
-            "Reduce intensity and volume"
-        )
+        recommendation = "Reduce intensity and volume"
 
-        reason = (
-            "Minor recovery concerns detected."
-        )
-
+        reason = "Minor recovery concerns detected."
 
     else:
 
-        recommendation = (
-            "Recovery session or rest"
-        )
+        recommendation = "Recovery session or rest"
 
-        reason = (
-            "Recovery markers suggest "
-            "additional adaptation time."
-        )
-
+        reason = "Recovery markers suggest " "additional adaptation time."
 
     return {
         "original_session": planned_session,
         "recommended_session": recommendation,
         "reason": reason,
     }
-
 
 
 def build_training_readiness_report(
@@ -214,20 +173,9 @@ def build_training_readiness_report(
         resting_hr_change=resting_hr_change,
     )
 
-
     return {
         "training_load": load,
-
-        "fatigue_level": (
-            classify_fatigue_level(
-                fatigue_score
-            )
-        ),
-
+        "fatigue_level": (classify_fatigue_level(fatigue_score)),
         "recovery": recovery,
-
-        "ready_to_train": (
-            recovery["readiness"]
-            == "READY"
-        ),
+        "ready_to_train": (recovery["readiness"] == "READY"),
     }

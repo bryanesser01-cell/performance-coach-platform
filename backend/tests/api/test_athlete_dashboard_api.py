@@ -13,10 +13,7 @@ def test_dashboard_endpoint_path():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/dashboard"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/dashboard" in paths
 
 
 def test_dashboard_intelligence_endpoint_path():
@@ -27,7 +24,4 @@ def test_dashboard_intelligence_endpoint_path():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/intelligence"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/intelligence" in paths

@@ -24,20 +24,11 @@ def test_build_athlete_context():
         ],
     )
 
-    assert (
-        context["athlete"]["id"]
-        == 1
-    )
+    assert context["athlete"]["id"] == 1
 
-    assert (
-        context["goal"]
-        == "Sub 20 minute 5K"
-    )
+    assert context["goal"] == "Sub 20 minute 5K"
 
-    assert (
-        context["memories"][0]
-        == "Prefers morning sessions"
-    )
+    assert context["memories"][0] == "Prefers morning sessions"
 
 
 def test_context_generates_training_decision():
@@ -55,10 +46,7 @@ def test_context_generates_training_decision():
         },
     )
 
-    assert (
-        context["decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert context["decision"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_context_detects_fatigue():
@@ -76,10 +64,7 @@ def test_context_detects_fatigue():
         },
     )
 
-    assert (
-        context["decision"]["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert context["decision"]["decision"] == "REDUCE_TRAINING"
 
 
 def test_generate_context_summary():
@@ -101,12 +86,6 @@ def test_generate_context_summary():
         context,
     )
 
-    assert (
-        "Bryan"
-        in summary
-    )
+    assert "Bryan" in summary
 
-    assert (
-        "Sub 20 minute 5K"
-        in summary
-    )
+    assert "Sub 20 minute 5K" in summary

@@ -17,20 +17,11 @@ def test_build_coach_context_contains_athlete_state():
         ],
     )
 
-    assert (
-        context["athlete_id"]
-        == 1
-    )
+    assert context["athlete_id"] == 1
 
-    assert (
-        context["goal"]
-        == "Run sub 20 minute 5K"
-    )
+    assert context["goal"] == "Run sub 20 minute 5K"
 
-    assert (
-        context["memories"][0]
-        == "Prefers morning sessions"
-    )
+    assert context["memories"][0] == "Prefers morning sessions"
 
 
 def test_context_generates_progression_decision():
@@ -43,10 +34,7 @@ def test_context_generates_progression_decision():
         performance_trend="improving",
     )
 
-    assert (
-        context["decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert context["decision"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_context_detects_recovery_need():
@@ -59,10 +47,7 @@ def test_context_detects_recovery_need():
         performance_trend="declining",
     )
 
-    assert (
-        context["decision"]["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert context["decision"]["decision"] == "REDUCE_TRAINING"
 
 
 def test_generate_coach_summary():
@@ -79,7 +64,4 @@ def test_generate_coach_summary():
         context,
     )
 
-    assert (
-        "Run sub 20 minute 5K"
-        in summary
-    )
+    assert "Run sub 20 minute 5K" in summary

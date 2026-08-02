@@ -17,10 +17,7 @@ def test_process_conversation_request():
         },
     )
 
-    assert (
-        result["learning_applied"]
-        is True
-    )
+    assert result["learning_applied"] is True
 
 
 def test_process_chat_request():
@@ -35,28 +32,17 @@ def test_process_chat_request():
         },
     )
 
-    assert (
-        result["learning_applied"]
-        is True
-    )
+    assert result["learning_applied"] is True
 
 
 def test_build_route_response():
 
     result = build_route_response(
         {
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["coach_message"]
-        == "Recover today."
-    )
+    assert result["data"]["coach_message"] == "Recover today."

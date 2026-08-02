@@ -9,28 +9,17 @@ def calculate_pace(
     if distance_km <= 0:
         return "0:00/km"
 
-    pace = (
-        duration_minutes
-        / distance_km
-    )
+    pace = duration_minutes / distance_km
 
     minutes = int(pace)
 
-    seconds = int(
-        round(
-            (pace - minutes)
-            * 60
-        )
-    )
+    seconds = int(round((pace - minutes) * 60))
 
     if seconds == 60:
         minutes += 1
         seconds = 0
 
-    return (
-        f"{minutes}:{seconds:02d}/km"
-    )
-
+    return f"{minutes}:{seconds:02d}/km"
 
 
 def convert_apple_health_workout(
@@ -55,56 +44,22 @@ def convert_apple_health_workout(
         0,
     )
 
-
     return {
         "source": "apple_health",
-
         "session_type": "run",
-
-        "workout_id": apple_data.get(
-            "workout_id"
-        ),
-
-        "date": apple_data.get(
-            "date"
-        ),
-
+        "workout_id": apple_data.get("workout_id"),
+        "date": apple_data.get("date"),
         "distance_km": distance_km,
-
-        "duration_minutes": (
-            duration_minutes
-        ),
-
+        "duration_minutes": (duration_minutes),
         "pace": calculate_pace(
             distance_km,
             duration_minutes,
         ),
-
-        "avg_heart_rate": (
-            apple_data.get(
-                "heart_rate"
-            )
-        ),
-
-        "max_heart_rate": (
-            apple_data.get(
-                "max_heart_rate"
-            )
-        ),
-
-        "cadence": (
-            apple_data.get(
-                "cadence"
-            )
-        ),
-
-        "elevation_gain": (
-            apple_data.get(
-                "elevation_gain"
-            )
-        ),
+        "avg_heart_rate": (apple_data.get("heart_rate")),
+        "max_heart_rate": (apple_data.get("max_heart_rate")),
+        "cadence": (apple_data.get("cadence")),
+        "elevation_gain": (apple_data.get("elevation_gain")),
     }
-
 
 
 def validate_apple_health_workout(
@@ -120,7 +75,6 @@ def validate_apple_health_workout(
         "session_type",
     ]
 
-
     missing = []
 
     for field in required_fields:
@@ -129,12 +83,10 @@ def validate_apple_health_workout(
 
             missing.append(field)
 
-
     return {
         "valid": len(missing) == 0,
         "missing_fields": missing,
     }
-
 
 
 def build_apple_health_record(
@@ -154,18 +106,12 @@ def build_apple_health_record(
         apple_data,
     )
 
-
     validation = validate_apple_health_workout(
         workout,
     )
 
-
     return {
         "training_session": workout,
-
         "validation": validation,
-
-        "import_complete": (
-            validation["valid"]
-        ),
+        "import_complete": (validation["valid"]),
     }

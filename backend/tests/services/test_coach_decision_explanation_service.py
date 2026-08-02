@@ -13,15 +13,9 @@ def test_reduce_training_explanation():
         fatigue_signal="high",
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        "recovery"
-        in result["athlete_message"]
-    )
+    assert "recovery" in result["athlete_message"]
 
 
 def test_progress_training_explanation():
@@ -33,15 +27,9 @@ def test_progress_training_explanation():
         fatigue_signal="low",
     )
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        "progressing"
-        in result["athlete_message"]
-    )
+    assert "progressing" in result["athlete_message"]
 
 
 def test_race_taper_explanation():
@@ -51,22 +39,13 @@ def test_race_taper_explanation():
         reason="Race approaching",
     )
 
-    assert (
-        "race"
-        in result["athlete_message"]
-    )
+    assert "race" in result["athlete_message"]
 
 
 def test_short_explanation():
 
     result = build_short_coach_explanation(
-        {
-            "athlete_message": (
-                "Recovery is the priority."
-            )
-        }
+        {"athlete_message": ("Recovery is the priority.")}
     )
 
-    assert result == (
-        "Recovery is the priority."
-    )
+    assert result == ("Recovery is the priority.")

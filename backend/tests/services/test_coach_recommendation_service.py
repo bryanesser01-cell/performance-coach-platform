@@ -10,9 +10,7 @@ def test_recommend_progression():
         training_load_trend="stable",
     )
 
-    assert result["recommendation"] == (
-        "continue_progression"
-    )
+    assert result["recommendation"] == ("continue_progression")
 
 
 def test_recommend_recovery_when_load_increases():
@@ -22,9 +20,7 @@ def test_recommend_recovery_when_load_increases():
         training_load_trend="increasing",
     )
 
-    assert result["recommendation"] == (
-        "monitor_recovery"
-    )
+    assert result["recommendation"] == ("monitor_recovery")
 
 
 def test_recommend_reduce_load_when_performance_declines():
@@ -34,6 +30,4 @@ def test_recommend_reduce_load_when_performance_declines():
         training_load_trend="stable",
     )
 
-    assert result["recommendation"] == (
-        "reduce_load"
-    )
+    assert result["recommendation"] == ("reduce_load")

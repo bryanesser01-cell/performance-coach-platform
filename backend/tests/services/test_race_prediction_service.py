@@ -11,15 +11,9 @@ def test_predict_improved_race_time():
         performance_trend="improving",
     )
 
-    assert (
-        result["predicted_time_seconds"]
-        < 1200
-    )
+    assert result["predicted_time_seconds"] < 1200
 
-    assert (
-        result["outlook"]
-        == "positive"
-    )
+    assert result["outlook"] == "positive"
 
 
 def test_prediction_confidence():
@@ -30,10 +24,7 @@ def test_prediction_confidence():
         performance_trend="stable",
     )
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_declining_performance():
@@ -44,7 +35,4 @@ def test_declining_performance():
         performance_trend="declining",
     )
 
-    assert (
-        result["outlook"]
-        == "needs_improvement"
-    )
+    assert result["outlook"] == "needs_improvement"

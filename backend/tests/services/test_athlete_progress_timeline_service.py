@@ -18,10 +18,7 @@ def test_progress_timeline_detects_improvement():
         activities,
     )
 
-    assert (
-        result["fitness_trend"]
-        == "improving"
-    )
+    assert result["fitness_trend"] == "improving"
 
 
 def test_progress_timeline_calculates_pace_change():
@@ -39,10 +36,7 @@ def test_progress_timeline_calculates_pace_change():
         activities,
     )
 
-    assert (
-        result["pace_improvement_seconds_per_km"]
-        == 30
-    )
+    assert result["pace_improvement_seconds_per_km"] == 30
 
 
 def test_consistency_score():
@@ -57,7 +51,4 @@ def test_consistency_score():
         activities,
     )
 
-    assert (
-        result["consistency_score"]
-        == 30
-    )
+    assert result["consistency_score"] == 30

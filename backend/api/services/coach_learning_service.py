@@ -21,7 +21,6 @@ def analyse_training_session_response(
         "",
     ).lower()
 
-
     if feedback in [
         "good",
         "strong",
@@ -30,7 +29,6 @@ def analyse_training_session_response(
     ]:
 
         response = "POSITIVE"
-
 
     elif feedback in [
         "tired",
@@ -41,24 +39,19 @@ def analyse_training_session_response(
 
         response = "NEGATIVE"
 
-
     else:
 
         response = "UNKNOWN"
-
 
     return {
         "session_type": session.get(
             "session_type",
         ),
-
         "response": response,
-
         "date": session.get(
             "date",
         ),
     }
-
 
 
 def identify_training_patterns(
@@ -72,15 +65,11 @@ def identify_training_patterns(
 
     struggles_with = []
 
-
     for session in sessions:
 
-        analysis = (
-            analyse_training_session_response(
-                session,
-            )
+        analysis = analyse_training_session_response(
+            session,
         )
-
 
         if analysis["response"] == "POSITIVE":
 
@@ -88,22 +77,17 @@ def identify_training_patterns(
                 analysis["session_type"],
             )
 
-
         elif analysis["response"] == "NEGATIVE":
 
             struggles_with.append(
                 analysis["session_type"],
             )
 
-
     return {
         "responds_well_to": responds_well_to,
-
         "struggles_with": struggles_with,
-
         "patterns_identified": True,
     }
-
 
 
 def update_athlete_learning_profile(
@@ -118,15 +102,11 @@ def update_athlete_learning_profile(
         sessions,
     )
 
-
     return {
         "athlete_profile": athlete_profile,
-
         "training_patterns": patterns,
-
         "learning_updated": True,
     }
-
 
 
 def generate_coach_learning_insight(
@@ -141,27 +121,21 @@ def generate_coach_learning_insight(
         {},
     )
 
-
     return {
         "insight": {
             "strengths": patterns.get(
                 "responds_well_to",
                 [],
             ),
-
             "challenges": patterns.get(
                 "struggles_with",
                 [],
             ),
         },
-
         "coach_message": (
-            "Future training will be "
-            "adapted using athlete response "
-            "history."
+            "Future training will be " "adapted using athlete response " "history."
         ),
     }
-
 
 
 def build_learning_loop_result(
@@ -172,29 +146,20 @@ def build_learning_loop_result(
     Complete AI learning loop.
     """
 
-    profile = (
-        update_athlete_learning_profile(
-            athlete_profile,
-            sessions,
-        )
+    profile = update_athlete_learning_profile(
+        athlete_profile,
+        sessions,
     )
 
-
-    insight = (
-        generate_coach_learning_insight(
-            profile,
-        )
+    insight = generate_coach_learning_insight(
+        profile,
     )
-
 
     return {
         "learning_profile": profile,
-
         "coach_insight": insight,
-
         "ready_for_future_training": True,
     }
-
 
 
 def analyse_coach_decision_outcome(
@@ -222,57 +187,35 @@ def analyse_coach_decision_outcome(
 
         signal = "negative"
 
-
-    elif (
-        athlete_rpe is not None
-        and athlete_rpe <= 5
-        and fatigue_after == "low"
-    ):
+    elif athlete_rpe is not None and athlete_rpe <= 5 and fatigue_after == "low":
 
         signal = "positive"
 
-
-    elif (
-        athlete_rpe is not None
-        and athlete_rpe >= 8
-        and fatigue_after == "high"
-    ):
+    elif athlete_rpe is not None and athlete_rpe >= 8 and fatigue_after == "high":
 
         signal = "negative"
-
 
     else:
 
         signal = "neutral"
 
-
-
     if signal == "positive":
 
         confidence_update = 1
-
 
     elif signal == "negative":
 
         confidence_update = -1
 
-
     else:
 
         confidence_update = 0
 
-
-
     return {
         "decision": decision,
-
         "completed": completed,
-
         "athlete_rpe": athlete_rpe,
-
         "fatigue_after": fatigue_after,
-
         "signal": signal,
-
         "confidence_update": confidence_update,
     }

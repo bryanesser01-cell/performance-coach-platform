@@ -32,29 +32,21 @@ def build_athlete_intelligence_memory(
         stored_memories,
     )
 
-    performance_memory = (
-        build_performance_memory(
-            athlete_profile,
-            race_results,
-            training_history,
-        )
+    performance_memory = build_performance_memory(
+        athlete_profile,
+        race_results,
+        training_history,
     )
 
-    learning_patterns = (
-        identify_training_patterns(
-            training_history,
-        )
+    learning_patterns = identify_training_patterns(
+        training_history,
     )
 
     return {
         "athlete_profile": athlete_profile,
-
         "memory_context": memory_context,
-
         "performance_memory": performance_memory,
-
         "training_patterns": learning_patterns,
-
         "intelligence_ready": True,
     }
 
@@ -76,12 +68,10 @@ def generate_memory_intelligence_insight(
             "responds_well_to",
             [],
         ),
-
         "challenges": patterns.get(
             "struggles_with",
             [],
         ),
-
         "coach_message": (
             "Future coaching decisions "
             "will adapt using athlete "

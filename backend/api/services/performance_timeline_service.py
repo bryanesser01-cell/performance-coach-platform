@@ -24,16 +24,12 @@ def add_performance_milestone(
     timeline.append(
         {
             "event": event,
-
             "value": value,
-
             "date": date,
         }
     )
 
-
     return timeline
-
 
 
 def create_performance_timeline(
@@ -44,13 +40,9 @@ def create_performance_timeline(
     """
 
     return {
-        "total_milestones": len(
-            milestones
-        ),
-
+        "total_milestones": len(milestones),
         "milestones": milestones,
     }
-
 
 
 def analyse_timeline_progress(
@@ -64,31 +56,21 @@ def analyse_timeline_progress(
 
         return {
             "trend": "insufficient_data",
-
             "improvements": 0,
         }
 
-
     improvements = 0
-
 
     for index in range(
         1,
         len(milestones),
     ):
 
-        current = milestones[
-    index
-]
+        current = milestones[index]
 
-
-        if (
-            current.get("improved")
-            is True
-        ):
+        if current.get("improved") is True:
 
             improvements += 1
-
 
     if improvements > 0:
 
@@ -98,14 +80,10 @@ def analyse_timeline_progress(
 
         trend = "stable"
 
-
     return {
         "trend": trend,
-
         "improvements": improvements,
-
     }
-
 
 
 def generate_timeline_summary(
@@ -116,10 +94,7 @@ def generate_timeline_summary(
     """
 
     return {
-        "headline": (
-            "Performance timeline analysis"
-        ),
-
+        "headline": ("Performance timeline analysis"),
         "message": (
             f"Athlete trend is "
             f"{timeline_analysis['trend']} "

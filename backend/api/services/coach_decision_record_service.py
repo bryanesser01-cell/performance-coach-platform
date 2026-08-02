@@ -53,8 +53,7 @@ def get_coach_decision_history(
     decisions = (
         db.query(CoachDecision)
         .filter(
-            CoachDecision.athlete_id
-            == athlete_id,
+            CoachDecision.athlete_id == athlete_id,
         )
         .order_by(
             CoachDecision.created_at.desc(),
@@ -82,11 +81,6 @@ def calculate_average_decision_confidence(
     if not history:
         return 0
 
-    total = sum(
-        item["confidence"]
-        for item in history
-    )
+    total = sum(item["confidence"] for item in history)
 
-    return int(
-        total / len(history)
-    )
+    return int(total / len(history))

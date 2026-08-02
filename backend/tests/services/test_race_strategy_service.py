@@ -25,22 +25,11 @@ def test_generate_1500m_race_strategy():
         target_time="4:45",
     )
 
-    assert (
-        strategy["target_time"]
-        == "4:45"
-    )
+    assert strategy["target_time"] == "4:45"
 
-    assert (
-        strategy["checkpoints"][-1]
-        ["distance"]
-        == 1500
-    )
+    assert strategy["checkpoints"][-1]["distance"] == 1500
 
-    assert (
-        strategy["checkpoints"][-1]
-        ["cumulative_time"]
-        == "4:45"
-    )
+    assert strategy["checkpoints"][-1]["cumulative_time"] == "4:45"
 
 
 def test_800m_strategy():
@@ -50,14 +39,6 @@ def test_800m_strategy():
         target_time="2:20",
     )
 
-    assert (
-        strategy["checkpoints"][0]
-        ["distance"]
-        == 400
-    )
+    assert strategy["checkpoints"][0]["distance"] == 400
 
-    assert (
-        strategy["checkpoints"][-1]
-        ["distance"]
-        == 800
-    )
+    assert strategy["checkpoints"][-1]["distance"] == 800

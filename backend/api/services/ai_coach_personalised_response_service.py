@@ -41,24 +41,12 @@ def apply_athlete_strategy(
     """
 
     result = run_ai_coach_personalisation_bridge(
-        athlete_id=personalised_context[
-            "athlete_id"
-        ],
-        athlete_profile=personalised_context[
-            "athlete_profile"
-        ],
-        training_history=personalised_context[
-            "training_history"
-        ],
-        recovery_history=personalised_context[
-            "recovery_history"
-        ],
-        decision_analysis=personalised_context[
-            "decision_analysis"
-        ],
-        current_state=personalised_context[
-            "current_state"
-        ],
+        athlete_id=personalised_context["athlete_id"],
+        athlete_profile=personalised_context["athlete_profile"],
+        training_history=personalised_context["training_history"],
+        recovery_history=personalised_context["recovery_history"],
+        decision_analysis=personalised_context["decision_analysis"],
+        current_state=personalised_context["current_state"],
         coach_response=coach_response,
     )
 
@@ -85,12 +73,10 @@ def generate_final_personalised_answer(
 
     return {
         "answer": (
-            personalised_result
-            .get(
+            personalised_result.get(
                 "personalised_response",
                 {},
-            )
-            .get(
+            ).get(
                 "advice",
                 "Your training has been personalised.",
             )

@@ -13,20 +13,8 @@ def test_complete_daily_coach_response():
         goal="improve performance",
     )
 
+    assert len(result["sessions"]) > 0
 
-    assert (
-        len(result["sessions"])
-        > 0
-    )
+    assert "coach_explanation" in result
 
-
-    assert (
-        "coach_explanation"
-        in result
-    )
-
-
-    assert (
-        "why_this_session"
-        in result["coach_explanation"]
-    )
+    assert "why_this_session" in result["coach_explanation"]

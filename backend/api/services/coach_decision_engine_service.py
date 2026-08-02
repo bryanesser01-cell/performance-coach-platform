@@ -21,40 +21,25 @@ def evaluate_training_state(
 
         decision = "REDUCE_TRAINING"
 
-        reason = (
-            "Recovery status indicates "
-            "the athlete needs more recovery."
-        )
+        reason = "Recovery status indicates " "the athlete needs more recovery."
 
     elif training_stress >= 500:
 
         decision = "REDUCE_TRAINING"
 
-        reason = (
-            "Training load is high and "
-            "fatigue risk is increasing."
-        )
+        reason = "Training load is high and " "fatigue risk is increasing."
 
-    elif (
-        fitness_trend == "improving"
-        and readiness_score >= 70
-    ):
+    elif fitness_trend == "improving" and readiness_score >= 70:
 
         decision = "PROGRESS_TRAINING"
 
-        reason = (
-            "Fitness is improving and "
-            "the athlete is ready to progress."
-        )
+        reason = "Fitness is improving and " "the athlete is ready to progress."
 
     else:
 
         decision = "MAINTAIN_TRAINING"
 
-        reason = (
-            "Current training balance "
-            "should be maintained."
-        )
+        reason = "Current training balance " "should be maintained."
 
     return {
         "decision": decision,
@@ -76,17 +61,9 @@ def select_coach_action(
     )
 
     actions = {
-        "REDUCE_TRAINING": (
-            "Complete an easy session "
-            "or take a recovery day."
-        ),
-        "PROGRESS_TRAINING": (
-            "Increase training stimulus "
-            "gradually."
-        ),
-        "MAINTAIN_TRAINING": (
-            "Continue current training plan."
-        ),
+        "REDUCE_TRAINING": ("Complete an easy session " "or take a recovery day."),
+        "PROGRESS_TRAINING": ("Increase training stimulus " "gradually."),
+        "MAINTAIN_TRAINING": ("Continue current training plan."),
     }
 
     return {
@@ -117,10 +94,7 @@ def generate_decision_explanation(
 
     return {
         "decision": decision,
-        "explanation": (
-            f"The coach selected {decision} "
-            f" because {reason}"
-        ),
+        "explanation": (f"The coach selected {decision} " f" because {reason}"),
     }
 
 

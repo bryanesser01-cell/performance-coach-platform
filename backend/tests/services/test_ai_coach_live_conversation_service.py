@@ -20,15 +20,9 @@ def test_build_live_context():
         question="Should I train today?",
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_generate_live_response():
@@ -36,9 +30,7 @@ def test_generate_live_response():
     result = generate_live_personalised_response(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         context={
             "athlete_profile": {},
@@ -55,15 +47,9 @@ def test_generate_live_response():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_process_live_question():
@@ -72,9 +58,7 @@ def test_process_live_question():
         athlete_id=1,
         question="Should I train today?",
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={},
         training_history=[],
@@ -89,15 +73,9 @@ def test_process_live_question():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
 
 def test_full_live_pipeline():
@@ -106,9 +84,7 @@ def test_full_live_pipeline():
         athlete_id=1,
         question="Should I do intervals?",
         ai_response={
-            "coach_message": (
-                "Modify session."
-            ),
+            "coach_message": ("Modify session."),
         },
         athlete_profile={
             "sport": "running",
@@ -125,7 +101,4 @@ def test_full_live_pipeline():
         },
     )
 
-    assert (
-        result["response"]["confidence"]
-        == 95
-    )
+    assert result["response"]["confidence"] == 95

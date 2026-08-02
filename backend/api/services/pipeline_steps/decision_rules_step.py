@@ -14,9 +14,6 @@ class DecisionRulesStep:
         context: CoachContext,
     ) -> None:
 
-        context.decision = (
-            DecisionRulesEngine()
-            .evaluate(
-                context,
-            )
+        context.decision = DecisionRulesEngine().evaluate(
+            context,
         )

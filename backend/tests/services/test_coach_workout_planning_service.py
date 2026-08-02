@@ -25,21 +25,11 @@ def test_build_coach_workout_plan():
         goal_time="4:45",
     )
 
-    assert (
-        plan["event"]
-        == "1500m"
-    )
+    assert plan["event"] == "1500m"
 
-    assert (
-        plan["adjusted"]
-        is False
-    )
+    assert plan["adjusted"] is False
 
-    assert (
-        plan["workout"]
-        ["session_type"]
-        == "interval"
-    )
+    assert plan["workout"]["session_type"] == "interval"
 
 
 def test_workout_adjusted_when_recovery_needed():
@@ -59,10 +49,7 @@ def test_workout_adjusted_when_recovery_needed():
         goal_time="4:45",
     )
 
-    assert (
-        plan["adjusted"]
-        is True
-    )
+    assert plan["adjusted"] is True
 
 
 def test_coach_decision_message():
@@ -73,10 +60,7 @@ def test_coach_decision_message():
         }
     )
 
-    assert (
-        "suitable"
-        in message
-    )
+    assert "suitable" in message
 
 
 def test_skip_quality_session():

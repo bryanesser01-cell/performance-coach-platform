@@ -11,21 +11,13 @@ def test_training_memory_includes_workout_details():
 
     session = Mock()
 
-    session.session_date = (
-        "2026-08-01"
-    )
+    session.session_date = "2026-08-01"
 
-    session.session_type = (
-        "interval"
-    )
+    session.session_type = "interval"
 
-    session.focus = (
-        "5K speed"
-    )
+    session.focus = "5K speed"
 
-    session.status = (
-        "completed"
-    )
+    session.status = "completed"
 
     session.intervals = [
         Mock(
@@ -55,17 +47,11 @@ def test_training_memory_includes_workout_details():
             athlete_id=1,
         )
 
-    workout = result[
-        "training_history"
-    ][0]["workout"]
+    workout = result["training_history"][0]["workout"]
 
-    assert workout[0][
-        "distance_meters"
-    ] == 200
+    assert workout[0]["distance_meters"] == 200
 
-    assert workout[0][
-        "repetitions"
-    ] == 4
+    assert workout[0]["repetitions"] == 4
 
 
 def test_training_memory_without_intervals():
@@ -74,21 +60,13 @@ def test_training_memory_without_intervals():
 
     session = Mock()
 
-    session.session_date = (
-        "2026-08-01"
-    )
+    session.session_date = "2026-08-01"
 
-    session.session_type = (
-        "easy"
-    )
+    session.session_type = "easy"
 
-    session.focus = (
-        "recovery"
-    )
+    session.focus = "recovery"
 
-    session.status = (
-        "completed"
-    )
+    session.status = "completed"
 
     session.intervals = []
 
@@ -105,7 +83,4 @@ def test_training_memory_without_intervals():
             athlete_id=1,
         )
 
-    assert (
-        result["training_history"][0]["workout"]
-        == []
-    )
+    assert result["training_history"][0]["workout"] == []

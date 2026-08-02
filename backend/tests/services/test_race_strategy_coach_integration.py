@@ -26,19 +26,12 @@ def test_race_strategy_added_to_prompt():
     )
 
     prompt = build_coach_prompt(
-        question=(
-            "How should I run my 1500m race?"
-        ),
+        question=("How should I run my 1500m race?"),
         athlete_state=athlete_state,
         race_strategy_context=race_context,
     )
 
-    assert (
-        prompt["race_strategy"]
-        ["race_goal"]
-        ["target_time"]
-        == "4:45"
-    )
+    assert prompt["race_strategy"]["race_goal"]["target_time"] == "4:45"
 
 
 def test_race_strategy_detected():
@@ -72,18 +65,8 @@ def test_1500m_checkpoint_generation():
         target_time="4:45",
     )
 
-    checkpoints = race_context[
-        "race_strategy"
-    ][
-        "checkpoints"
-    ]
+    checkpoints = race_context["race_strategy"]["checkpoints"]
 
-    assert (
-        checkpoints[0]["distance"]
-        == 300
-    )
+    assert checkpoints[0]["distance"] == 300
 
-    assert (
-        checkpoints[-1]["distance"]
-        == 1500
-    )
+    assert checkpoints[-1]["distance"] == 1500

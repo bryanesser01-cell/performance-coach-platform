@@ -16,7 +16,6 @@ def store_race_result(
     }
 
 
-
 def calculate_personal_best_status(
     current_result: str,
     previous_best: str,
@@ -31,11 +30,7 @@ def calculate_personal_best_status(
 
         minutes, seconds = value.split(":")
 
-        return (
-            int(minutes) * 60
-            + int(seconds)
-        )
-
+        return int(minutes) * 60 + int(seconds)
 
     current_seconds = convert_time(
         current_result,
@@ -45,23 +40,14 @@ def calculate_personal_best_status(
         previous_best,
     )
 
-
-    improved = (
-        current_seconds
-        < previous_seconds
-    )
-
+    improved = current_seconds < previous_seconds
 
     return {
         "current_result": current_result,
         "previous_best": previous_best,
         "personal_best_improved": improved,
-        "difference_seconds": (
-            previous_seconds
-            - current_seconds
-        ),
+        "difference_seconds": (previous_seconds - current_seconds),
     }
-
 
 
 def store_training_response(
@@ -81,7 +67,6 @@ def store_training_response(
     }
 
 
-
 def analyse_training_patterns(
     training_history: list[dict],
 ) -> dict:
@@ -93,34 +78,21 @@ def analyse_training_patterns(
 
     difficult_sessions = []
 
-
     for session in training_history:
 
-        if session.get(
-            "response"
-        ) == "positive":
+        if session.get("response") == "positive":
 
-            successful_sessions.append(
-                session["session_type"]
-            )
+            successful_sessions.append(session["session_type"])
 
-        elif session.get(
-            "response"
-        ) == "negative":
+        elif session.get("response") == "negative":
 
-            difficult_sessions.append(
-                session["session_type"]
-            )
-
+            difficult_sessions.append(session["session_type"])
 
     return {
         "successful_sessions": successful_sessions,
-
         "difficult_sessions": difficult_sessions,
-
         "patterns_found": True,
     }
-
 
 
 def build_performance_memory(
@@ -136,19 +108,13 @@ def build_performance_memory(
         training_history,
     )
 
-
     return {
         "athlete_profile": athlete_profile,
-
         "race_history": race_results,
-
         "training_history": training_history,
-
         "performance_patterns": patterns,
-
         "memory_ready": True,
     }
-
 
 
 def generate_memory_coach_insight(
@@ -164,25 +130,21 @@ def generate_memory_coach_insight(
         {},
     )
 
-
     successful = patterns.get(
         "successful_sessions",
         [],
     )
-
 
     difficult = patterns.get(
         "difficult_sessions",
         [],
     )
 
-
     return {
         "athlete_learning": {
             "responds_well_to": successful,
             "struggles_with": difficult,
         },
-
         "coach_message": (
             "Future training recommendations "
             "will consider previous athlete "

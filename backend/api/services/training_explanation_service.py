@@ -11,107 +11,57 @@ TRAINING_EXPLANATIONS = {
             "You can say a few words but not hold "
             "a full conversation."
         ),
-        "purpose": (
-            "Improve your ability to maintain a "
-            "fast pace for longer."
-        ),
+        "purpose": ("Improve your ability to maintain a " "fast pace for longer."),
     },
-
     "interval": {
         "name": "Interval",
-        "explanation": (
-            "Short faster efforts with recovery "
-            "between repeats."
-        ),
+        "explanation": ("Short faster efforts with recovery " "between repeats."),
         "effort": "8-9/10",
-        "feeling": (
-            "Fast and controlled. "
-            "The goal is consistency, not sprinting."
-        ),
-        "purpose": (
-            "Improve speed, race pace ability, "
-            "and running efficiency."
-        ),
+        "feeling": ("Fast and controlled. " "The goal is consistency, not sprinting."),
+        "purpose": ("Improve speed, race pace ability, " "and running efficiency."),
     },
-
     "speed endurance": {
         "name": "Speed Endurance",
         "explanation": (
-            "Fast running efforts designed to help "
-            "you hold speed when tired."
+            "Fast running efforts designed to help " "you hold speed when tired."
         ),
         "effort": "8-9/10",
-        "feeling": (
-            "Hard but controlled. "
-            "Each repetition should look similar."
-        ),
-        "purpose": (
-            "Improve your ability to maintain "
-            "race pace."
-        ),
+        "feeling": ("Hard but controlled. " "Each repetition should look similar."),
+        "purpose": ("Improve your ability to maintain " "race pace."),
     },
-
     "tempo": {
         "name": "Tempo",
-        "explanation": (
-            "A comfortably hard sustained effort."
-        ),
+        "explanation": ("A comfortably hard sustained effort."),
         "effort": "7-8/10",
-        "feeling": (
-            "Controlled discomfort. "
-            "You are working but staying relaxed."
-        ),
-        "purpose": (
-            "Improve endurance at faster speeds."
-        ),
+        "feeling": ("Controlled discomfort. " "You are working but staying relaxed."),
+        "purpose": ("Improve endurance at faster speeds."),
     },
-
     "threshold endurance": {
         "name": "Threshold Endurance",
         "explanation": (
-            "Longer controlled efforts around "
-            "your sustainable hard pace."
+            "Longer controlled efforts around " "your sustainable hard pace."
         ),
         "effort": "7/10",
-        "feeling": (
-            "Strong effort where you stay in control."
-        ),
-        "purpose": (
-            "Improve your ability to hold pace "
-            "over longer distances."
-        ),
+        "feeling": ("Strong effort where you stay in control."),
+        "purpose": ("Improve your ability to hold pace " "over longer distances."),
     },
-
     "recovery": {
         "name": "Recovery",
-        "explanation": (
-            "An easy run designed to help your "
-            "body recover."
-        ),
+        "explanation": ("An easy run designed to help your " "body recover."),
         "effort": "3-4/10",
         "feeling": (
             "Relaxed running. "
             "You should finish feeling better "
             "than when you started."
         ),
-        "purpose": (
-            "Allow your body to adapt and prepare "
-            "for harder sessions."
-        ),
+        "purpose": ("Allow your body to adapt and prepare " "for harder sessions."),
     },
-
     "easy": {
         "name": "Easy Run",
-        "explanation": (
-            "A relaxed aerobic run at comfortable pace."
-        ),
+        "explanation": ("A relaxed aerobic run at comfortable pace."),
         "effort": "4-5/10",
-        "feeling": (
-            "You can comfortably talk while running."
-        ),
-        "purpose": (
-            "Build aerobic fitness and consistency."
-        ),
+        "feeling": ("You can comfortably talk while running."),
+        "purpose": ("Build aerobic fitness and consistency."),
     },
 }
 
@@ -130,17 +80,10 @@ def get_training_explanation(
         key,
         {
             "name": term,
-            "explanation": (
-                "Training session designed "
-                "to improve performance."
-            ),
+            "explanation": ("Training session designed " "to improve performance."),
             "effort": "Unknown",
-            "feeling": (
-                "Follow your coach's guidance."
-            ),
-            "purpose": (
-                "Improve your fitness."
-            ),
+            "feeling": ("Follow your coach's guidance."),
+            "purpose": ("Improve your fitness."),
         },
     )
 
@@ -176,27 +119,13 @@ def get_effort_description(
     """
 
     descriptions = {
-        "3-4/10": (
-            "Easy. You could hold a conversation."
-        ),
-        "4-5/10": (
-            "Comfortable aerobic running."
-        ),
-        "5-6/10": (
-            "Moderate. Comfortable but focused."
-        ),
-        "7/10": (
-            "Strong. Controlled hard effort."
-        ),
-        "7-8/10": (
-            "Comfortably hard effort."
-        ),
-        "8-9/10": (
-            "Hard. Fast but repeatable."
-        ),
-        "10/10": (
-            "Maximum effort."
-        ),
+        "3-4/10": ("Easy. You could hold a conversation."),
+        "4-5/10": ("Comfortable aerobic running."),
+        "5-6/10": ("Moderate. Comfortable but focused."),
+        "7/10": ("Strong. Controlled hard effort."),
+        "7-8/10": ("Comfortably hard effort."),
+        "8-9/10": ("Hard. Fast but repeatable."),
+        "10/10": ("Maximum effort."),
     }
 
     return descriptions.get(

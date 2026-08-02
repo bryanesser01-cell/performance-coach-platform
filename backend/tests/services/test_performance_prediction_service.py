@@ -13,12 +13,7 @@ def test_predict_race_performance():
         improvement_percentage=5,
     )
 
-
-    assert (
-        result["predicted_time_seconds"]
-        == 1311
-    )
-
+    assert result["predicted_time_seconds"] == 1311
 
 
 def test_prediction_confidence():
@@ -28,12 +23,7 @@ def test_prediction_confidence():
         performance_trend="improving",
     )
 
-
-    assert (
-        result
-        == "high"
-    )
-
+    assert result == "high"
 
 
 def test_prediction_range():
@@ -42,42 +32,21 @@ def test_prediction_range():
         predicted_time_seconds=1300,
     )
 
+    assert result["lower_bound_seconds"] < 1300
 
-    assert (
-        result["lower_bound_seconds"]
-        <
-        1300
-    )
-
-
-    assert (
-        result["upper_bound_seconds"]
-        >
-        1300
-    )
-
+    assert result["upper_bound_seconds"] > 1300
 
 
 def test_prediction_summary():
 
     result = generate_prediction_summary(
         event="5K",
-
         prediction={
             "predicted_time_seconds": 1300,
         },
-
         confidence="medium",
     )
 
+    assert result["event"] == "5K"
 
-    assert (
-        result["event"]
-        == "5K"
-    )
-
-
-    assert (
-        result["confidence"]
-        == "medium"
-    )
+    assert result["confidence"] == "medium"

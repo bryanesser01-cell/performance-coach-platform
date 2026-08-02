@@ -21,9 +21,6 @@ class MemoryContextStep:
         self,
         context: CoachContext,
     ) -> None:
-        context.memory_context = (
-            MemoryContextService(self.db)
-            .build_context(
-                context.athlete_id,
-            )
+        context.memory_context = MemoryContextService(self.db).build_context(
+            context.athlete_id,
         )

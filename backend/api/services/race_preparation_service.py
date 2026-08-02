@@ -9,9 +9,7 @@ def calculate_training_phase(
     Determine race preparation phase based on weeks remaining.
     """
 
-    days_until_race = (
-        race_date - current_date
-    ).days
+    days_until_race = (race_date - current_date).days
 
     weeks_until_race = days_until_race / 7
 
@@ -59,22 +57,10 @@ def get_phase_recommendation(
     """
 
     recommendations = {
-        "base": (
-            "Build aerobic fitness and "
-            "increase training consistency."
-        ),
-        "build": (
-            "Increase race-specific workouts "
-            "and improve threshold fitness."
-        ),
-        "peak": (
-            "Focus on race intensity and "
-            "maintain fitness."
-        ),
-        "taper": (
-            "Reduce training volume and "
-            "arrive fresh for race day."
-        ),
+        "base": ("Build aerobic fitness and " "increase training consistency."),
+        "build": ("Increase race-specific workouts " "and improve threshold fitness."),
+        "peak": ("Focus on race intensity and " "maintain fitness."),
+        "taper": ("Reduce training volume and " "arrive fresh for race day."),
     }
 
     return recommendations.get(

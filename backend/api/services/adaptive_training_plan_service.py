@@ -40,15 +40,12 @@ def adapt_training_plan(
             **adjusted_plan,
             "adjustment": "progress",
             "message": (
-                "Training consistency is good. "
-                "Progress training gradually."
+                "Training consistency is good. " "Progress training gradually."
             ),
         }
 
     return {
         **adjusted_plan,
         "adjustment": "maintain",
-        "message": (
-            "Continue current training plan."
-        ),
+        "message": ("Continue current training plan."),
     }

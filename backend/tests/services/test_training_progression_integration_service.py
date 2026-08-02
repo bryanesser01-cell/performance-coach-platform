@@ -25,46 +25,27 @@ def test_build_training_progression_context():
         goal_time="4:45",
     )
 
-    assert (
-        context["event"]
-        == "1500m"
-    )
+    assert context["event"] == "1500m"
 
-    assert (
-        context["recommendation"]
-        ["session_type"]
-        == "interval"
-    )
+    assert context["recommendation"]["session_type"] == "interval"
 
 
 def test_training_progression_message():
 
     context = {
         "recommendation": {
-            "workout": (
-                "5 x 400m at race pace"
-            ),
-            "purpose": (
-                "Improve race pace tolerance"
-            ),
+            "workout": ("5 x 400m at race pace"),
+            "purpose": ("Improve race pace tolerance"),
         }
     }
 
-    message = (
-        generate_training_progression_message(
-            context,
-        )
+    message = generate_training_progression_message(
+        context,
     )
 
-    assert (
-        "5 x 400m"
-        in message
-    )
+    assert "5 x 400m" in message
 
-    assert (
-        "race pace"
-        in message
-    )
+    assert "race pace" in message
 
 
 def test_low_readiness_modifies_training():

@@ -24,12 +24,6 @@ def test_build_athlete_state():
 
     assert state["state_ready"] is True
 
-    assert (
-        state["readiness"]["score"]
-        == 85
-    )
+    assert state["readiness"]["score"] == 85
 
-    assert (
-        "goal"
-        in state["memory"]
-    )
+    assert "goal" in state["memory"]

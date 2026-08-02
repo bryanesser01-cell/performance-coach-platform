@@ -9,28 +9,17 @@ def calculate_pace(
     if distance_km <= 0:
         return "0:00/km"
 
-    pace = (
-        duration_minutes
-        / distance_km
-    )
+    pace = duration_minutes / distance_km
 
     minutes = int(pace)
 
-    seconds = int(
-        round(
-            (pace - minutes)
-            * 60
-        )
-    )
+    seconds = int(round((pace - minutes) * 60))
 
     if seconds == 60:
         minutes += 1
         seconds = 0
 
-    return (
-        f"{minutes}:{seconds:02d}/km"
-    )
-
+    return f"{minutes}:{seconds:02d}/km"
 
 
 def convert_coros_activity(
@@ -55,56 +44,22 @@ def convert_coros_activity(
         0,
     )
 
-
     return {
         "source": "coros",
-
         "session_type": "run",
-
-        "activity_id": coros_data.get(
-            "activity_id"
-        ),
-
-        "date": coros_data.get(
-            "date"
-        ),
-
+        "activity_id": coros_data.get("activity_id"),
+        "date": coros_data.get("date"),
         "distance_km": distance_km,
-
-        "duration_minutes": (
-            duration_minutes
-        ),
-
+        "duration_minutes": (duration_minutes),
         "pace": calculate_pace(
             distance_km,
             duration_minutes,
         ),
-
-        "avg_heart_rate": (
-            coros_data.get(
-                "average_hr"
-            )
-        ),
-
-        "max_heart_rate": (
-            coros_data.get(
-                "max_hr"
-            )
-        ),
-
-        "cadence": (
-            coros_data.get(
-                "cadence"
-            )
-        ),
-
-        "elevation_gain": (
-            coros_data.get(
-                "elevation_gain"
-            )
-        ),
+        "avg_heart_rate": (coros_data.get("average_hr")),
+        "max_heart_rate": (coros_data.get("max_hr")),
+        "cadence": (coros_data.get("cadence")),
+        "elevation_gain": (coros_data.get("elevation_gain")),
     }
-
 
 
 def validate_coros_activity(
@@ -120,7 +75,6 @@ def validate_coros_activity(
         "session_type",
     ]
 
-
     missing = []
 
     for field in required_fields:
@@ -129,13 +83,10 @@ def validate_coros_activity(
 
             missing.append(field)
 
-
     return {
         "valid": len(missing) == 0,
-
         "missing_fields": missing,
     }
-
 
 
 def build_coros_training_record(
@@ -155,18 +106,12 @@ def build_coros_training_record(
         coros_data,
     )
 
-
     validation = validate_coros_activity(
         activity,
     )
 
-
     return {
         "training_session": activity,
-
         "validation": validation,
-
-        "import_complete": (
-            validation["valid"]
-        ),
+        "import_complete": (validation["valid"]),
     }

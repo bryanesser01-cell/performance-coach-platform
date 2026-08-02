@@ -19,30 +19,17 @@ def test_complete_workout_coach_context():
         },
     }
 
-    context = (
-        build_complete_workout_coach_context(
-            athlete_state=athlete_state,
-            event="1500m",
-            goal_time="4:45",
-        )
+    context = build_complete_workout_coach_context(
+        athlete_state=athlete_state,
+        event="1500m",
+        goal_time="4:45",
     )
 
-    assert (
-        context["event"]
-        == "1500m"
-    )
+    assert context["event"] == "1500m"
 
-    assert (
-        "coach_message"
-        in context
-    )
+    assert "coach_message" in context
 
-    assert (
-        context["recommendation"]
-        ["workout"]
-        ["session_type"]
-        == "interval"
-    )
+    assert context["recommendation"]["workout"]["session_type"] == "interval"
 
 
 def test_workout_summary():
@@ -50,17 +37,11 @@ def test_workout_summary():
     context = {
         "recommendation": {
             "workout": {
-                "workout": (
-                    "5 x 400m at race pace"
-                ),
+                "workout": ("5 x 400m at race pace"),
                 "athlete_explanation": {
                     "effort": "8-9/10",
-                    "feeling": (
-                        "Fast and controlled."
-                    ),
-                    "purpose": (
-                        "Improve race pace."
-                    ),
+                    "feeling": ("Fast and controlled."),
+                    "purpose": ("Improve race pace."),
                 },
             }
         }
@@ -70,15 +51,9 @@ def test_workout_summary():
         context,
     )
 
-    assert (
-        summary["session"]
-        == "5 x 400m at race pace"
-    )
+    assert summary["session"] == "5 x 400m at race pace"
 
-    assert (
-        summary["effort"]
-        == "8-9/10"
-    )
+    assert summary["effort"] == "8-9/10"
 
 
 def test_low_readiness_needs_adjustment():

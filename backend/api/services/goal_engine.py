@@ -21,13 +21,9 @@ def analyse_goal_progress(
         "half_marathon",
         "marathon",
     ]:
-        progress = (
-            goal.target_value / goal.current_value
-        ) * 100
+        progress = (goal.target_value / goal.current_value) * 100
     else:
-        progress = (
-            goal.current_value / goal.target_value
-        ) * 100
+        progress = (goal.current_value / goal.target_value) * 100
 
     progress = min(
         round(progress, 2),

@@ -59,8 +59,7 @@ class AthleteCheckinRepository:
                 AthleteCheckin,
             )
             .filter(
-                AthleteCheckin.athlete_id
-                == athlete_id,
+                AthleteCheckin.athlete_id == athlete_id,
             )
             .order_by(
                 AthleteCheckin.created_at.desc(),

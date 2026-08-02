@@ -11,15 +11,9 @@ def test_generates_improving_performance_narrative():
         consistency_score=90,
     )
 
-    assert (
-        "improving"
-        in result["summary"]
-    )
+    assert "improving" in result["summary"]
 
-    assert (
-        "30"
-        in result["summary"]
-    )
+    assert "30" in result["summary"]
 
 
 def test_detects_recovery_requirement():
@@ -31,10 +25,7 @@ def test_detects_recovery_requirement():
         training_load_status="high",
     )
 
-    assert (
-        "recovery"
-        in result["recommendation"]
-    )
+    assert "recovery" in result["recommendation"]
 
 
 def test_handles_declining_performance():
@@ -45,10 +36,4 @@ def test_handles_declining_performance():
         consistency_score=40,
     )
 
-    assert (
-        "recovery"
-        in result["summary"]
-        or
-        "need"
-        in result["summary"]
-    )
+    assert "recovery" in result["summary"] or "need" in result["summary"]

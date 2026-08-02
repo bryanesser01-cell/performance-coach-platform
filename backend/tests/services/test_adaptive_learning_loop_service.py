@@ -76,20 +76,11 @@ def test_process_adaptive_workout_outcome_positive():
 
     assert result["athlete_id"] == 1
 
-    assert (
-        result["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"] == "PROGRESS_TRAINING"
 
-    assert (
-        result["workout_analysis"]["outcome"]
-        == "positive"
-    )
+    assert result["workout_analysis"]["outcome"] == "positive"
 
-    assert (
-        result["learning_update"]["confidence_update"]
-        == 1
-    )
+    assert result["learning_update"]["confidence_update"] == 1
 
     mock_learning.assert_called_once_with(
         db=db,
@@ -131,15 +122,9 @@ def test_process_adaptive_workout_outcome_negative():
             workout_result=workout_result,
         )
 
-    assert (
-        result["workout_analysis"]["outcome"]
-        == "negative"
-    )
+    assert result["workout_analysis"]["outcome"] == "negative"
 
-    assert (
-        result["learning_update"]["confidence_update"]
-        == -1
-    )
+    assert result["learning_update"]["confidence_update"] == -1
 
     mock_learning.assert_called_once_with(
         db=db,

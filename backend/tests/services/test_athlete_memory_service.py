@@ -87,9 +87,7 @@ def test_get_memory_summary():
     memory = Mock()
 
     memory.memory_type = "performance_improvement"
-    memory.memory_value = (
-        "5K improved from 23:05 to 22:30"
-    )
+    memory.memory_value = "5K improved from 23:05 to 22:30"
 
     summary = get_memory_summary(
         [
@@ -99,9 +97,6 @@ def test_get_memory_summary():
 
     assert summary["memory_count"] == 1
 
-    assert (
-        "performance_improvement"
-        in summary["categories"]
-    )
+    assert "performance_improvement" in summary["categories"]
 
     assert summary["memory_ready"] is True

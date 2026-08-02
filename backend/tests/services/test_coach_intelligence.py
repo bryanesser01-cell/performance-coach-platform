@@ -50,9 +50,7 @@ def test_generate_coach_insights_with_training_data():
     )
 
     mock_training_repository = Mock()
-    mock_training_repository.get_recent_sessions.return_value = (
-        mock_sessions
-    )
+    mock_training_repository.get_recent_sessions.return_value = mock_sessions
 
     mock_goal_repository = Mock()
     mock_goal_repository.get_active_goals.return_value = []

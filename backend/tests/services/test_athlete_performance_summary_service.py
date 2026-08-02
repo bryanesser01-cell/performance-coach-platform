@@ -16,9 +16,12 @@ def test_calculate_weekly_distance():
         },
     ]
 
-    assert calculate_weekly_distance(
-        activities,
-    ) == 15
+    assert (
+        calculate_weekly_distance(
+            activities,
+        )
+        == 15
+    )
 
 
 def test_calculate_average_pace():
@@ -29,9 +32,12 @@ def test_calculate_average_pace():
         },
     ]
 
-    assert calculate_average_pace(
-        activities,
-    ) == 300
+    assert (
+        calculate_average_pace(
+            activities,
+        )
+        == 300
+    )
 
 
 def test_calculate_training_load():
@@ -44,9 +50,12 @@ def test_calculate_training_load():
         },
     ]
 
-    assert calculate_training_load(
-        activities,
-    ) == 120
+    assert (
+        calculate_training_load(
+            activities,
+        )
+        == 120
+    )
 
 
 def test_generate_performance_summary():

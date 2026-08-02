@@ -21,21 +21,12 @@ def test_positive_feedback_increases_confidence():
             db=db,
             athlete_id=1,
             decision="REDUCE_TRAINING",
-            feedback=(
-                "The session worked "
-                "and I feel better."
-            ),
+            feedback=("The session worked " "and I feel better."),
         )
 
-    assert (
-        result["outcome"]
-        == "positive"
-    )
+    assert result["outcome"] == "positive"
 
-    assert (
-        result["confidence_change"]
-        == 10
-    )
+    assert result["confidence_change"] == 10
 
 
 def test_negative_feedback_reduces_confidence():
@@ -53,21 +44,12 @@ def test_negative_feedback_reduces_confidence():
             db=db,
             athlete_id=1,
             decision="PROGRESS_TRAINING",
-            feedback=(
-                "The workout was too hard "
-                "and I struggled."
-            ),
+            feedback=("The workout was too hard " "and I struggled."),
         )
 
-    assert (
-        result["outcome"]
-        == "negative"
-    )
+    assert result["outcome"] == "negative"
 
-    assert (
-        result["confidence_change"]
-        == -10
-    )
+    assert result["confidence_change"] == -10
 
 
 def test_neutral_feedback():
@@ -76,10 +58,7 @@ def test_neutral_feedback():
         "It was okay",
     )
 
-    assert (
-        result["sentiment"]
-        == "neutral"
-    )
+    assert result["sentiment"] == "neutral"
 
 
 def test_positive_sentiment():
@@ -88,10 +67,7 @@ def test_positive_sentiment():
         "That was good",
     )
 
-    assert (
-        result["sentiment"]
-        == "positive"
-    )
+    assert result["sentiment"] == "positive"
 
 
 def test_negative_sentiment():
@@ -100,7 +76,4 @@ def test_negative_sentiment():
         "That was bad",
     )
 
-    assert (
-        result["sentiment"]
-        == "negative"
-    )
+    assert result["sentiment"] == "negative"

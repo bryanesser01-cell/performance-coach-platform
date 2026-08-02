@@ -49,25 +49,17 @@ def detect_training_risk(
     if stress >= 500:
         risk = "high"
 
-        message = (
-            "Training load is high. "
-            "Recovery should be prioritised."
-        )
+        message = "Training load is high. " "Recovery should be prioritised."
 
     elif stress >= 250:
         risk = "moderate"
 
-        message = (
-            "Training load is increasing. "
-            "Monitor fatigue."
-        )
+        message = "Training load is increasing. " "Monitor fatigue."
 
     else:
         risk = "low"
 
-        message = (
-            "Training load is manageable."
-        )
+        message = "Training load is manageable."
 
     return {
         "risk": risk,
@@ -94,29 +86,19 @@ def generate_activity_based_recommendation(
 
     if risk["risk"] == "high":
 
-        recommendation = (
-            "Schedule recovery before "
-            "the next hard session."
-        )
+        recommendation = "Schedule recovery before " "the next hard session."
 
     elif trend == "improving":
 
-        recommendation = (
-            "Fitness is improving. "
-            "Continue progressive training."
-        )
+        recommendation = "Fitness is improving. " "Continue progressive training."
 
     elif trend == "declining":
 
-        recommendation = (
-            "Reduce load and rebuild consistency."
-        )
+        recommendation = "Reduce load and rebuild consistency."
 
     else:
 
-        recommendation = (
-            "Maintain current training approach."
-        )
+        recommendation = "Maintain current training approach."
 
     return {
         "fitness_trend": trend,

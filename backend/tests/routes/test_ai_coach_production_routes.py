@@ -28,13 +28,9 @@ def test_conversation_uses_production_pipeline():
         "/ai-coach/conversation",
         json={
             "athlete_id": 1,
-            "question": (
-                "Should I train today?"
-            ),
+            "question": ("Should I train today?"),
             "ai_response": {
-                "decision": (
-                    "REDUCE_TRAINING"
-                ),
+                "decision": ("REDUCE_TRAINING"),
                 "confidence": 90,
                 "outcome": "positive",
             },
@@ -49,10 +45,7 @@ def test_conversation_uses_production_pipeline():
     if response.status_code == 200:
         body = response.json()
 
-        assert (
-            "success"
-            in body
-        )
+        assert "success" in body
 
 
 def test_chat_uses_production_pipeline():
@@ -60,13 +53,9 @@ def test_chat_uses_production_pipeline():
     response = client.post(
         "/athletes/1/ai-coach/chat",
         json={
-            "question": (
-                "Should I recover?"
-            ),
+            "question": ("Should I recover?"),
             "ai_response": {
-                "decision": (
-                    "RECOVERY"
-                ),
+                "decision": ("RECOVERY"),
                 "confidence": 85,
                 "outcome": "positive",
             },
@@ -81,10 +70,7 @@ def test_chat_uses_production_pipeline():
     if response.status_code == 200:
         body = response.json()
 
-        assert (
-            "success"
-            in body
-        )
+        assert "success" in body
 
 
 def test_response_contains_learning():
@@ -92,13 +78,9 @@ def test_response_contains_learning():
     response = client.post(
         "/athletes/1/ai-coach/chat",
         json={
-            "question": (
-                "How should I train?"
-            ),
+            "question": ("How should I train?"),
             "ai_response": {
-                "decision": (
-                    "EASY_RUN"
-                ),
+                "decision": ("EASY_RUN"),
                 "confidence": 80,
                 "outcome": "positive",
             },
@@ -108,7 +90,4 @@ def test_response_contains_learning():
     if response.status_code == 200:
         body = response.json()
 
-        assert (
-            "success"
-            in body
-        )
+        assert "success" in body

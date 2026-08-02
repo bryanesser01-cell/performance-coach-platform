@@ -48,21 +48,11 @@ def generate_production_answer(
         athlete_id=athlete_id,
         question=question,
         ai_response=ai_response,
-        athlete_profile=production_context[
-            "athlete_profile"
-        ],
-        training_history=production_context[
-            "training_history"
-        ],
-        recovery_history=production_context[
-            "recovery_history"
-        ],
-        decision_analysis=production_context[
-            "decision_analysis"
-        ],
-        current_state=production_context[
-            "current_state"
-        ],
+        athlete_profile=production_context["athlete_profile"],
+        training_history=production_context["training_history"],
+        recovery_history=production_context["recovery_history"],
+        decision_analysis=production_context["decision_analysis"],
+        current_state=production_context["current_state"],
     )
 
 

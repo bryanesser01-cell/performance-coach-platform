@@ -21,15 +21,9 @@ def test_ai_coach_health():
         "/ai-coach/health",
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
-    assert (
-        response.json()["status"]
-        == "healthy"
-    )
+    assert response.json()["status"] == "healthy"
 
 
 def test_ai_coach_conversation():
@@ -38,13 +32,9 @@ def test_ai_coach_conversation():
         "/ai-coach/conversation",
         json={
             "athlete_id": 1,
-            "question": (
-                "Should I train today?"
-            ),
+            "question": ("Should I train today?"),
             "ai_response": {
-                "coach_message": (
-                    "Recover today."
-                ),
+                "coach_message": ("Recover today."),
             },
             "athlete_profile": {
                 "sport": "running",
@@ -62,17 +52,11 @@ def test_ai_coach_conversation():
         },
     )
 
-    assert (
-        response.status_code
-        == 200
-    )
+    assert response.status_code == 200
 
     body = response.json()
 
-    assert (
-        body["success"]
-        is True
-    )
+    assert body["success"] is True
 
 
 def test_ai_coach_conversation_contains_strategy():
@@ -81,13 +65,9 @@ def test_ai_coach_conversation_contains_strategy():
         "/ai-coach/conversation",
         json={
             "athlete_id": 1,
-            "question": (
-                "Should I reduce training?"
-            ),
+            "question": ("Should I reduce training?"),
             "ai_response": {
-                "coach_message": (
-                    "Reduce load."
-                ),
+                "coach_message": ("Reduce load."),
             },
             "decision_analysis": {
                 "REDUCE_TRAINING": {
@@ -102,10 +82,7 @@ def test_ai_coach_conversation_contains_strategy():
 
     result = response.json()
 
-    assert (
-    result["strategy"]
-    == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
 
 def test_health_response_structure():
@@ -116,12 +93,6 @@ def test_health_response_structure():
 
     result = response.json()
 
-    assert (
-        "service"
-        in result
-    )
+    assert "service" in result
 
-    assert (
-        result["service"]
-        == "ai-coach"
-    )
+    assert result["service"] == "ai-coach"

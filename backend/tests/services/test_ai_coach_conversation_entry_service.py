@@ -11,9 +11,7 @@ def test_create_conversation_entry():
         athlete_id=1,
         question="Should I train today?",
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         athlete_profile={
             "sport": "running",
@@ -24,15 +22,9 @@ def test_create_conversation_entry():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_execute_conversation_entry():
@@ -42,9 +34,7 @@ def test_execute_conversation_entry():
             "athlete_id": 1,
             "question": "Train?",
             "ai_response": {
-                "coach_message": (
-                    "Recover today."
-                ),
+                "coach_message": ("Recover today."),
             },
             "athlete_profile": {},
             "training_history": [],
@@ -60,15 +50,9 @@ def test_execute_conversation_entry():
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_run_ai_coach_entry():
@@ -77,9 +61,7 @@ def test_run_ai_coach_entry():
         athlete_id=1,
         question="Should I reduce training?",
         ai_response={
-            "coach_message": (
-                "Reduce load."
-            ),
+            "coach_message": ("Reduce load."),
         },
         athlete_profile={},
         training_history=[],
@@ -94,10 +76,7 @@ def test_run_ai_coach_entry():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_entry_pipeline():
@@ -106,9 +85,7 @@ def test_full_entry_pipeline():
         athlete_id=1,
         question="Should I do intervals?",
         ai_response={
-            "coach_message": (
-                "Adjust session."
-            ),
+            "coach_message": ("Adjust session."),
         },
         athlete_profile={
             "sport": "running",
@@ -125,12 +102,6 @@ def test_full_entry_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

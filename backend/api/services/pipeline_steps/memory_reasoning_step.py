@@ -14,9 +14,6 @@ class MemoryReasoningStep:
         context: CoachContext,
     ) -> None:
 
-        context.memory_reasoning = (
-            MemoryReasoningService()
-            .analyse(
-                context.memory_context,
-            )
+        context.memory_reasoning = MemoryReasoningService().analyse(
+            context.memory_context,
         )

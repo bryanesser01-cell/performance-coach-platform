@@ -30,25 +30,13 @@ def test_ai_coach_engine_generates_complete_response():
             athlete_id=1,
         )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["athlete_status"]
-        == "progressing"
-    )
+    assert result["athlete_status"] == "progressing"
 
-    assert (
-        "coach_message"
-        in result
-    )
+    assert "coach_message" in result
 
-    assert (
-        "recommendation"
-        in result
-    )
+    assert "recommendation" in result
 
 
 def test_ai_coach_engine_includes_prediction():
@@ -70,8 +58,4 @@ def test_ai_coach_engine_includes_prediction():
             athlete_id=1,
         )
 
-    assert (
-        result["race_prediction"]
-        ["predicted_time_seconds"]
-        == 1180
-    )
+    assert result["race_prediction"]["predicted_time_seconds"] == 1180

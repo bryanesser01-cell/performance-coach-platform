@@ -12,19 +12,13 @@ def test_workout_analysis_returns_blocks():
 
     block = Mock()
 
-    block.block_type = (
-        "main_set"
-    )
+    block.block_type = "main_set"
 
-    block.description = (
-        "Speed endurance"
-    )
+    block.description = "Speed endurance"
 
     detail = Mock()
 
-    detail.detail_type = (
-        "interval"
-    )
+    detail.detail_type = "interval"
 
     detail.distance_meters = 200
 
@@ -32,13 +26,9 @@ def test_workout_analysis_returns_blocks():
 
     detail.repetitions = 4
 
-    detail.target = (
-        "40 seconds"
-    )
+    detail.target = "40 seconds"
 
-    detail.recovery = (
-        "60 seconds"
-    )
+    detail.recovery = "60 seconds"
 
     block.details = [
         detail,
@@ -59,11 +49,7 @@ def test_workout_analysis_returns_blocks():
 
     assert result["block_count"] == 1
 
-    assert (
-        result["blocks"][0]["details"][0]
-        ["distance_meters"]
-        == 200
-    )
+    assert result["blocks"][0]["details"][0]["distance_meters"] == 200
 
 
 def test_generate_workout_summary():
@@ -74,7 +60,4 @@ def test_generate_workout_summary():
         }
     )
 
-    assert (
-        summary
-        == "Workout contains 3 structured block(s)."
-    )
+    assert summary == "Workout contains 3 structured block(s)."

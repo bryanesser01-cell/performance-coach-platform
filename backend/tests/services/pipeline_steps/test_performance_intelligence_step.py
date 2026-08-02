@@ -30,10 +30,7 @@ def test_builds_performance_intelligence():
 
         PerformanceIntelligenceStep()(context)
 
-        assert (
-            context.performance_intelligence
-            == expected
-        )
+        assert context.performance_intelligence == expected
 
 
 def test_calls_performance_service():

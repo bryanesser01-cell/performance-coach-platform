@@ -23,15 +23,9 @@ def test_training_question_returns_training_advice():
             question="Should I train today?",
         )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "training"
-        in result["answer"]
-    )
+    assert "training" in result["answer"]
 
 
 def test_recovery_question_returns_recovery_advice():
@@ -49,10 +43,7 @@ def test_recovery_question_returns_recovery_advice():
             question="Do I need recovery?",
         )
 
-    assert (
-        "Recovery"
-        in result["answer"]
-    )
+    assert "Recovery" in result["answer"]
 
 
 def test_race_question_returns_race_advice():
@@ -70,10 +61,7 @@ def test_race_question_returns_race_advice():
             question="How should I prepare for my race?",
         )
 
-    assert (
-        "race"
-        in result["answer"]
-    )
+    assert "race" in result["answer"]
 
 
 def test_ai_coach_conversation_uses_memory_context():
@@ -108,18 +96,11 @@ def test_ai_coach_conversation_uses_memory_context():
             question="Should I train today?",
         )
 
-    assert (
-        result["memory_context"]["goal"][0]
-        == "Run sub 20 minute 5K"
-    )
+    assert result["memory_context"]["goal"][0] == "Run sub 20 minute 5K"
+
+    assert result["memory_context"]["preference"][0] == "Prefers morning sessions"
 
     assert (
-        result["memory_context"]["preference"][0]
-        == "Prefers morning sessions"
-    )
-
-    assert (
-        result["answer"]
-        == "Your training should follow your current "
+        result["answer"] == "Your training should follow your current "
         "fitness trend, recovery status, and goals."
     )

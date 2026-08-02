@@ -60,15 +60,9 @@ def build_athlete_context(
         },
         "goal": context["goal"],
         "training": {
-            "readiness_score": context[
-                "readiness_score"
-            ],
-            "training_load_status": context[
-                "training_load_status"
-            ],
-            "performance_trend": context[
-                "performance_trend"
-            ],
+            "readiness_score": context["readiness_score"],
+            "training_load_status": context["training_load_status"],
+            "performance_trend": context["performance_trend"],
         },
         "memories": context["memories"],
         "decision": context["decision"],

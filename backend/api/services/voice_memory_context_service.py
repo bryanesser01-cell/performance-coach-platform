@@ -35,12 +35,8 @@ def build_voice_memory_context(
 
         conversations.append(
             {
-                "athlete": (
-                    message.user_message
-                ),
-                "coach": (
-                    message.coach_response
-                ),
+                "athlete": (message.user_message),
+                "coach": (message.coach_response),
             }
         )
 
@@ -67,16 +63,9 @@ def generate_voice_memory_summary(
         "has_history",
         False,
     ):
-        return (
-            "No previous voice conversation "
-            "history available."
-        )
+        return "No previous voice conversation " "history available."
 
-    count = len(
-        context[
-            "conversation_history"
-        ]
-    )
+    count = len(context["conversation_history"])
 
     return (
         f"The athlete has had "

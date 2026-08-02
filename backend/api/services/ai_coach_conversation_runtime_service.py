@@ -49,28 +49,14 @@ def execute_runtime_conversation(
     """
 
     return run_production_conversation_bridge(
-        athlete_id=runtime_context[
-            "athlete_id"
-        ],
-        question=runtime_context[
-            "question"
-        ],
+        athlete_id=runtime_context["athlete_id"],
+        question=runtime_context["question"],
         ai_response=ai_response,
-        athlete_profile=runtime_context[
-            "athlete_profile"
-        ],
-        training_history=runtime_context[
-            "training_history"
-        ],
-        recovery_history=runtime_context[
-            "recovery_history"
-        ],
-        decision_analysis=runtime_context[
-            "decision_analysis"
-        ],
-        current_state=runtime_context[
-            "current_state"
-        ],
+        athlete_profile=runtime_context["athlete_profile"],
+        training_history=runtime_context["training_history"],
+        recovery_history=runtime_context["recovery_history"],
+        decision_analysis=runtime_context["decision_analysis"],
+        current_state=runtime_context["current_state"],
     )
 
 

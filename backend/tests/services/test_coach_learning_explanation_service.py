@@ -16,20 +16,11 @@ def test_build_explanation_for_reduced_training():
         ),
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 80
-    )
+    assert result["confidence"] == 80
 
-    assert (
-        "recovery"
-        in result["explanation"]
-    )
+    assert "recovery" in result["explanation"]
 
 
 def test_build_explanation_for_progression():
@@ -39,10 +30,7 @@ def test_build_explanation_for_progression():
         confidence=75,
     )
 
-    assert (
-        "increased your training"
-        in result["explanation"]
-    )
+    assert "increased your training" in result["explanation"]
 
 
 def test_learning_history_is_included():
@@ -55,10 +43,7 @@ def test_learning_history_is_included():
         },
     )
 
-    assert (
-        "Previous athlete outcomes"
-        in result["explanation"]
-    )
+    assert "Previous athlete outcomes" in result["explanation"]
 
 
 def test_athlete_message_contains_confidence():
@@ -66,16 +51,11 @@ def test_athlete_message_contains_confidence():
     explanation = {
         "decision": "REDUCE_TRAINING",
         "confidence": 85,
-        "explanation": (
-            "Recovery has been prioritised."
-        ),
+        "explanation": ("Recovery has been prioritised."),
     }
 
     result = build_athlete_friendly_message(
         explanation,
     )
 
-    assert (
-        "85%"
-        in result
-    )
+    assert "85%" in result

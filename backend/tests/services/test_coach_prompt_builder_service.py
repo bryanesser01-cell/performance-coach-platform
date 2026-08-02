@@ -29,20 +29,11 @@ def test_build_coach_prompt_contains_context():
         },
     )
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
-    assert (
-        result["voice_memory"]["has_history"]
-        is True
-    )
+    assert result["voice_memory"]["has_history"] is True
 
-    assert (
-        result["coach_decision"]["decision"]
-        == "progress_training"
-    )
+    assert result["coach_decision"]["decision"] == "progress_training"
 
 
 def test_generate_prompt_summary():
@@ -63,15 +54,9 @@ def test_generate_prompt_summary():
         context,
     )
 
-    assert (
-        "Bryan"
-        in summary
-    )
+    assert "Bryan" in summary
 
-    assert (
-        "85"
-        in summary
-    )
+    assert "85" in summary
 
 
 def test_has_voice_memory():

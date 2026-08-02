@@ -11,9 +11,7 @@ def test_voice_coach_endpoint_exists():
         "/voice-coach/chat",
         params={
             "athlete_id": 1,
-            "voice_text": (
-                "Should I train today?"
-            ),
+            "voice_text": ("Should I train today?"),
         },
     )
 

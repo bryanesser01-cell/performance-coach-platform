@@ -14,9 +14,6 @@ class DecisionScoringStep:
         context: CoachContext,
     ) -> None:
 
-        context.decision_scoring = (
-            DecisionScoringEngine()
-            .score(
-                context,
-            )
+        context.decision_scoring = DecisionScoringEngine().score(
+            context,
         )

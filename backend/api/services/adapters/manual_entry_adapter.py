@@ -9,23 +9,13 @@ def calculate_pace(
     if distance_km <= 0:
         return "0:00/km"
 
-    pace = (
-        duration_minutes
-        / distance_km
-    )
+    pace = duration_minutes / distance_km
 
     minutes = int(pace)
 
-    seconds = int(
-        round(
-            (pace - minutes) * 60
-        )
-    )
+    seconds = int(round((pace - minutes) * 60))
 
-    return (
-        f"{minutes}:{seconds:02d}/km"
-    )
-
+    return f"{minutes}:{seconds:02d}/km"
 
 
 def create_manual_training_entry(
@@ -44,27 +34,18 @@ def create_manual_training_entry(
 
     return {
         "source": "manual",
-
         "date": date,
-
         "session_type": session_type,
-
         "event": event,
-
         "distance_km": distance_km,
-
         "duration_minutes": duration_minutes,
-
         "pace": calculate_pace(
             distance_km,
             duration_minutes,
         ),
-
         "athlete_feedback": athlete_feedback,
-
         "notes": notes,
     }
-
 
 
 def create_manual_race_result(
@@ -85,16 +66,10 @@ def create_manual_race_result(
 
     return {
         "source": "manual",
-
         "date": date,
-
         "session_type": "race",
-
         "event": event,
-
         "result_time": result_time,
-
         "distance_km": distance_km,
-
         "notes": notes,
     }

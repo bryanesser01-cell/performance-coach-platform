@@ -90,68 +90,26 @@ def build_athlete_state(
             ),
         },
         "goal": {
-            "target": (
-                goal.get("target")
-                if goal
-                else None
-            ),
-            "status": (
-                goal.get("status")
-                if goal
-                else None
-            ),
+            "target": (goal.get("target") if goal else None),
+            "status": (goal.get("status") if goal else None),
         },
         "readiness": {
-            "score": (
-                readiness.get("score")
-                if readiness
-                else 0
-            ),
-            "status": (
-                readiness.get("status")
-                if readiness
-                else "unknown"
-            ),
+            "score": (readiness.get("score") if readiness else 0),
+            "status": (readiness.get("status") if readiness else "unknown"),
         },
         "training": {
-            "load_status": (
-                training.get("load_status")
-                if training
-                else "unknown"
-            ),
-            "weekly_distance": (
-                training.get("weekly_distance")
-                if training
-                else 0
-            ),
+            "load_status": (training.get("load_status") if training else "unknown"),
+            "weekly_distance": (training.get("weekly_distance") if training else 0),
         },
         "performance": {
-            "trend": (
-                performance.get("trend")
-                if performance
-                else "unknown"
-            ),
+            "trend": (performance.get("trend") if performance else "unknown"),
             "current_metric": (
-                performance.get("current_metric")
-                if performance
-                else None
+                performance.get("current_metric") if performance else None
             ),
         },
-        "training_sessions": (
-            training_sessions
-            if training_sessions
-            else []
-        ),
-        "next_race": (
-            next_race
-            if next_race
-            else None
-        ),
-        "metadata": (
-            metadata
-            if metadata
-            else {}
-        ),
+        "training_sessions": (training_sessions if training_sessions else []),
+        "next_race": (next_race if next_race else None),
+        "metadata": (metadata if metadata else {}),
     }
 
 
@@ -182,10 +140,8 @@ def get_athlete_state(
         db,
     )
 
-    performance_repository = (
-        PerformanceTrendRepository(
-            db,
-        )
+    performance_repository = PerformanceTrendRepository(
+        db,
     )
 
     athlete = athlete_repository.get_athlete(
@@ -196,11 +152,8 @@ def get_athlete_state(
         athlete_id,
     )
 
-    checkin = (
-        checkin_repository
-        .get_latest_by_athlete_id(
-            athlete_id,
-        )
+    checkin = checkin_repository.get_latest_by_athlete_id(
+        athlete_id,
     )
 
     if (
@@ -227,35 +180,23 @@ def get_athlete_state(
         readiness_score = 0
         readiness_status = "unknown"
 
-    training_load_status = (
-        training_repository
-        .calculate_training_load_status(
-            athlete_id,
-        )
+    training_load_status = training_repository.calculate_training_load_status(
+        athlete_id,
     )
 
-    weekly_distance = (
-        training_repository
-        .get_weekly_distance(
-            athlete_id,
-        )
+    weekly_distance = training_repository.get_weekly_distance(
+        athlete_id,
     )
 
-    performance_trend = (
-        performance_repository
-        .calculate_performance_trend(
-            athlete_id,
-        )
+    performance_trend = performance_repository.calculate_performance_trend(
+        athlete_id,
     )
 
-    current_metric = (
-        performance_repository
-        .get_current_performance_metric(
-            athlete_id,
-        )
+    current_metric = performance_repository.get_current_performance_metric(
+        athlete_id,
     )
 
-        #
+    #
     # Future AI Coach datasets
     #
     training_sessions = []
@@ -267,20 +208,24 @@ def get_athlete_state(
     }
 
     return build_athlete_state(
-        athlete={
-            "id": athlete.id,
-            "name": athlete.name,
-            "sport": athlete.sport,
-            "primary_event": athlete.primary_event,
-        }
-        if athlete
-        else {},
-        goal={
-            "target": goal.goal_type,
-            "status": goal.status,
-        }
-        if goal
-        else None,
+        athlete=(
+            {
+                "id": athlete.id,
+                "name": athlete.name,
+                "sport": athlete.sport,
+                "primary_event": athlete.primary_event,
+            }
+            if athlete
+            else {}
+        ),
+        goal=(
+            {
+                "target": goal.goal_type,
+                "status": goal.status,
+            }
+            if goal
+            else None
+        ),
         readiness={
             "score": readiness_score,
             "status": readiness_status,
@@ -289,7 +234,7 @@ def get_athlete_state(
             "load_status": training_load_status,
             "weekly_distance": weekly_distance,
         },
-                    performance={
+        performance={
             "trend": performance_trend,
             "current_metric": current_metric,
         },

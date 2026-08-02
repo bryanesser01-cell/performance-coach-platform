@@ -17,7 +17,6 @@ class RaceStrategyRepository:
     ):
         self.db = db
 
-
     def create_race_goal(
         self,
         athlete_id: int,
@@ -44,7 +43,6 @@ class RaceStrategyRepository:
         )
 
         return goal
-
 
     def add_checkpoint(
         self,
@@ -75,7 +73,6 @@ class RaceStrategyRepository:
 
         return checkpoint
 
-
     def get_checkpoints(
         self,
         race_goal_id: int,
@@ -86,8 +83,7 @@ class RaceStrategyRepository:
                 RaceCheckpoint,
             )
             .filter(
-                RaceCheckpoint.race_goal_id
-                == race_goal_id,
+                RaceCheckpoint.race_goal_id == race_goal_id,
             )
             .order_by(
                 RaceCheckpoint.distance_marker,

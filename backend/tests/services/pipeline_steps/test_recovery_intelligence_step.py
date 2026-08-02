@@ -30,10 +30,7 @@ def test_builds_recovery_intelligence():
 
         RecoveryIntelligenceStep()(context)
 
-        assert (
-            context.recovery_intelligence
-            == expected
-        )
+        assert context.recovery_intelligence == expected
 
 
 def test_calls_recovery_service():

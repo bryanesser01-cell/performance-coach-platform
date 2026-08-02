@@ -20,15 +20,9 @@ def test_build_activity_coach_context():
         activities,
     )
 
-    assert (
-        result["activity_count"]
-        == 2
-    )
+    assert result["activity_count"] == 2
 
-    assert (
-        result["total_training_stress"]
-        == 150
-    )
+    assert result["total_training_stress"] == 150
 
 
 def test_detect_high_training_risk():
@@ -39,10 +33,7 @@ def test_detect_high_training_risk():
         }
     )
 
-    assert (
-        result["risk"]
-        == "high"
-    )
+    assert result["risk"] == "high"
 
 
 def test_generate_improving_recommendation():
@@ -54,10 +45,7 @@ def test_generate_improving_recommendation():
         }
     )
 
-    assert (
-        "progressive"
-        in result["recommendation"]
-    )
+    assert "progressive" in result["recommendation"]
 
 
 def test_generate_recovery_recommendation():
@@ -69,7 +57,4 @@ def test_generate_recovery_recommendation():
         }
     )
 
-    assert (
-        "recovery"
-        in result["recommendation"]
-    )
+    assert "recovery" in result["recommendation"]

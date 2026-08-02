@@ -36,17 +36,13 @@ class MemoryReasoningService:
             ]
 
             if decision_names:
-                reasoning["preferred_decision"] = (
-                    Counter(decision_names)
-                    .most_common(1)[0][0]
-                )
+                reasoning["preferred_decision"] = Counter(decision_names).most_common(
+                    1
+                )[0][0]
 
         # Estimate fatigue trend
         fatigue_memories = [
-            m
-            for m in memories
-            if "fatigue"
-            in str(getattr(m, "content", "")).lower()
+            m for m in memories if "fatigue" in str(getattr(m, "content", "")).lower()
         ]
 
         if len(fatigue_memories) >= 3:
@@ -61,9 +57,7 @@ class MemoryReasoningService:
             m
             for m in memories
             if any(
-                word in str(
-                    getattr(m, "content", "")
-                ).lower()
+                word in str(getattr(m, "content", "")).lower()
                 for word in (
                     "injury",
                     "pain",

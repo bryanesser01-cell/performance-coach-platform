@@ -43,15 +43,9 @@ def test_capture_decision_outcome():
             outcome="positive",
         )
 
-    assert (
-        result["confidence_change"]
-        == 10
-    )
+    assert result["confidence_change"] == 10
 
-    assert (
-        result["outcome"]
-        == "positive"
-    )
+    assert result["outcome"] == "positive"
 
 
 def test_store_learning_feedback():
@@ -73,7 +67,4 @@ def test_store_learning_feedback():
             performance_change="improved",
         )
 
-    assert (
-        result["outcome"]
-        == "positive"
-    )
+    assert result["outcome"] == "positive"

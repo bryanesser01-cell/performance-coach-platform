@@ -17,15 +17,9 @@ def test_migrate_conversation_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_migrate_chat_route():
@@ -40,15 +34,9 @@ def test_migrate_chat_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_validate_route_migration():
@@ -62,7 +50,4 @@ def test_validate_route_migration():
         },
     )
 
-    assert (
-        result["valid"]
-        is True
-    )
+    assert result["valid"] is True

@@ -19,31 +19,20 @@ def test_adapt_conversation_request():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_convert_ai_response():
 
     result = convert_ai_response_to_gateway(
         {
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         }
     )
 
-    assert (
-        result["coach_message"]
-        == "Recover today."
-    )
+    assert result["coach_message"] == "Recover today."
 
 
 def test_run_adapted_conversation():
@@ -52,9 +41,7 @@ def test_run_adapted_conversation():
         athlete_id=1,
         question="Should I reduce training?",
         ai_response={
-            "coach_message": (
-                "Reduce load."
-            ),
+            "coach_message": ("Reduce load."),
         },
         athlete_profile={
             "sport": "running",
@@ -71,12 +58,6 @@ def test_run_adapted_conversation():
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["response"]["confidence"]
-        == 90
-    )
+    assert result["response"]["confidence"] == 90

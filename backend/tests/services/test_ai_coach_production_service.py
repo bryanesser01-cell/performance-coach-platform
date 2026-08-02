@@ -18,10 +18,7 @@ def test_build_production_context():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
 
 def test_generate_production_answer():
@@ -30,9 +27,7 @@ def test_generate_production_answer():
         athlete_id=1,
         question="Should I train today?",
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         production_context={
             "athlete_profile": {},
@@ -49,23 +44,16 @@ def test_generate_production_answer():
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
 
 def test_full_production_coach():
 
     result = run_production_coach(
         athlete_id=1,
-        question=(
-            "Should I do intervals?"
-        ),
+        question=("Should I do intervals?"),
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={
             "sport": "running",
@@ -82,12 +70,6 @@ def test_full_production_coach():
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["response"]["confidence"]
-        == 95
-    )
+    assert result["response"]["confidence"] == 95

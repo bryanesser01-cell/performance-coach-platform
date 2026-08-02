@@ -23,20 +23,16 @@ def process_voice_coach_request(
     - Text-to-speech
     """
 
-    coach_response = (
-        generate_coach_conversation_response(
-            db=db,
-            athlete_id=athlete_id,
-            question=voice_text,
-        )
+    coach_response = generate_coach_conversation_response(
+        db=db,
+        athlete_id=athlete_id,
+        question=voice_text,
     )
 
     return {
         "athlete_id": athlete_id,
         "voice_input": voice_text,
-        "response_text": coach_response[
-            "answer"
-        ],
+        "response_text": coach_response["answer"],
         "decision": coach_response.get(
             "coach_decision",
         ),

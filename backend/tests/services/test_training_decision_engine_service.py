@@ -13,10 +13,7 @@ def test_evaluate_training_readiness_ready():
         performance_trend="IMPROVING",
     )
 
-    assert (
-        result["readiness_status"]
-        == "READY"
-    )
+    assert result["readiness_status"] == "READY"
 
 
 def test_evaluate_training_readiness_recovery():
@@ -27,10 +24,7 @@ def test_evaluate_training_readiness_recovery():
         performance_trend="DECLINING",
     )
 
-    assert (
-        result["readiness_status"]
-        == "RECOVERY_REQUIRED"
-    )
+    assert result["readiness_status"] == "RECOVERY_REQUIRED"
 
 
 def test_select_training_intensity():
@@ -40,10 +34,7 @@ def test_select_training_intensity():
         performance_trend="IMPROVING",
     )
 
-    assert (
-        result["intensity"]
-        == "HIGH"
-    )
+    assert result["intensity"] == "HIGH"
 
 
 def test_generate_daily_training_decision():
@@ -54,12 +45,6 @@ def test_generate_daily_training_decision():
         performance_trend="IMPROVING",
     )
 
-    assert (
-        result["decision"]
-        == "TRAIN_HARD"
-    )
+    assert result["decision"] == "TRAIN_HARD"
 
-    assert (
-        result["training_intensity"]
-        == "HIGH"
-    )
+    assert result["training_intensity"] == "HIGH"

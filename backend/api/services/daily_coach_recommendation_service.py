@@ -83,7 +83,6 @@ def generate_running_workout(
 
             workout_type = "intervals"
 
-
     elif decision == "TRAIN_MODERATE":
 
         session = [
@@ -94,7 +93,6 @@ def generate_running_workout(
 
         workout_type = "tempo"
 
-
     elif decision == "EASY_SESSION":
 
         session = [
@@ -102,7 +100,6 @@ def generate_running_workout(
         ]
 
         workout_type = "easy_run"
-
 
     else:
 
@@ -113,18 +110,17 @@ def generate_running_workout(
 
         workout_type = "recovery"
 
-
     return {
         "goal": goal,
         "event": event,
         "age_group": age_group,
         "training_phase": training_phase,
-
         "running_workout": {
             "type": workout_type,
             "session": session,
         },
     }
+
 
 def generate_strength_workout(
     event: str = "5K",
@@ -201,7 +197,6 @@ def generate_strength_workout(
             },
         ]
 
-
     return {
         "session_type": "strength",
         "event": event,
@@ -209,7 +204,6 @@ def generate_strength_workout(
         "duration": "35 minutes",
         "exercises": exercises,
     }
-
 
 
 def generate_recovery_session() -> dict:
@@ -226,7 +220,6 @@ def generate_recovery_session() -> dict:
             "Stretching",
         ],
     }
-
 
 
 def build_daily_coach_message(
@@ -250,19 +243,13 @@ def build_daily_coach_message(
         "message": "",
     }
 
-
     if decision == "RECOVER":
 
-        response["message"] = (
-            "Recovery is the priority today."
-        )
+        response["message"] = "Recovery is the priority today."
 
-        response["sessions"].append(
-            generate_recovery_session()
-        )
+        response["sessions"].append(generate_recovery_session())
 
         return response
-
 
     running = generate_running_workout(
         decision=decision,
@@ -272,11 +259,7 @@ def build_daily_coach_message(
         goal=goal,
     )
 
-
-    response["sessions"].append(
-        running
-    )
-
+    response["sessions"].append(running)
 
     if include_strength:
 
@@ -287,26 +270,20 @@ def build_daily_coach_message(
             )
         )
 
-
     explanation = build_coach_explanation(
         session_type="running",
         age=age,
         event=event,
-        session=str(
-            running["running_workout"]["session"]
-        ),
+        session=str(running["running_workout"]["session"]),
         goal=goal,
         training_phase=training_phase,
     )
 
-
     response["coach_explanation"] = explanation
-
 
     response["message"] = (
         "Today's training has been personalised "
         "using your event, age and training goal."
     )
-
 
     return response

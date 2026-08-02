@@ -50,10 +50,7 @@ def calculate_training_fatigue(
     Returns fatigue 0-100.
     """
 
-    fatigue = (
-        (training_load / 10)
-        - (recovery_score * 0.4)
-    )
+    fatigue = (training_load / 10) - (recovery_score * 0.4)
 
     fatigue_score = max(
         0,

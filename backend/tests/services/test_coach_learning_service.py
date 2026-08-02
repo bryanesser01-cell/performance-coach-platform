@@ -15,12 +15,7 @@ def test_positive_training_response():
         }
     )
 
-
-    assert (
-        result["response"]
-        == "POSITIVE"
-    )
-
+    assert result["response"] == "POSITIVE"
 
 
 def test_identify_training_patterns():
@@ -38,18 +33,9 @@ def test_identify_training_patterns():
         ]
     )
 
+    assert "tempo" in result["responds_well_to"]
 
-    assert (
-        "tempo"
-        in result["responds_well_to"]
-    )
-
-
-    assert (
-        "long_run"
-        in result["struggles_with"]
-    )
-
+    assert "long_run" in result["struggles_with"]
 
 
 def test_learning_loop():
@@ -67,8 +53,4 @@ def test_learning_loop():
         ],
     )
 
-
-    assert (
-        result["ready_for_future_training"]
-        is True
-    )
+    assert result["ready_for_future_training"] is True

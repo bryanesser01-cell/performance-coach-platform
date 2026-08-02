@@ -22,11 +22,7 @@ class ConfidenceEngine:
         #
         # Readiness
         #
-        readiness = (
-            context.athlete_state
-            .get("readiness", {})
-            .get("score", 0)
-        )
+        readiness = context.athlete_state.get("readiness", {}).get("score", 0)
 
         if readiness >= 80:
             score += 10
@@ -37,34 +33,19 @@ class ConfidenceEngine:
         #
         # Performance prediction
         #
-        if (
-            context.performance_prediction.get(
-                "confidence"
-            )
-            == "high"
-        ):
+        if context.performance_prediction.get("confidence") == "high":
             score += 15
 
         #
         # Recovery
         #
-        if (
-            context.recovery_intelligence.get(
-                "status"
-            )
-            == "poor"
-        ):
+        if context.recovery_intelligence.get("status") == "poor":
             score -= 10
 
         #
         # Training load
         #
-        if (
-            context.training_load_intelligence.get(
-                "risk"
-            )
-            == "high"
-        ):
+        if context.training_load_intelligence.get("risk") == "high":
             score -= 10
 
         #

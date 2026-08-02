@@ -20,15 +20,9 @@ def test_build_gateway_context():
         question="Should I train today?",
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["question"]
-        == "Should I train today?"
-    )
+    assert result["question"] == "Should I train today?"
 
 
 def test_generate_gateway_response():
@@ -50,16 +44,11 @@ def test_generate_gateway_response():
             },
         },
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
 
 def test_route_conversation_request():
@@ -68,9 +57,7 @@ def test_route_conversation_request():
         athlete_id=1,
         question="Should I train?",
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={},
         training_history=[],
@@ -85,10 +72,7 @@ def test_route_conversation_request():
         },
     )
 
-    assert (
-        result["response"]["confidence"]
-        == 85
-    )
+    assert result["response"]["confidence"] == 85
 
 
 def test_full_gateway_pipeline():
@@ -97,9 +81,7 @@ def test_full_gateway_pipeline():
         athlete_id=1,
         question="Should I do intervals?",
         ai_response={
-            "coach_message": (
-                "Modify session."
-            ),
+            "coach_message": ("Modify session."),
         },
         athlete_profile={
             "sport": "running",
@@ -116,12 +98,6 @@ def test_full_gateway_pipeline():
         },
     )
 
-    assert (
-        result["response"]["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["response"]["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["response"]["confidence"]
-        == 95
-    )
+    assert result["response"]["confidence"] == 95

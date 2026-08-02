@@ -15,9 +15,7 @@ def test_adaptive_loop_reduces_training_after_hard_workout():
         "rpe": 9,
         "target_hit": False,
         "difficulty": "very_hard",
-        "comments": (
-            "Last reps were difficult"
-        ),
+        "comments": ("Last reps were difficult"),
     }
 
     result = run_adaptive_coaching_loop(
@@ -28,17 +26,9 @@ def test_adaptive_loop_reduces_training_after_hard_workout():
         performance_trend="stable",
     )
 
-    assert (
-        result["workout_analysis"]
-        ["fatigue_signal"]
-        == "high"
-    )
+    assert result["workout_analysis"]["fatigue_signal"] == "high"
 
-    assert (
-        result["coach_decision"]
-        ["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "REDUCE_TRAINING"
 
 
 def test_adaptive_loop_progresses_training():
@@ -53,9 +43,7 @@ def test_adaptive_loop_progresses_training():
         "rpe": 6,
         "target_hit": True,
         "difficulty": "manageable",
-        "comments": (
-            "Felt controlled"
-        ),
+        "comments": ("Felt controlled"),
     }
 
     result = run_adaptive_coaching_loop(
@@ -66,11 +54,7 @@ def test_adaptive_loop_progresses_training():
         performance_trend="improving",
     )
 
-    assert (
-        result["coach_decision"]
-        ["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["coach_decision"]["decision"] == "PROGRESS_TRAINING"
 
 
 def test_adaptive_loop_race_taper():
@@ -88,8 +72,4 @@ def test_adaptive_loop_race_taper():
         days_to_race=10,
     )
 
-    assert (
-        result["coach_decision"]
-        ["decision"]
-        == "RACE_TAPER"
-    )
+    assert result["coach_decision"]["decision"] == "RACE_TAPER"

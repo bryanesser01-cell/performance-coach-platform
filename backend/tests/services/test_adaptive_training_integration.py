@@ -21,10 +21,7 @@ def test_training_plan_adapts_after_athlete_feedback():
         fatigue_level="normal",
     )
 
-    assert (
-        adjusted_plan["adjustment"]
-        == "progress"
-    )
+    assert adjusted_plan["adjustment"] == "progress"
 
 
 def test_training_plan_reduces_when_fatigue_detected():
@@ -42,10 +39,7 @@ def test_training_plan_reduces_when_fatigue_detected():
         fatigue_level="high",
     )
 
-    assert (
-        adjusted_plan["adjustment"]
-        == "reduce_load"
-    )
+    assert adjusted_plan["adjustment"] == "reduce_load"
 
 
 def test_training_plan_maintains_after_missed_sessions():
@@ -63,7 +57,4 @@ def test_training_plan_maintains_after_missed_sessions():
         fatigue_level="normal",
     )
 
-    assert (
-        adjusted_plan["adjustment"]
-        == "maintain"
-    )
+    assert adjusted_plan["adjustment"] == "maintain"

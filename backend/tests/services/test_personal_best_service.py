@@ -14,12 +14,7 @@ def test_record_personal_best():
         date="2026-08-01",
     )
 
-
-    assert (
-        result["event"]
-        == "5K"
-    )
-
+    assert result["event"] == "5K"
 
 
 def test_calculate_improvement():
@@ -29,18 +24,9 @@ def test_calculate_improvement():
         current_time_seconds=1400,
     )
 
+    assert result["trend"] == "improving"
 
-    assert (
-        result["trend"]
-        == "improving"
-    )
-
-
-    assert (
-        result["improvement_seconds"]
-        == 100
-    )
-
+    assert result["improvement_seconds"] == 100
 
 
 def test_compare_personal_best():
@@ -50,20 +36,13 @@ def test_compare_personal_best():
             "event": "1500m",
             "time_seconds": 300,
         },
-
         current_pb={
             "event": "1500m",
             "time_seconds": 292,
         },
     )
 
-
-    assert (
-        result["improvement"]
-        ["improvement_seconds"]
-        == 8
-    )
-
+    assert result["improvement"]["improvement_seconds"] == 8
 
 
 def test_generate_personal_best_summary():
@@ -71,19 +50,12 @@ def test_generate_personal_best_summary():
     result = generate_personal_best_summary(
         {
             "event": "5K",
-
             "improvement": {
                 "trend": "improving",
-
                 "improvement_seconds": 30,
-
                 "improvement_percentage": 2.5,
             },
         }
     )
 
-
-    assert (
-        "improving"
-        in result["message"]
-    )
+    assert "improving" in result["message"]

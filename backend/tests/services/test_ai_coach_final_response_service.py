@@ -19,40 +19,25 @@ def test_build_final_context():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
 
 def test_combine_responses():
 
     result = combine_ai_and_personalised_response(
         {
-            "coach_message": (
-                "Train easy."
-            ),
+            "coach_message": ("Train easy."),
         },
         {
-            "answer": (
-                "Recovery is recommended."
-            ),
-            "strategy": (
-                "RECOVERY_FIRST"
-            ),
+            "answer": ("Recovery is recommended."),
+            "strategy": ("RECOVERY_FIRST"),
             "confidence": 90,
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_generate_final_answer():
@@ -60,9 +45,7 @@ def test_generate_final_answer():
     result = generate_final_ai_coach_answer(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={},
         training_history=[],
@@ -77,15 +60,9 @@ def test_generate_final_answer():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_final_response_pipeline():
@@ -93,9 +70,7 @@ def test_full_final_response_pipeline():
     result = run_final_coach_response_pipeline(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recovery day."
-            ),
+            "coach_message": ("Recovery day."),
         },
         athlete_profile={
             "sport": "running",
@@ -112,12 +87,6 @@ def test_full_final_response_pipeline():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

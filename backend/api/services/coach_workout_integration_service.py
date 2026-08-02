@@ -85,29 +85,19 @@ def generate_coach_workout_message(
         "",
     )
 
-    message = (
-        f"Your next session is: "
-        f"{workout_name}. "
-    )
+    message = f"Your next session is: " f"{workout_name}. "
 
     if effort:
 
-        message += (
-            f"Effort: {effort}. "
-        )
+        message += f"Effort: {effort}. "
 
     if feeling:
 
-        message += (
-            f"How it should feel: "
-            f"{feeling} "
-        )
+        message += f"How it should feel: " f"{feeling} "
 
     if purpose:
 
-        message += (
-            f"Purpose: {purpose}. "
-        )
+        message += f"Purpose: {purpose}. "
 
     if coach_note:
 
@@ -136,7 +126,4 @@ def should_explain_workout(
         "what should i do",
     ]
 
-    return any(
-        word in question_lower
-        for word in keywords
-    )
+    return any(word in question_lower for word in keywords)

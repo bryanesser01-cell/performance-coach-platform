@@ -18,10 +18,7 @@ def test_trigger_learning_from_response():
         },
     )
 
-    assert (
-        result["learning_signal"]["signal"]
-        == "REINFORCE"
-    )
+    assert result["learning_signal"]["signal"] == "REINFORCE"
 
 
 def test_process_completed_coaching_event():
@@ -36,34 +33,23 @@ def test_process_completed_coaching_event():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["learning_result"]
-        is not None
-    )
+    assert result["learning_result"] is not None
 
 
 def test_build_learning_enriched_response():
 
     result = build_learning_enriched_response(
         response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         learning_result={
             "learning_updated": True,
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
 
 def test_run_learning_pipeline():
@@ -78,12 +64,6 @@ def test_run_learning_pipeline():
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
-    assert (
-        result["learning_result"]
-        is not None
-    )
+    assert result["learning_result"] is not None

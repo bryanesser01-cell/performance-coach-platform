@@ -25,42 +25,24 @@ def test_build_coach_workout_response():
         goal_time="4:45",
     )
 
-    assert (
-        response["event"]
-        == "1500m"
-    )
+    assert response["event"] == "1500m"
 
-    assert (
-        response["workout"]["session_type"]
-        == "interval"
-    )
+    assert response["workout"]["session_type"] == "interval"
 
-    assert (
-        "coach_message"
-        in response
-    )
+    assert "coach_message" in response
 
 
 def test_generate_coach_workout_message():
 
     workout_plan = {
         "workout": {
-            "workout": (
-                "5 x 400m at race pace"
-            ),
+            "workout": ("5 x 400m at race pace"),
             "athlete_explanation": {
                 "effort": "8-9/10",
-                "feeling": (
-                    "Fast and controlled."
-                ),
-                "purpose": (
-                    "Improve race pace ability."
-                ),
+                "feeling": ("Fast and controlled."),
+                "purpose": ("Improve race pace ability."),
             },
-            "coach_note": (
-                "Current readiness supports "
-                "planned training."
-            ),
+            "coach_note": ("Current readiness supports " "planned training."),
         }
     }
 
@@ -68,32 +50,16 @@ def test_generate_coach_workout_message():
         workout_plan,
     )
 
-    assert (
-        "5 x 400m"
-        in message
-    )
+    assert "5 x 400m" in message
 
-    assert (
-        "8-9/10"
-        in message
-    )
+    assert "8-9/10" in message
 
 
 def test_should_explain_workout_question():
 
-    assert (
-        should_explain_workout(
-            "What should I do tomorrow?"
-        )
-        is True
-    )
+    assert should_explain_workout("What should I do tomorrow?") is True
 
 
 def test_should_not_explain_random_question():
 
-    assert (
-        should_explain_workout(
-            "What is my current weight?"
-        )
-        is False
-    )
+    assert should_explain_workout("What is my current weight?") is False

@@ -19,10 +19,7 @@ def evaluate_coaching_decision(
         -> MAINTAIN
     """
 
-    if (
-        readiness_score < 60
-        or fatigue_score > 70
-    ):
+    if readiness_score < 60 or fatigue_score > 70:
         decision = "RECOVERY"
 
     elif readiness_score >= 80:
@@ -48,18 +45,9 @@ def generate_coach_recommendation(
     """
 
     recommendations = {
-        "RECOVERY": (
-            "Take a recovery day "
-            "or complete an easy session."
-        ),
-        "TRAIN": (
-            "Complete planned training "
-            "with normal intensity."
-        ),
-        "MAINTAIN": (
-            "Train conservatively "
-            "and monitor response."
-        ),
+        "RECOVERY": ("Take a recovery day " "or complete an easy session."),
+        "TRAIN": ("Complete planned training " "with normal intensity."),
+        "MAINTAIN": ("Train conservatively " "and monitor response."),
     }
 
     return {

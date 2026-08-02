@@ -31,15 +31,9 @@ def test_select_best_strategy():
         analysis,
     )
 
-    assert (
-        result["decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["success_rate"]
-        == 85
-    )
+    assert result["success_rate"] == 85
 
 
 def test_optimise_future_decision():
@@ -59,15 +53,9 @@ def test_optimise_future_decision():
         learning_confidence=70,
     )
 
-    assert (
-        result["recommended_decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["recommended_decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 80
-    )
+    assert result["confidence"] == 80
 
 
 def test_generate_strategy_report():
@@ -82,12 +70,6 @@ def test_generate_strategy_report():
         analysis,
     )
 
-    assert (
-        result["best_strategy"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["best_strategy"] == "REDUCE_TRAINING"
 
-    assert (
-        result["success_rate"]
-        == 90
-    )
+    assert result["success_rate"] == 90

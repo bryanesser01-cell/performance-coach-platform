@@ -1,5 +1,4 @@
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from api.models.coach_context import CoachContext
 from api.services.pipeline_steps.athlete_state_step import (

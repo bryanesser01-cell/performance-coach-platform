@@ -26,23 +26,16 @@ def analyse_performance_limitations(
         "recovery": recovery_score,
     }
 
-
     weakest_area = min(
         areas,
         key=areas.get,
     )
 
-
     return {
         "scores": areas,
-
         "primary_limiter": weakest_area,
-
-        "limiter_score": areas[
-            weakest_area
-        ],
+        "limiter_score": areas[weakest_area],
     }
-
 
 
 def identify_primary_limiter(
@@ -52,37 +45,18 @@ def identify_primary_limiter(
     Convert limitation into coaching advice.
     """
 
-    limiter = analysis[
-        "primary_limiter"
-    ]
-
+    limiter = analysis["primary_limiter"]
 
     recommendations = {
-        "speed": (
-            "Increase speed development "
-            "and quality interval sessions."
-        ),
-
-        "aerobic": (
-            "Improve aerobic capacity "
-            "through consistent endurance work."
-        ),
-
-        "recovery": (
-            "Adjust training load and "
-            "prioritise recovery."
-        ),
+        "speed": ("Increase speed development " "and quality interval sessions."),
+        "aerobic": ("Improve aerobic capacity " "through consistent endurance work."),
+        "recovery": ("Adjust training load and " "prioritise recovery."),
     }
-
 
     return {
         "limiter": limiter,
-
-        "recommendation": recommendations[
-            limiter
-        ],
+        "recommendation": recommendations[limiter],
     }
-
 
 
 def generate_limitation_summary(
@@ -92,14 +66,10 @@ def generate_limitation_summary(
     Generate athlete-facing insight.
     """
 
-    limiter = limitation_result[
-        "limiter"
-    ]
-
+    limiter = limitation_result["limiter"]
 
     return {
         "primary_limitation": limiter,
-
         "message": (
             f"Your current performance "
             f"limiter appears to be "
@@ -107,8 +77,5 @@ def generate_limitation_summary(
             "Training can be adjusted "
             "to improve this area."
         ),
-
-        "recommendation": limitation_result[
-            "recommendation"
-        ],
+        "recommendation": limitation_result["recommendation"],
     }

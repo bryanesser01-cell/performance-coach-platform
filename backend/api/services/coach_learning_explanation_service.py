@@ -16,10 +16,7 @@ def build_learning_explanation(
 
     if decision == "REDUCE_TRAINING":
 
-        action = (
-            "I reduced your training load "
-            "to prioritise recovery."
-        )
+        action = "I reduced your training load " "to prioritise recovery."
 
     elif decision == "PROGRESS_TRAINING":
 
@@ -31,23 +28,15 @@ def build_learning_explanation(
 
     elif decision == "RACE_TAPER":
 
-        action = (
-            "I adjusted your training to "
-            "prioritise freshness before your race."
-        )
+        action = "I adjusted your training to " "prioritise freshness before your race."
 
     else:
 
-        action = (
-            "I adjusted your training "
-            "based on your current indicators."
-        )
+        action = "I adjusted your training " "based on your current indicators."
 
     if reason:
 
-        explanation = (
-            f"{action} {reason}"
-        )
+        explanation = f"{action} {reason}"
 
     else:
 
@@ -86,8 +75,4 @@ def build_athlete_friendly_message(
         "",
     )
 
-    return (
-        f"{message} "
-        f"My confidence in this decision "
-        f"is {confidence}%."
-    )
+    return f"{message} " f"My confidence in this decision " f"is {confidence}%."

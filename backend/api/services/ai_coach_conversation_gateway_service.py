@@ -40,28 +40,14 @@ def generate_gateway_response(
     """
 
     return run_production_coach(
-        athlete_id=gateway_context[
-            "athlete_id"
-        ],
-        question=gateway_context[
-            "question"
-        ],
+        athlete_id=gateway_context["athlete_id"],
+        question=gateway_context["question"],
         ai_response=ai_response,
-        athlete_profile=gateway_context[
-            "athlete_profile"
-        ],
-        training_history=gateway_context[
-            "training_history"
-        ],
-        recovery_history=gateway_context[
-            "recovery_history"
-        ],
-        decision_analysis=gateway_context[
-            "decision_analysis"
-        ],
-        current_state=gateway_context[
-            "current_state"
-        ],
+        athlete_profile=gateway_context["athlete_profile"],
+        training_history=gateway_context["training_history"],
+        recovery_history=gateway_context["recovery_history"],
+        decision_analysis=gateway_context["decision_analysis"],
+        current_state=gateway_context["current_state"],
     )
 
 

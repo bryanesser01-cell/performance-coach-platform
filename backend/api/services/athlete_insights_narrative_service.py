@@ -21,9 +21,7 @@ def generate_insight_narrative(
         )
 
     else:
-        insights.append(
-            "Your performance has remained consistent."
-        )
+        insights.append("Your performance has remained consistent.")
 
     if pace_improvement_seconds_per_km > 0:
         insights.append(
@@ -35,28 +33,18 @@ def generate_insight_narrative(
         )
 
     if consistency_score >= 80:
-        insights.append(
-            "Your training consistency is excellent."
-        )
+        insights.append("Your training consistency is excellent.")
 
     elif consistency_score >= 50:
-        insights.append(
-            "Your training consistency is building."
-        )
+        insights.append("Your training consistency is building.")
 
     else:
-        insights.append(
-            "Focus on maintaining regular training habits."
-        )
+        insights.append("Focus on maintaining regular training habits.")
 
     if training_load_status == "high":
-        recommendation = (
-            "Consider recovery to absorb your training gains."
-        )
+        recommendation = "Consider recovery to absorb your training gains."
     else:
-        recommendation = (
-            "Continue your current progression."
-        )
+        recommendation = "Continue your current progression."
 
     return {
         "summary": " ".join(insights),

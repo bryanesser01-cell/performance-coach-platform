@@ -17,15 +17,9 @@ def test_activate_production_conversation_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_activate_production_chat_route():
@@ -40,15 +34,9 @@ def test_activate_production_chat_route():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_production_pipeline():
@@ -62,7 +50,4 @@ def test_verify_production_pipeline():
         },
     )
 
-    assert (
-        result["production_ready"]
-        is True
-    )
+    assert result["production_ready"] is True

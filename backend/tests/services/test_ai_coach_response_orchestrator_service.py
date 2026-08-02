@@ -19,10 +19,7 @@ def test_build_response_context():
         current_state={},
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
 
 def test_orchestrate_final_response():
@@ -30,9 +27,7 @@ def test_orchestrate_final_response():
     result = orchestrate_final_coach_response(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         pipeline_context={
             "athlete_profile": {},
@@ -49,10 +44,7 @@ def test_orchestrate_final_response():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
 
 def test_generate_production_answer():
@@ -60,9 +52,7 @@ def test_generate_production_answer():
     result = generate_production_ai_coach_answer(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Adjust training."
-            ),
+            "coach_message": ("Adjust training."),
         },
         athlete_profile={},
         training_history=[],
@@ -77,10 +67,7 @@ def test_generate_production_answer():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_response_orchestrator():
@@ -88,9 +75,7 @@ def test_full_response_orchestrator():
     result = run_ai_coach_response_orchestrator(
         athlete_id=1,
         ai_response={
-            "coach_message": (
-                "Recovery recommended."
-            ),
+            "coach_message": ("Recovery recommended."),
         },
         athlete_profile={
             "sport": "running",
@@ -107,12 +92,6 @@ def test_full_response_orchestrator():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

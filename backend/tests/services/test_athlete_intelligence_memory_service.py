@@ -11,9 +11,7 @@ def test_build_athlete_intelligence_memory():
     memory = Mock()
 
     memory.memory_type = "goal"
-    memory.memory_value = (
-        "Break 20 minute 5K"
-    )
+    memory.memory_value = "Break 20 minute 5K"
 
     result = build_athlete_intelligence_memory(
         athlete_profile={
@@ -37,15 +35,9 @@ def test_build_athlete_intelligence_memory():
         ],
     )
 
-    assert (
-        result["intelligence_ready"]
-        is True
-    )
+    assert result["intelligence_ready"] is True
 
-    assert (
-        "goal"
-        in result["memory_context"]
-    )
+    assert "goal" in result["memory_context"]
 
 
 def test_generate_memory_intelligence_insight():
@@ -61,12 +53,6 @@ def test_generate_memory_intelligence_insight():
         }
     )
 
-    assert (
-        "threshold"
-        in result["strengths"]
-    )
+    assert "threshold" in result["strengths"]
 
-    assert (
-        result["coach_message"]
-        is not None
-    )
+    assert result["coach_message"] is not None

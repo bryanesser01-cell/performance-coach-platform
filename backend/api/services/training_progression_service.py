@@ -58,33 +58,18 @@ def recommend_next_workout(
 
         return {
             "session_type": "recovery",
-            "workout": (
-                "Easy recovery run"
-            ),
-            "purpose": (
-                "Restore freshness before "
-                "quality training"
-            ),
+            "workout": ("Easy recovery run"),
+            "purpose": ("Restore freshness before " "quality training"),
         }
 
     if event.lower() == "1500m":
 
         return {
             "session_type": "interval",
-            "workout": (
-                "5 x 400m at race pace"
-            ),
-            "target_pace": (
-                goal_time
-                if goal_time
-                else "controlled"
-            ),
-            "recovery": (
-                "90 seconds jog"
-            ),
-            "purpose": (
-                "Improve race pace tolerance"
-            ),
+            "workout": ("5 x 400m at race pace"),
+            "target_pace": (goal_time if goal_time else "controlled"),
+            "recovery": ("90 seconds jog"),
+            "purpose": ("Improve race pace tolerance"),
             "focus": focus,
         }
 
@@ -92,15 +77,9 @@ def recommend_next_workout(
 
         return {
             "session_type": "speed endurance",
-            "workout": (
-                "6 x 200m fast relaxed"
-            ),
-            "recovery": (
-                "200m jog"
-            ),
-            "purpose": (
-                "Develop speed endurance"
-            ),
+            "workout": ("6 x 200m fast relaxed"),
+            "recovery": ("200m jog"),
+            "purpose": ("Develop speed endurance"),
             "focus": focus,
         }
 
@@ -108,26 +87,16 @@ def recommend_next_workout(
 
         return {
             "session_type": "threshold",
-            "workout": (
-                "3 x 2km threshold effort"
-            ),
-            "recovery": (
-                "2 minutes recovery"
-            ),
-            "purpose": (
-                "Improve aerobic capacity"
-            ),
+            "workout": ("3 x 2km threshold effort"),
+            "recovery": ("2 minutes recovery"),
+            "purpose": ("Improve aerobic capacity"),
             "focus": focus,
         }
 
     return {
         "session_type": "easy",
-        "workout": (
-            "Easy aerobic run"
-        ),
-        "purpose": (
-            "Build consistency"
-        ),
+        "workout": ("Easy aerobic run"),
+        "purpose": ("Build consistency"),
         "focus": focus,
     }
 
@@ -154,12 +123,8 @@ def create_training_progression(
         athlete_id=athlete_id,
         event=event,
         goal_time=goal_time,
-        session_type=(
-            recommendation["session_type"]
-        ),
-        workout_description=(
-            recommendation["workout"]
-        ),
+        session_type=(recommendation["session_type"]),
+        workout_description=(recommendation["workout"]),
         target_pace=(
             recommendation.get(
                 "target_pace",

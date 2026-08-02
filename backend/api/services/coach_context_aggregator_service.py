@@ -70,10 +70,8 @@ def build_coach_context(
         else {}
     )
 
-    recovery_context = (
-        build_recovery_coach_prompt_context(
-            recovery_data,
-        )
+    recovery_context = build_recovery_coach_prompt_context(
+        recovery_data,
     )
 
     intelligence = merge_training_intelligence(

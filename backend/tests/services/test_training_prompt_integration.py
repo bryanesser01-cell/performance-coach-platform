@@ -20,25 +20,15 @@ def test_training_memory_added_to_prompt():
                 {
                     "type": "interval",
                     "focus": "5K speed",
-                    "workout": (
-                        "4 x 200m + 1 x 1km"
-                    ),
+                    "workout": ("4 x 200m + 1 x 1km"),
                 }
             ],
         },
     )
 
-    assert (
-        prompt["training_memory"]
-        ["has_training_history"]
-        is True
-    )
+    assert prompt["training_memory"]["has_training_history"] is True
 
-    assert (
-        prompt["training_memory"]
-        ["training_history"][0]["type"]
-        == "interval"
-    )
+    assert prompt["training_memory"]["training_history"][0]["type"] == "interval"
 
 
 def test_has_training_memory():
@@ -49,7 +39,4 @@ def test_has_training_memory():
         }
     }
 
-    assert (
-        has_training_memory(context)
-        is True
-    )
+    assert has_training_memory(context) is True

@@ -21,24 +21,16 @@ def test_build_full_context():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "decision_analysis"
-        in result
-    )
+    assert "decision_analysis" in result
 
 
 def test_apply_personalised_strategy():
 
     result = apply_personalised_strategy(
         coach_response={
-            "message": (
-                "Adjust training."
-            ),
+            "message": ("Adjust training."),
         },
         personalised_context={
             "athlete_id": 1,
@@ -56,10 +48,7 @@ def test_apply_personalised_strategy():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
 
 def test_generate_final_response():
@@ -84,10 +73,7 @@ def test_generate_final_response():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_personalisation_bridge():
@@ -108,18 +94,10 @@ def test_full_personalisation_bridge():
             "readiness_score": 75,
         },
         coach_response={
-            "message": (
-                "Recovery recommended."
-            ),
+            "message": ("Recovery recommended."),
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

@@ -5,82 +5,52 @@ from api.services.periodisation_engine import (
 
 def test_base_plan():
 
-    result = (
-        PeriodisationEngine()
-        .build_plan(
-            {
-                "phase": "Base",
-            }
-        )
+    result = PeriodisationEngine().build_plan(
+        {
+            "phase": "Base",
+        }
     )
 
-    assert (
-        result["weekly_focus"]
-        == "Aerobic Development"
-    )
+    assert result["weekly_focus"] == "Aerobic Development"
 
     assert result["volume"] == "High"
 
 
 def test_build_plan():
 
-    result = (
-        PeriodisationEngine()
-        .build_plan(
-            {
-                "phase": "Build",
-            }
-        )
+    result = PeriodisationEngine().build_plan(
+        {
+            "phase": "Build",
+        }
     )
 
-    assert (
-        result["weekly_focus"]
-        == "Threshold Development"
-    )
+    assert result["weekly_focus"] == "Threshold Development"
 
 
 def test_peak_plan():
 
-    result = (
-        PeriodisationEngine()
-        .build_plan(
-            {
-                "phase": "Peak",
-            }
-        )
+    result = PeriodisationEngine().build_plan(
+        {
+            "phase": "Peak",
+        }
     )
 
-    assert (
-        result["intensity"]
-        == "High"
-    )
+    assert result["intensity"] == "High"
 
 
 def test_taper_plan():
 
-    result = (
-        PeriodisationEngine()
-        .build_plan(
-            {
-                "phase": "Taper",
-            }
-        )
+    result = PeriodisationEngine().build_plan(
+        {
+            "phase": "Taper",
+        }
     )
 
-    assert (
-        result["volume"]
-        == "Low"
-    )
+    assert result["volume"] == "Low"
 
 
 def test_unknown_phase():
 
-    result = (
-        PeriodisationEngine()
-        .build_plan({})
-    )
+    result = PeriodisationEngine().build_plan({})
 
-    assert (
-        result["phase"]
-        == "General Training"
-    )
+    assert result["phase"] == "General Training"

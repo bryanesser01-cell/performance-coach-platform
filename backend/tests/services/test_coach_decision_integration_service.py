@@ -22,10 +22,7 @@ def test_high_readiness_improving_athlete_progresses():
         athlete_state,
     )
 
-    assert (
-        result["decision"]
-        == "progress_training"
-    )
+    assert result["decision"] == "progress_training"
 
 
 def test_low_readiness_requires_recovery():
@@ -46,10 +43,7 @@ def test_low_readiness_requires_recovery():
         athlete_state,
     )
 
-    assert (
-        result["decision"]
-        == "recover"
-    )
+    assert result["decision"] == "recover"
 
 
 def test_high_training_load_reduces_intensity():
@@ -70,10 +64,7 @@ def test_high_training_load_reduces_intensity():
         athlete_state,
     )
 
-    assert (
-        result["decision"]
-        == "reduce_load"
-    )
+    assert result["decision"] == "reduce_load"
 
 
 def test_build_coach_decision_context():
@@ -94,7 +85,4 @@ def test_build_coach_decision_context():
         athlete_state,
     )
 
-    assert (
-        "coach_decision"
-        in context
-    )
+    assert "coach_decision" in context

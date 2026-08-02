@@ -21,10 +21,7 @@ def test_build_response_context():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
 
 def test_apply_athlete_strategy():
@@ -49,10 +46,7 @@ def test_apply_athlete_strategy():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
 
 def test_generate_final_answer():
@@ -77,10 +71,7 @@ def test_generate_final_answer():
         },
     )
 
-    assert (
-        result["confidence"]
-        == 85
-    )
+    assert result["confidence"] == 85
 
 
 def test_full_personalised_response_pipeline():
@@ -101,18 +92,10 @@ def test_full_personalised_response_pipeline():
             "readiness_score": 75,
         },
         coach_response={
-            "message": (
-                "Take a recovery day."
-            ),
+            "message": ("Take a recovery day."),
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

@@ -55,8 +55,7 @@ class AthleteMemoryRepository:
                 AthleteMemory,
             )
             .filter(
-                AthleteMemory.athlete_id
-                == athlete_id,
+                AthleteMemory.athlete_id == athlete_id,
             )
             .order_by(
                 AthleteMemory.created_at.desc(),
@@ -78,12 +77,10 @@ class AthleteMemoryRepository:
                 AthleteMemory,
             )
             .filter(
-                AthleteMemory.athlete_id
-                == athlete_id,
+                AthleteMemory.athlete_id == athlete_id,
             )
             .filter(
-                AthleteMemory.memory_type
-                == memory_type,
+                AthleteMemory.memory_type == memory_type,
             )
             .order_by(
                 AthleteMemory.created_at.desc(),

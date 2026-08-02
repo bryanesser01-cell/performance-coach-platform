@@ -25,66 +25,42 @@ def test_build_personalised_context():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        "strategy_context"
-        in result
-    )
+    assert "strategy_context" in result
 
 
 def test_merge_strategy_response():
 
     result = merge_strategy_with_coach_response(
         {
-            "message": (
-                "Take an easy day."
-            ),
+            "message": ("Take an easy day."),
         },
         {
             "strategy_context": {
-                "strategy": (
-                    "RECOVERY_FIRST"
-                ),
+                "strategy": ("RECOVERY_FIRST"),
                 "confidence": 85,
             },
         },
     )
 
-    assert (
-        result["personalised_strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["personalised_strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["strategy_confidence"]
-        == 85
-    )
+    assert result["strategy_confidence"] == 85
 
 
 def test_generate_personalised_advice():
 
     result = generate_personalised_training_advice(
         {
-            "personalised_strategy": (
-                "RECOVERY_FIRST"
-            ),
+            "personalised_strategy": ("RECOVERY_FIRST"),
             "strategy_confidence": 90,
         }
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_full_personalised_pipeline():
@@ -103,18 +79,10 @@ def test_full_personalised_pipeline():
             "readiness_score": 80,
         },
         coach_response={
-            "message": (
-                "Adjusting training."
-            ),
+            "message": ("Adjusting training."),
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 95
-    )
+    assert result["confidence"] == 95

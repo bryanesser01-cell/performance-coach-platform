@@ -28,7 +28,4 @@ def test_ai_coach_chat_endpoint_in_openapi():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/ai-coach/chat"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/ai-coach/chat" in paths

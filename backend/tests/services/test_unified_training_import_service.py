@@ -7,15 +7,9 @@ from api.services.unified_training_import_service import (
 
 def test_select_garmin_adapter():
 
-    result = select_adapter(
-        "garmin"
-    )
+    result = select_adapter("garmin")
 
-    assert (
-        result
-        == "garmin"
-    )
-
+    assert result == "garmin"
 
 
 def test_import_garmin_training():
@@ -29,18 +23,9 @@ def test_import_garmin_training():
         },
     )
 
+    assert result["source"] == "garmin"
 
-    assert (
-        result["source"]
-        == "garmin"
-    )
-
-
-    assert (
-        result["training_session"]["distance_km"]
-        == 5
-    )
-
+    assert result["training_session"]["distance_km"] == 5
 
 
 def test_unified_import_pipeline():
@@ -53,8 +38,4 @@ def test_unified_import_pipeline():
         },
     )
 
-
-    assert (
-        result["ready_for_coach"]
-        is True
-    )
+    assert result["ready_for_coach"] is True

@@ -22,13 +22,9 @@ def test_ai_coach_orchestrator_returns_athlete_state():
     decision = {
         "decision": "PROGRESS_TRAINING",
         "recommendation": (
-            "Progress training carefully "
-            "while maintaining recovery."
+            "Progress training carefully " "while maintaining recovery."
         ),
-        "reason": (
-            "Performance and readiness "
-            "are improving."
-        ),
+        "reason": ("Performance and readiness " "are improving."),
         "learning_confidence": 80,
     }
 
@@ -51,10 +47,7 @@ def test_ai_coach_orchestrator_returns_athlete_state():
 
     assert result["athlete_state"] == athlete_state
 
-    assert (
-        result["decision"]["decision"]
-        == "PROGRESS_TRAINING"
-    )
+    assert result["decision"]["decision"] == "PROGRESS_TRAINING"
 
     assert result["coach_message"] == (
         "Readiness 85. "

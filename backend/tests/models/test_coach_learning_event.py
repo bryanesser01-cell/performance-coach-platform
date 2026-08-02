@@ -14,25 +14,13 @@ def test_coach_learning_event_creation():
         confidence_change=5,
     )
 
-    assert (
-        event.athlete_id
-        == 1
-    )
+    assert event.athlete_id == 1
 
-    assert (
-        event.decision
-        == "REDUCE_TRAINING"
-    )
+    assert event.decision == "REDUCE_TRAINING"
 
-    assert (
-        event.outcome
-        == "positive"
-    )
+    assert event.outcome == "positive"
 
-    assert (
-        event.confidence_change
-        == 5
-    )
+    assert event.confidence_change == 5
 
 
 def test_coach_learning_event_timestamp_field_exists():
@@ -49,10 +37,7 @@ def test_coach_learning_event_timestamp_field_exists():
         "timestamp",
     )
 
-    assert (
-        event.timestamp is None
-        or isinstance(
-            event.timestamp,
-            datetime,
-        )
+    assert event.timestamp is None or isinstance(
+        event.timestamp,
+        datetime,
     )

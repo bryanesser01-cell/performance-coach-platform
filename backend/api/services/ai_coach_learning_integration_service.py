@@ -37,18 +37,10 @@ def process_coach_outcome(
     """
 
     return run_learning_loop(
-        athlete_id=learning_event[
-            "athlete_id"
-        ],
-        question=learning_event[
-            "question"
-        ],
-        decision=learning_event[
-            "decision"
-        ],
-        confidence=learning_event[
-            "confidence"
-        ],
+        athlete_id=learning_event["athlete_id"],
+        question=learning_event["question"],
+        decision=learning_event["decision"],
+        confidence=learning_event["confidence"],
         outcome=learning_event.get(
             "outcome",
         ),
@@ -66,12 +58,8 @@ def attach_learning_to_response(
     return {
         **response,
         "learning_updated": True,
-        "learning_signal": learning_result[
-            "learning_signal"
-        ],
-        "learning_memory": learning_result[
-            "memory"
-        ],
+        "learning_signal": learning_result["learning_signal"],
+        "learning_memory": learning_result["memory"],
     }
 
 

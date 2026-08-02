@@ -21,15 +21,9 @@ def test_learning_aware_decision_uses_positive_history():
         proposed_decision="REDUCE_TRAINING",
     )
 
-    assert (
-        result["recommended_decision"]
-        == "REDUCE_TRAINING"
-    )
+    assert result["recommended_decision"] == "REDUCE_TRAINING"
 
-    assert (
-        result["confidence"]
-        == 75
-    )
+    assert result["confidence"] == 75
 
 
 def test_learning_aware_decision_detects_low_confidence():
@@ -46,15 +40,9 @@ def test_learning_aware_decision_detects_low_confidence():
         proposed_decision="PROGRESS_TRAINING",
     )
 
-    assert (
-        result["confidence"]
-        == 30
-    )
+    assert result["confidence"] == 30
 
-    assert (
-        "reviewing"
-        in result["reason"]
-    )
+    assert "reviewing" in result["reason"]
 
 
 def test_learning_context_contains_decision():
@@ -65,7 +53,5 @@ def test_learning_context_contains_decision():
     )
 
     assert (
-        result["learning_aware_decision"]
-        ["recommended_decision"]
-        == "REDUCE_TRAINING"
+        result["learning_aware_decision"]["recommended_decision"] == "REDUCE_TRAINING"
     )

@@ -91,10 +91,8 @@ def generate_coach_conversation_response(
         memory_context,
     )
 
-    adaptive_context = (
-        generate_coach_decision_context(
-            athlete_state,
-        )
+    adaptive_context = generate_coach_decision_context(
+        athlete_state,
     )
 
     decision = adaptive_context.get(
@@ -130,10 +128,8 @@ def generate_coach_conversation_response(
         recovery_data=recovery_data,
     )
 
-    coach_context_summary = (
-        generate_coach_context_summary(
-            coach_context,
-        )
+    coach_context_summary = generate_coach_context_summary(
+        coach_context,
     )
 
     base_context = {
@@ -150,12 +146,10 @@ def generate_coach_conversation_response(
 
     if intent == "workout":
 
-        workout_context = (
-            build_coach_workout_response(
-                athlete_state=athlete_state,
-                event=event or "",
-                goal_time=goal_time,
-            )
+        workout_context = build_coach_workout_response(
+            athlete_state=athlete_state,
+            event=event or "",
+            goal_time=goal_time,
         )
 
         response = build_coach_response(
@@ -165,12 +159,10 @@ def generate_coach_conversation_response(
 
     elif intent == "race_strategy":
 
-        race_context = (
-            build_race_strategy_context(
-                event=event or "1500m",
-                athlete_state=athlete_state,
-                target_time=goal_time or "5:00",
-            )
+        race_context = build_race_strategy_context(
+            event=event or "1500m",
+            athlete_state=athlete_state,
+            target_time=goal_time or "5:00",
         )
 
         response = build_coach_response(
@@ -209,10 +201,8 @@ def generate_coach_conversation_response(
             ),
         )
 
-        coach_message = (
-            build_athlete_friendly_message(
-                explanation,
-            )
+        coach_message = build_athlete_friendly_message(
+            explanation,
         )
 
         response = {
@@ -263,17 +253,9 @@ def generate_coach_conversation_response(
         response = build_coach_response(
             intent="recovery",
             context={
-                "message": (
-                    "Recovery allows your body "
-                    "to adapt and improve."
-                ),
-                "recommendation": (
-                    "Keep the session easy "
-                    "or take a rest day."
-                ),
-                "coach_context_summary": (
-                    coach_context_summary
-                ),
+                "message": ("Recovery allows your body " "to adapt and improve."),
+                "recommendation": ("Keep the session easy " "or take a rest day."),
+                "coach_context_summary": (coach_context_summary),
             },
         )
 

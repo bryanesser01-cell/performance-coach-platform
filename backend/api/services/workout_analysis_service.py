@@ -39,15 +39,9 @@ def analyse_workout_structure(
             details.append(
                 {
                     "type": detail.detail_type,
-                    "distance_meters": (
-                        detail.distance_meters
-                    ),
-                    "duration_minutes": (
-                        detail.duration_minutes
-                    ),
-                    "repetitions": (
-                        detail.repetitions
-                    ),
+                    "distance_meters": (detail.distance_meters),
+                    "duration_minutes": (detail.duration_minutes),
+                    "repetitions": (detail.repetitions),
                     "target": detail.target,
                     "recovery": detail.recovery,
                 }
@@ -55,20 +49,14 @@ def analyse_workout_structure(
 
         workout_blocks.append(
             {
-                "block_type": (
-                    block.block_type
-                ),
-                "description": (
-                    block.description
-                ),
+                "block_type": (block.block_type),
+                "description": (block.description),
                 "details": details,
             }
         )
 
     return {
-        "training_session_id": (
-            training_session_id
-        ),
+        "training_session_id": (training_session_id),
         "blocks": workout_blocks,
         "block_count": len(
             workout_blocks,
@@ -88,7 +76,4 @@ def generate_workout_summary(
         0,
     )
 
-    return (
-        f"Workout contains {count} "
-        "structured block(s)."
-    )
+    return f"Workout contains {count} " "structured block(s)."

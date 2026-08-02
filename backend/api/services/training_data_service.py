@@ -12,28 +12,17 @@ def calculate_running_pace(
     if distance_km <= 0:
         return "0:00/km"
 
-    pace_minutes = (
-        duration_minutes
-        / distance_km
-    )
+    pace_minutes = duration_minutes / distance_km
 
     minutes = int(pace_minutes)
 
-    seconds = int(
-        round(
-            (pace_minutes - minutes)
-            * 60
-        )
-    )
+    seconds = int(round((pace_minutes - minutes) * 60))
 
     if seconds == 60:
         minutes += 1
         seconds = 0
 
-    return (
-        f"{minutes}:{seconds:02d}/km"
-    )
-
+    return f"{minutes}:{seconds:02d}/km"
 
 
 def calculate_session_load(
@@ -47,11 +36,7 @@ def calculate_session_load(
     duration x intensity
     """
 
-    return int(
-        duration_minutes
-        * intensity
-    )
-
+    return int(duration_minutes * intensity)
 
 
 def create_training_session(
@@ -77,34 +62,23 @@ def create_training_session(
 
     return {
         "date": session_date,
-
         "session_type": "run",
-
         "distance_km": distance_km,
-
         "duration_minutes": duration_minutes,
-
         "pace": calculate_running_pace(
             distance_km,
             duration_minutes,
         ),
-
         "avg_heart_rate": avg_heart_rate,
-
         "max_heart_rate": max_heart_rate,
-
         "cadence": cadence,
-
         "elevation_gain": elevation_gain,
-
         "training_load": calculate_session_load(
             duration_minutes,
             intensity,
         ),
-
         "athlete_feedback": athlete_feedback,
     }
-
 
 
 def summarise_training_week(
@@ -117,7 +91,6 @@ def summarise_training_week(
     total_distance = 0
     total_duration = 0
     total_load = 0
-
 
     for session in sessions:
 
@@ -136,25 +109,12 @@ def summarise_training_week(
             0,
         )
 
-
     return {
-        "sessions_completed": len(
-            sessions
-        ),
-
-        "total_distance_km": (
-            total_distance
-        ),
-
-        "total_duration_minutes": (
-            total_duration
-        ),
-
-        "total_training_load": (
-            total_load
-        ),
+        "sessions_completed": len(sessions),
+        "total_distance_km": (total_distance),
+        "total_duration_minutes": (total_duration),
+        "total_training_load": (total_load),
     }
-
 
 
 def analyse_training_response(
@@ -167,7 +127,6 @@ def analyse_training_response(
     positive = []
     negative = []
 
-
     for session in sessions:
 
         feedback = session.get(
@@ -175,17 +134,13 @@ def analyse_training_response(
             "",
         ).lower()
 
-
         if feedback in [
             "good",
             "strong",
             "easy",
         ]:
 
-            positive.append(
-                session["date"]
-            )
-
+            positive.append(session["date"])
 
         elif feedback in [
             "tired",
@@ -193,19 +148,13 @@ def analyse_training_response(
             "hard",
         ]:
 
-            negative.append(
-                session["date"]
-            )
-
+            negative.append(session["date"])
 
     return {
         "positive_sessions": positive,
-
         "challenging_sessions": negative,
-
         "patterns_available": True,
     }
-
 
 
 def build_training_data_record(
@@ -218,20 +167,8 @@ def build_training_data_record(
 
     return {
         "athlete_id": athlete_id,
-
         "sessions": sessions,
-
-        "summary": summarise_training_week(
-            sessions
-        ),
-
-        "response_analysis": (
-            analyse_training_response(
-                sessions
-            )
-        ),
-
-        "created_date": str(
-            date.today()
-        ),
+        "summary": summarise_training_week(sessions),
+        "response_analysis": (analyse_training_response(sessions)),
+        "created_date": str(date.today()),
     }

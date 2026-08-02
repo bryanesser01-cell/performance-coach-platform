@@ -28,14 +28,12 @@ def classify_athlete_development_stage(
 
         stage = "MASTERS_PERFORMANCE"
 
-
     return {
         "age": age,
         "training_age_years": training_age_years,
         "experience_level": experience_level,
         "development_stage": stage,
     }
-
 
 
 def build_athlete_profile(
@@ -68,29 +66,12 @@ def build_athlete_profile(
         "age": age,
         "race_distance": race_distance,
         "goal": goal,
-
-        "training_age_years": (
-            training_age_years
-        ),
-
-        "experience_level": (
-            experience_level
-        ),
-
-        "weekly_training_volume_km": (
-            weekly_training_volume_km
-        ),
-
-        "personal_bests": (
-            personal_bests
-            or {}
-        ),
-
-        "development_stage": development[
-            "development_stage"
-        ],
+        "training_age_years": (training_age_years),
+        "experience_level": (experience_level),
+        "weekly_training_volume_km": (weekly_training_volume_km),
+        "personal_bests": (personal_bests or {}),
+        "development_stage": development["development_stage"],
     }
-
 
 
 def remember_training_preferences(
@@ -105,19 +86,10 @@ def remember_training_preferences(
 
     return {
         "preferred_sessions": preferred_sessions,
-
         "disliked_sessions": disliked_sessions,
-
-        "preferred_training_days": (
-            preferred_training_days
-        ),
-
-        "available_training_days": (
-            available_training_days
-            or []
-        ),
+        "preferred_training_days": (preferred_training_days),
+        "available_training_days": (available_training_days or []),
     }
-
 
 
 def apply_athlete_history(
@@ -137,19 +109,11 @@ def apply_athlete_history(
 
     return {
         "previous_results": previous_results,
-
         "injury_history": injury_history,
-
         "training_response": training_response,
-
-        "fatigue_patterns": (
-            fatigue_patterns
-            or []
-        ),
-
+        "fatigue_patterns": (fatigue_patterns or []),
         "history_available": True,
     }
-
 
 
 def analyse_athlete_constraints(
@@ -162,39 +126,34 @@ def analyse_athlete_constraints(
 
     constraints = []
 
-
     if history.get(
         "injury_history",
     ):
 
-        constraints.append(
-            "injury_management"
+        constraints.append("injury_management")
+
+    if (
+        athlete_profile.get(
+            "weekly_training_volume_km",
+            0,
         )
+        < 10
+    ):
 
+        constraints.append("build_training_capacity")
 
-    if athlete_profile.get(
-        "weekly_training_volume_km",
-        0,
-    ) < 10:
-
-        constraints.append(
-            "build_training_capacity"
+    if (
+        athlete_profile.get(
+            "development_stage",
         )
+        == "YOUTH_DEVELOPMENT"
+    ):
 
-
-    if athlete_profile.get(
-        "development_stage",
-    ) == "YOUTH_DEVELOPMENT":
-
-        constraints.append(
-            "age_appropriate_progression"
-        )
-
+        constraints.append("age_appropriate_progression")
 
     return {
         "constraints": constraints,
     }
-
 
 
 def personalise_daily_recommendation(
@@ -219,88 +178,58 @@ def personalise_daily_recommendation(
         "",
     )
 
-
     event = athlete_profile.get(
         "race_distance",
         "",
     )
 
-
     age = athlete_profile.get(
         "age",
     )
 
-
     if event == "1500m":
 
-        message += (
-            " Focus on running economy, "
-            "speed development and power."
-        )
-
+        message += " Focus on running economy, " "speed development and power."
 
     if event in [
         "marathon",
         "half_marathon",
     ]:
 
-        message += (
-            " Prioritise endurance, "
-            "durability and recovery."
-        )
-
+        message += " Prioritise endurance, " "durability and recovery."
 
     if event in [
         "trail",
         "ultra_marathon",
     ]:
 
-        message += (
-            " Include terrain adaptation, "
-            "strength endurance and resilience."
-        )
-
+        message += " Include terrain adaptation, " "strength endurance and resilience."
 
     if age and age < 12:
 
         message += (
-            " Training should prioritise "
-            "skill development and safe progression."
+            " Training should prioritise " "skill development and safe progression."
         )
-
 
     if history.get(
         "injury_history",
     ):
 
-        message += (
-            " Include injury prevention "
-            "and mobility work."
-        )
-
+        message += " Include injury prevention " "and mobility work."
 
     constraints = analyse_athlete_constraints(
         athlete_profile,
         history,
     )
 
-
     return {
-        "athlete_id": athlete_profile[
-            "athlete_id"
-        ],
-
+        "athlete_id": athlete_profile["athlete_id"],
         "personalised_message": message,
-
         "recommendation": recommendation,
-
         "preferences": preferences,
-
         "history": history,
-
         "constraints": constraints,
     }
-
 
 
 def build_personalised_coach_memory(
@@ -315,10 +244,7 @@ def build_personalised_coach_memory(
 
     return {
         "athlete_profile": athlete_profile,
-
         "training_preferences": preferences,
-
         "athlete_history": history,
-
         "memory_ready": True,
     }

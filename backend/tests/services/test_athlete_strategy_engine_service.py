@@ -24,10 +24,7 @@ def test_build_strategy_profile_recovery_first():
         },
     )
 
-    assert (
-        result["preferred_strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["preferred_strategy"] == "RECOVERY_FIRST"
 
 
 def test_build_strategy_profile_progression():
@@ -46,19 +43,14 @@ def test_build_strategy_profile_progression():
         },
     )
 
-    assert (
-        result["preferred_strategy"]
-        == "PROGRESSION_FOCUSED"
-    )
+    assert result["preferred_strategy"] == "PROGRESSION_FOCUSED"
 
 
 def test_low_readiness_prioritises_recovery():
 
     result = select_personalised_training_strategy(
         {
-            "preferred_strategy": (
-                "PROGRESSION_FOCUSED"
-            ),
+            "preferred_strategy": ("PROGRESSION_FOCUSED"),
             "confidence": 80,
         },
         {
@@ -66,10 +58,7 @@ def test_low_readiness_prioritises_recovery():
         },
     )
 
-    assert (
-        result["strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["strategy"] == "RECOVERY_FIRST"
 
 
 def test_generate_strategy_recommendation():
@@ -82,15 +71,9 @@ def test_generate_strategy_recommendation():
         },
     )
 
-    assert (
-        result["recommended_strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["recommended_strategy"] == "RECOVERY_FIRST"
 
-    assert (
-        result["confidence"]
-        == 90
-    )
+    assert result["confidence"] == 90
 
 
 def test_full_athlete_strategy_engine():
@@ -114,12 +97,6 @@ def test_full_athlete_strategy_engine():
         },
     )
 
-    assert (
-        result["athlete_id"]
-        == 1
-    )
+    assert result["athlete_id"] == 1
 
-    assert (
-        result["recommended_strategy"]
-        == "RECOVERY_FIRST"
-    )
+    assert result["recommended_strategy"] == "RECOVERY_FIRST"

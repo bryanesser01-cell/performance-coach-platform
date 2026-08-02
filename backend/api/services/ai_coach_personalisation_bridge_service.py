@@ -41,24 +41,12 @@ def apply_personalised_strategy(
     """
 
     result = run_personalised_conversation_pipeline(
-        athlete_id=personalised_context[
-            "athlete_id"
-        ],
-        athlete_profile=personalised_context[
-            "athlete_profile"
-        ],
-        training_history=personalised_context[
-            "training_history"
-        ],
-        recovery_history=personalised_context[
-            "recovery_history"
-        ],
-        decision_analysis=personalised_context[
-            "decision_analysis"
-        ],
-        current_state=personalised_context[
-            "current_state"
-        ],
+        athlete_id=personalised_context["athlete_id"],
+        athlete_profile=personalised_context["athlete_profile"],
+        training_history=personalised_context["training_history"],
+        recovery_history=personalised_context["recovery_history"],
+        decision_analysis=personalised_context["decision_analysis"],
+        current_state=personalised_context["current_state"],
         coach_response=coach_response,
     )
 
@@ -74,11 +62,9 @@ def generate_final_coach_response(
     using personalised strategy.
     """
 
-    personalised_response = (
-        apply_personalised_strategy(
-            coach_response=coach_response,
-            personalised_context=personalised_context,
-        )
+    personalised_response = apply_personalised_strategy(
+        coach_response=coach_response,
+        personalised_context=personalised_context,
     )
 
     return {

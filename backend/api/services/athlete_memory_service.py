@@ -52,10 +52,7 @@ def remember_performance(
         db,
         athlete_id,
         "performance_improvement",
-        (
-            f"{event}: improved from "
-            f"{previous_value} to {current_value}"
-        ),
+        (f"{event}: improved from " f"{previous_value} to {current_value}"),
     )
 
 
@@ -73,9 +70,7 @@ def remember_training_response(
         db,
         athlete_id,
         "training_response",
-        (
-            f"{training_block}: {response}"
-        ),
+        (f"{training_block}: {response}"),
     )
 
 
@@ -93,9 +88,7 @@ def remember_race_result(
         db,
         athlete_id,
         "race_result",
-        (
-            f"{race}: {result}"
-        ),
+        (f"{race}: {result}"),
     )
 
 

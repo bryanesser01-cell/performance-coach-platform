@@ -25,7 +25,4 @@ def test_ai_coach_endpoint_path():
 
     paths = response.json()["paths"]
 
-    assert (
-        "/athletes/{athlete_id}/ai-coach"
-        in paths
-    )
+    assert "/athletes/{athlete_id}/ai-coach" in paths

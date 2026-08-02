@@ -10,10 +10,7 @@ def calculate_strategy_confidence(
     - Existing AI learning confidence
     """
 
-    confidence = (
-        success_rate
-        + learning_confidence
-    ) // 2
+    confidence = (success_rate + learning_confidence) // 2
 
     return max(
         0,
@@ -79,22 +76,17 @@ def optimise_future_decision(
 
     selected_decision = proposed_decision
 
-    if (
-        best_strategy["decision"]
-        and best_strategy["success_rate"]
-        >
-        decision_analysis.get(
-            proposed_decision,
-            {},
-        ).get(
-            "success_rate",
-            0,
-        )
+    if best_strategy["decision"] and best_strategy[
+        "success_rate"
+    ] > decision_analysis.get(
+        proposed_decision,
+        {},
+    ).get(
+        "success_rate",
+        0,
     ):
 
-        selected_decision = (
-            best_strategy["decision"]
-        )
+        selected_decision = best_strategy["decision"]
 
     confidence = calculate_strategy_confidence(
         success_rate=decision_analysis.get(
@@ -110,10 +102,7 @@ def optimise_future_decision(
     return {
         "recommended_decision": selected_decision,
         "confidence": confidence,
-        "reason": (
-            "Decision selected using "
-            "historical coaching success."
-        ),
+        "reason": ("Decision selected using " "historical coaching success."),
     }
 
 
@@ -129,12 +118,8 @@ def generate_strategy_optimisation_report(
     )
 
     return {
-        "best_strategy": best_strategy[
-            "decision"
-        ],
-        "success_rate": best_strategy[
-            "success_rate"
-        ],
+        "best_strategy": best_strategy["decision"],
+        "success_rate": best_strategy["success_rate"],
         "available_strategies": len(
             decision_analysis,
         ),

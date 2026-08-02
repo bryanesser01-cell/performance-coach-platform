@@ -28,7 +28,6 @@ def classify_evidence_source(
         "World Athletics",
     ]
 
-
     if source_name in peer_reviewed_sources:
 
         evidence_level = "PEER_REVIEWED_RESEARCH"
@@ -45,16 +44,13 @@ def classify_evidence_source(
 
         evidence_level = "GENERAL_REFERENCE"
 
-
     return {
         "source": source_name,
         "evidence_level": evidence_level,
-
         # Important:
         # We never claim endorsement
         "endorsed": False,
     }
-
 
 
 def build_evidence_statement(
@@ -68,12 +64,7 @@ def build_evidence_statement(
 
     for source in sources:
 
-        classified_sources.append(
-            classify_evidence_source(
-                source
-            )
-        )
-
+        classified_sources.append(classify_evidence_source(source))
 
     return {
         "statement": (
@@ -83,12 +74,9 @@ def build_evidence_statement(
             "statements and publicly available "
             "guidance from recognised organisations."
         ),
-
         "sources": classified_sources,
-
         "endorsement_claim": False,
     }
-
 
 
 def validate_claim(
@@ -106,18 +94,15 @@ def validate_claim(
         "will improve performance",
     ]
 
-
     violations = []
 
     lower_claim = claim.lower()
-
 
     for term in restricted_terms:
 
         if term in lower_claim:
 
             violations.append(term)
-
 
     if violations:
 
@@ -131,13 +116,11 @@ def validate_claim(
             ),
         }
 
-
     return {
         "approved": True,
         "violations": [],
         "replacement": claim,
     }
-
 
 
 def generate_training_disclaimer() -> dict:
@@ -158,7 +141,6 @@ def generate_training_disclaimer() -> dict:
     }
 
 
-
 def build_evidence_metadata(
     topic: str,
     sources: List[str],
@@ -170,16 +152,7 @@ def build_evidence_metadata(
 
     return {
         "topic": topic,
-
-        "methodology": (
-            "Science-informed methodology"
-        ),
-
-        "evidence": build_evidence_statement(
-            sources
-        ),
-
-        "disclaimer": (
-            generate_training_disclaimer()
-        ),
+        "methodology": ("Science-informed methodology"),
+        "evidence": build_evidence_statement(sources),
+        "disclaimer": (generate_training_disclaimer()),
     }

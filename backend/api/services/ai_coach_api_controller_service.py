@@ -50,30 +50,14 @@ def execute_api_coach_request(
     """
 
     return run_ai_coach_entry(
-        athlete_id=request[
-            "athlete_id"
-        ],
-        question=request[
-            "question"
-        ],
-        ai_response=request[
-            "ai_response"
-        ],
-        athlete_profile=request[
-            "athlete_profile"
-        ],
-        training_history=request[
-            "training_history"
-        ],
-        recovery_history=request[
-            "recovery_history"
-        ],
-        decision_analysis=request[
-            "decision_analysis"
-        ],
-        current_state=request[
-            "current_state"
-        ],
+        athlete_id=request["athlete_id"],
+        question=request["question"],
+        ai_response=request["ai_response"],
+        athlete_profile=request["athlete_profile"],
+        training_history=request["training_history"],
+        recovery_history=request["recovery_history"],
+        decision_analysis=request["decision_analysis"],
+        current_state=request["current_state"],
     )
 
 

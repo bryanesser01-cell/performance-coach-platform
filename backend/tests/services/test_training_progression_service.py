@@ -10,9 +10,7 @@ def test_1500m_training_focus():
         "1500m",
     )
 
-    assert result == (
-        "speed endurance"
-    )
+    assert result == ("speed endurance")
 
 
 def test_1500m_workout_recommendation():
@@ -23,15 +21,9 @@ def test_1500m_workout_recommendation():
         readiness_score=85,
     )
 
-    assert (
-        workout["session_type"]
-        == "interval"
-    )
+    assert workout["session_type"] == "interval"
 
-    assert (
-        "400m"
-        in workout["workout"]
-    )
+    assert "400m" in workout["workout"]
 
 
 def test_recovery_when_low_readiness():
@@ -41,10 +33,7 @@ def test_recovery_when_low_readiness():
         readiness_score=40,
     )
 
-    assert (
-        workout["session_type"]
-        == "recovery"
-    )
+    assert workout["session_type"] == "recovery"
 
 
 def test_5k_training_recommendation():
@@ -55,7 +44,4 @@ def test_5k_training_recommendation():
         readiness_score=85,
     )
 
-    assert (
-        workout["session_type"]
-        == "threshold"
-    )
+    assert workout["session_type"] == "threshold"

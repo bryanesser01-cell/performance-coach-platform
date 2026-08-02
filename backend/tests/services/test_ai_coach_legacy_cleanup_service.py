@@ -17,15 +17,9 @@ def test_remove_legacy_controller_path():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_remove_legacy_formatter_path():
@@ -40,15 +34,9 @@ def test_remove_legacy_formatter_path():
         },
     )
 
-    assert (
-        result["success"]
-        is True
-    )
+    assert result["success"] is True
 
-    assert (
-        result["data"]["learning_applied"]
-        is True
-    )
+    assert result["data"]["learning_applied"] is True
 
 
 def test_verify_single_pipeline():
@@ -62,7 +50,4 @@ def test_verify_single_pipeline():
         },
     )
 
-    assert (
-        result["single_pipeline_active"]
-        is True
-    )
+    assert result["single_pipeline_active"] is True

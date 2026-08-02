@@ -32,17 +32,11 @@ def generate_learning_aware_decision(
 
     if confidence >= 70:
 
-        reason = (
-            "Previous athlete outcomes "
-            "support this decision."
-        )
+        reason = "Previous athlete outcomes " "support this decision."
 
     elif confidence <= 40:
 
-        reason = (
-            "Previous outcomes suggest "
-            "reviewing this decision."
-        )
+        reason = "Previous outcomes suggest " "reviewing this decision."
 
     else:
 
@@ -68,11 +62,9 @@ def build_learning_aware_context(
     Build context for AI Coach decisions.
     """
 
-    decision_context = (
-        generate_learning_aware_decision(
-            athlete_id=athlete_id,
-            proposed_decision=decision,
-        )
+    decision_context = generate_learning_aware_decision(
+        athlete_id=athlete_id,
+        proposed_decision=decision,
     )
 
     return {

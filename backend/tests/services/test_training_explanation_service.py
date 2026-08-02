@@ -1,5 +1,4 @@
 TRAINING_EXPLANATIONS = {
-
     "threshold": {
         "name": "Threshold",
         "explanation": (
@@ -11,70 +10,35 @@ TRAINING_EXPLANATIONS = {
             "Breathing is strong. "
             "You can say a few words but not hold a conversation."
         ),
-        "purpose": (
-            "Improve your ability to maintain a fast pace "
-            "for longer."
-        ),
+        "purpose": ("Improve your ability to maintain a fast pace " "for longer."),
     },
-
     "interval": {
         "name": "Interval",
-        "explanation": (
-            "Short faster efforts with recovery between repeats."
-        ),
+        "explanation": ("Short faster efforts with recovery between repeats."),
         "effort": "8-9/10",
-        "feeling": (
-            "Fast and controlled. "
-            "The goal is consistency, not sprinting."
-        ),
-        "purpose": (
-            "Improve speed, race pace ability, "
-            "and running efficiency."
-        ),
+        "feeling": ("Fast and controlled. " "The goal is consistency, not sprinting."),
+        "purpose": ("Improve speed, race pace ability, " "and running efficiency."),
     },
-
     "tempo": {
         "name": "Tempo",
-        "explanation": (
-            "A comfortably hard sustained effort."
-        ),
+        "explanation": ("A comfortably hard sustained effort."),
         "effort": "7-8/10",
-        "feeling": (
-            "Controlled discomfort. "
-            "You are working but staying relaxed."
-        ),
-        "purpose": (
-            "Improve endurance at faster speeds."
-        ),
+        "feeling": ("Controlled discomfort. " "You are working but staying relaxed."),
+        "purpose": ("Improve endurance at faster speeds."),
     },
-
     "recovery": {
         "name": "Recovery",
-        "explanation": (
-            "An easy run designed to help your body recover."
-        ),
+        "explanation": ("An easy run designed to help your body recover."),
         "effort": "3-4/10",
-        "feeling": (
-            "You should finish feeling better "
-            "than when you started."
-        ),
-        "purpose": (
-            "Allow adaptation and prepare for harder sessions."
-        ),
+        "feeling": ("You should finish feeling better " "than when you started."),
+        "purpose": ("Allow adaptation and prepare for harder sessions."),
     },
-
     "easy": {
         "name": "Easy Run",
-        "explanation": (
-            "A relaxed aerobic run at comfortable pace."
-        ),
+        "explanation": ("A relaxed aerobic run at comfortable pace."),
         "effort": "4-5/10",
-        "feeling": (
-            "You can comfortably talk while running."
-        ),
-        "purpose": (
-            "Build aerobic fitness and consistency."
-        ),
+        "feeling": ("You can comfortably talk while running."),
+        "purpose": ("Build aerobic fitness and consistency."),
     },
 }
 
@@ -93,17 +57,10 @@ def get_training_explanation(
         key,
         {
             "name": term,
-            "explanation": (
-                "Training session designed "
-                "to improve performance."
-            ),
+            "explanation": ("Training session designed " "to improve performance."),
             "effort": "Unknown",
-            "feeling": (
-                "Run according to your coach's guidance."
-            ),
-            "purpose": (
-                "Improve your fitness."
-            ),
+            "feeling": ("Run according to your coach's guidance."),
+            "purpose": ("Improve your fitness."),
         },
     )
 
@@ -139,21 +96,11 @@ def get_effort_description(
     """
 
     descriptions = {
-        "3-4/10": (
-            "Easy. You could hold a conversation."
-        ),
-        "5-6/10": (
-            "Moderate. Comfortable but focused."
-        ),
-        "7/10": (
-            "Strong. Controlled hard effort."
-        ),
-        "8-9/10": (
-            "Hard. Fast but repeatable."
-        ),
-        "10/10": (
-            "Maximum effort."
-        ),
+        "3-4/10": ("Easy. You could hold a conversation."),
+        "5-6/10": ("Moderate. Comfortable but focused."),
+        "7/10": ("Strong. Controlled hard effort."),
+        "8-9/10": ("Hard. Fast but repeatable."),
+        "10/10": ("Maximum effort."),
     }
 
     return descriptions.get(

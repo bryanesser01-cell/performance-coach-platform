@@ -11,20 +11,15 @@ def generate_recommendation(
         return {
             "recommendation": "monitor_recovery",
             "message": (
-                "Training load is increasing. "
-                "Monitor fatigue and recovery."
+                "Training load is increasing. " "Monitor fatigue and recovery."
             ),
         }
 
-    if (
-        status == "progressing"
-        and pace_trend == "improving"
-    ):
+    if status == "progressing" and pace_trend == "improving":
         return {
             "recommendation": "continue_progression",
             "message": (
-                "Fitness is improving. "
-                "Continue current training progression."
+                "Fitness is improving. " "Continue current training progression."
             ),
         }
 
@@ -32,15 +27,13 @@ def generate_recommendation(
         return {
             "recommendation": "reduce_load",
             "message": (
-                "Performance is declining. "
-                "Consider reducing training load."
+                "Performance is declining. " "Consider reducing training load."
             ),
         }
 
     return {
         "recommendation": "maintain",
         "message": (
-            "Maintain current training approach "
-            "and continue monitoring progress."
+            "Maintain current training approach " "and continue monitoring progress."
         ),
     }

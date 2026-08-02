@@ -19,9 +19,7 @@ def apply_learning_to_response(
         response=response,
     )
 
-    return pipeline_result[
-        "learning_result"
-    ]
+    return pipeline_result["learning_result"]
 
 
 def enrich_response_with_learning(

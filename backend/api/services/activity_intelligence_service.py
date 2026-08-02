@@ -26,10 +26,7 @@ def calculate_training_stress(
         1,
     )
 
-    return int(
-        (duration_seconds / 60)
-        * multiplier
-    )
+    return int((duration_seconds / 60) * multiplier)
 
 
 def analyse_activity(
@@ -52,22 +49,13 @@ def analyse_activity(
     )
 
     if stress >= 150:
-        recommendation = (
-            "High training stress. "
-            "Prioritise recovery."
-        )
+        recommendation = "High training stress. " "Prioritise recovery."
 
     elif stress >= 75:
-        recommendation = (
-            "Productive training session. "
-            "Monitor recovery."
-        )
+        recommendation = "Productive training session. " "Monitor recovery."
 
     else:
-        recommendation = (
-            "Low stress session. "
-            "Suitable for building consistency."
-        )
+        recommendation = "Low stress session. " "Suitable for building consistency."
 
     return {
         "activity_id": activity.id,

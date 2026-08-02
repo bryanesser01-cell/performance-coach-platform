@@ -17,34 +17,23 @@ def test_apply_learning_to_response():
         },
     )
 
-    assert (
-        result["learning_signal"]["signal"]
-        == "REINFORCE"
-    )
+    assert result["learning_signal"]["signal"] == "REINFORCE"
 
 
 def test_enrich_response_with_learning():
 
     result = enrich_response_with_learning(
         response={
-            "coach_message": (
-                "Recover today."
-            ),
+            "coach_message": ("Recover today."),
         },
         learning_result={
             "signal": "REINFORCE",
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
-    assert (
-        result["learning_result"]["signal"]
-        == "REINFORCE"
-    )
+    assert result["learning_result"]["signal"] == "REINFORCE"
 
 
 def test_finalise_ai_coach_response():
@@ -59,12 +48,6 @@ def test_finalise_ai_coach_response():
         },
     )
 
-    assert (
-        result["learning_updated"]
-        is True
-    )
+    assert result["learning_updated"] is True
 
-    assert (
-        result["learning_result"]
-        is not None
-    )
+    assert result["learning_result"] is not None

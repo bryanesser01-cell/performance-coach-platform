@@ -13,20 +13,11 @@ def test_manual_training_entry():
         athlete_feedback="good",
     )
 
-    assert (
-        result["source"]
-        == "manual"
-    )
+    assert result["source"] == "manual"
 
-    assert (
-        result["pace"]
-        == "5:00/km"
-    )
+    assert result["pace"] == "5:00/km"
 
-    assert (
-        result["session_type"]
-        == "run"
-    )
+    assert result["session_type"] == "run"
 
 
 def test_manual_race_result():
@@ -38,17 +29,8 @@ def test_manual_race_result():
         distance_km=1.5,
     )
 
-    assert (
-        result["source"]
-        == "manual"
-    )
+    assert result["source"] == "manual"
 
-    assert (
-        result["session_type"]
-        == "race"
-    )
+    assert result["session_type"] == "race"
 
-    assert (
-        result["event"]
-        == "1500m"
-    )
+    assert result["event"] == "1500m"

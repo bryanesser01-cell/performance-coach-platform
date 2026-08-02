@@ -69,11 +69,7 @@ class GoalIntelligenceService:
         return {
             "has_goal": True,
             "goal": goal,
-            "goal_status": (
-                "On Track"
-                if confidence >= 70
-                else "Needs Attention"
-            ),
+            "goal_status": ("On Track" if confidence >= 70 else "Needs Attention"),
             "confidence": confidence,
             "on_track": confidence >= 70,
         }

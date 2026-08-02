@@ -25,98 +25,77 @@ class DecisionRulesEngine:
         #
         # Athlete State
         #
-        readiness = (
-            context.athlete_state
-            .get("readiness", {})
-            .get("score", 0)
-        )
+        readiness = context.athlete_state.get("readiness", {}).get("score", 0)
 
         #
         # Memory
         #
-        fatigue = (
-            context.memory_reasoning.get(
-                "fatigue_trend",
-                "stable",
-            )
+        fatigue = context.memory_reasoning.get(
+            "fatigue_trend",
+            "stable",
         )
 
-        injury = (
-            context.memory_reasoning.get(
-                "injury_risk",
-                "low",
-            )
+        injury = context.memory_reasoning.get(
+            "injury_risk",
+            "low",
         )
 
         #
         # Goal Intelligence
         #
-        goal_on_track = (
-            context.goal_intelligence.get(
-                "on_track",
-                True,
-            )
+        goal_on_track = context.goal_intelligence.get(
+            "on_track",
+            True,
         )
 
         #
         # Performance Intelligence
         #
-        performance = (
-            context.performance_intelligence.get("trend")
-            or context.performance_intelligence.get(
-                "performance_trend",
-                {},
-            ).get(
-                "trend",
-                "stable",
-            )
+        performance = context.performance_intelligence.get(
+            "trend"
+        ) or context.performance_intelligence.get(
+            "performance_trend",
+            {},
+        ).get(
+            "trend",
+            "stable",
         )
 
-        performance_recommendation = (
-            context.performance_intelligence.get(
-                "recommendation",
-                "progress",
-            )
+        performance_recommendation = context.performance_intelligence.get(
+            "recommendation",
+            "progress",
         )
 
         #
         # Recovery Intelligence
         #
-        recovery_status = (
-            context.recovery_intelligence.get(
-                "status",
-                "good",
-            )
+        recovery_status = context.recovery_intelligence.get(
+            "status",
+            "good",
         )
 
         #
         # Training Load Intelligence
         #
-        training_risk = (
-            context.training_load_intelligence.get(
-                "risk",
-                "low",
-            )
+        training_risk = context.training_load_intelligence.get(
+            "risk",
+            "low",
         )
 
         #
         # Race Intelligence
         #
-        race_phase = (
-            context.race_intelligence.get(
-                "phase",
-                "base",
-            )
+        race_phase = context.race_intelligence.get(
+            "phase",
+            "base",
         )
 
         #
         # Performance Prediction
         #
-        prediction_confidence = (
-            context.performance_prediction.get(
-                "confidence",
-                "medium",
-            )
+        prediction_confidence = context.performance_prediction.get(
+            "confidence",
+            "medium",
         )
 
         #
@@ -162,10 +141,7 @@ class DecisionRulesEngine:
         #
         # Rule 5
         #
-        if (
-            fatigue == "increasing"
-            and readiness < 60
-        ):
+        if fatigue == "increasing" and readiness < 60:
             return {
                 "decision": "REDUCE_VOLUME",
                 "confidence": 95,
@@ -175,10 +151,7 @@ class DecisionRulesEngine:
         #
         # Rule 6
         #
-        if (
-            race_phase == "taper"
-            and readiness >= 70
-        ):
+        if race_phase.lower() == "taper" and readiness >= 70:
             return {
                 "decision": "RACE_TAPER",
                 "confidence": 95,
@@ -188,34 +161,24 @@ class DecisionRulesEngine:
         #
         # Rule 6A
         #
-        if (
-            prediction_confidence == "high"
-            and readiness >= 75
-        ):
+        if prediction_confidence == "high" and readiness >= 75:
             return {
                 "decision": "PROGRESS_TRAINING",
                 "confidence": 90,
-                "reason": (
-                    "High confidence performance prediction."
-                ),
+                "reason": ("High confidence performance prediction."),
             }
 
         #
         # Rule 6B
         #
-        if (
-            race_phase == "Peak"
-            and training_risk == "moderate"
-        ):
+        if race_phase == "Peak" and training_risk == "moderate":
             return {
                 "decision": "MAINTAIN_PLAN",
                 "confidence": 90,
-                "reason": (
-                    "Maintain workload during peak phase."
-                ),
+                "reason": ("Maintain workload during peak phase."),
             }
 
-               #
+        #
         # Rule 7
         #
         if (
@@ -223,17 +186,19 @@ class DecisionRulesEngine:
             and performance == "improving"
             and injury == "low"
             and goal_on_track
-            and performance_recommendation
-            == "progress"
+            and performance_recommendation == "progress"
         ):
             return {
                 "decision": "PROGRESS_TRAINING",
                 "confidence": 95,
                 "reason": (
-                    "High readiness with improving "
-                    "performance and goals on track."
+                    "High readiness with improving " "performance and goals on track."
                 ),
             }
+
+        #
+        # Default
+        #
         return {
             "decision": "MAINTAIN_PLAN",
             "confidence": 80,

@@ -80,29 +80,17 @@ def run_adapted_conversation(
         current_state=current_state,
     )
 
-    gateway_response = (
-        convert_ai_response_to_gateway(
-            ai_response,
-        )
+    gateway_response = convert_ai_response_to_gateway(
+        ai_response,
     )
 
     return run_conversation_gateway(
         athlete_id=request["athlete_id"],
         question=request["question"],
         ai_response=gateway_response,
-        athlete_profile=request[
-            "athlete_profile"
-        ],
-        training_history=request[
-            "training_history"
-        ],
-        recovery_history=request[
-            "recovery_history"
-        ],
-        decision_analysis=request[
-            "decision_analysis"
-        ],
-        current_state=request[
-            "current_state"
-        ],
+        athlete_profile=request["athlete_profile"],
+        training_history=request["training_history"],
+        recovery_history=request["recovery_history"],
+        decision_analysis=request["decision_analysis"],
+        current_state=request["current_state"],
     )

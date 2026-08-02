@@ -84,40 +84,22 @@ def detect_coach_intent(
     ]
 
     # Adaptive coaching must be checked first.
-    if any(
-        word in question_lower
-        for word in adaptive_keywords
-    ):
+    if any(word in question_lower for word in adaptive_keywords):
         return "adaptive_coaching"
 
-    if any(
-        word in question_lower
-        for word in recovery_keywords
-    ):
+    if any(word in question_lower for word in recovery_keywords):
         return "recovery"
 
-    if any(
-        word in question_lower
-        for word in readiness_keywords
-    ):
+    if any(word in question_lower for word in readiness_keywords):
         return "readiness"
 
-    if any(
-        word in question_lower
-        for word in explanation_keywords
-    ):
+    if any(word in question_lower for word in explanation_keywords):
         return "explanation"
 
-    if any(
-        word in question_lower
-        for word in race_keywords
-    ):
+    if any(word in question_lower for word in race_keywords):
         return "race_strategy"
 
-    if any(
-        word in question_lower
-        for word in workout_keywords
-    ):
+    if any(word in question_lower for word in workout_keywords):
         return "workout"
 
     return "general"
@@ -131,27 +113,13 @@ def get_coach_service_for_intent(
     """
 
     services = {
-        "workout": (
-            "coach_workout_integration"
-        ),
-        "race_strategy": (
-            "race_strategy_integration"
-        ),
-        "adaptive_coaching": (
-            "coach_decision_integration"
-        ),
-        "explanation": (
-            "training_explanation"
-        ),
-        "recovery": (
-            "recovery_analysis"
-        ),
-        "readiness": (
-            "athlete_state"
-        ),
-        "general": (
-            "ai_coach"
-        ),
+        "workout": ("coach_workout_integration"),
+        "race_strategy": ("race_strategy_integration"),
+        "adaptive_coaching": ("coach_decision_integration"),
+        "explanation": ("training_explanation"),
+        "recovery": ("recovery_analysis"),
+        "readiness": ("athlete_state"),
+        "general": ("ai_coach"),
     }
 
     return services.get(

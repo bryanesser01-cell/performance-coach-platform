@@ -20,12 +20,9 @@ def record_personal_best(
 
     return {
         "event": event,
-
         "time_seconds": time_seconds,
-
         "date": date,
     }
-
 
 
 def calculate_improvement(
@@ -38,12 +35,7 @@ def calculate_improvement(
     Lower time is better for running events.
     """
 
-    difference = (
-        previous_time_seconds
-        -
-        current_time_seconds
-    )
-
+    difference = previous_time_seconds - current_time_seconds
 
     if previous_time_seconds == 0:
 
@@ -51,42 +43,31 @@ def calculate_improvement(
 
     else:
 
-        percentage = (
-            difference
-            /
-            previous_time_seconds
-        ) * 100
-
+        percentage = (difference / previous_time_seconds) * 100
 
     if difference > 0:
 
         trend = "improving"
 
-
     elif difference < 0:
 
         trend = "declining"
 
-
     else:
 
         trend = "stable"
-
 
     return {
         "improvement_seconds": round(
             difference,
             2,
         ),
-
         "improvement_percentage": round(
             percentage,
             2,
         ),
-
         "trend": trend,
     }
-
 
 
 def compare_personal_best(
@@ -102,17 +83,12 @@ def compare_personal_best(
         current_pb["time_seconds"],
     )
 
-
     return {
         "event": current_pb["event"],
-
         "previous": previous_pb,
-
         "current": current_pb,
-
         "improvement": improvement,
     }
-
 
 
 def generate_personal_best_summary(
@@ -122,27 +98,12 @@ def generate_personal_best_summary(
     Generate athlete-facing PB summary.
     """
 
-    improvement = comparison[
-        "improvement"
-    ]
-
+    improvement = comparison["improvement"]
 
     return {
         "message": (
-            f"Your {comparison['event']} "
-            "performance is "
-            f"{improvement['trend']}."
+            f"Your {comparison['event']} " "performance is " f"{improvement['trend']}."
         ),
-
-        "improvement_seconds": (
-            improvement[
-                "improvement_seconds"
-            ]
-        ),
-
-        "improvement_percentage": (
-            improvement[
-                "improvement_percentage"
-            ]
-        ),
+        "improvement_seconds": (improvement["improvement_seconds"]),
+        "improvement_percentage": (improvement["improvement_percentage"]),
     }

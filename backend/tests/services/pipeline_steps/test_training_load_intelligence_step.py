@@ -28,10 +28,7 @@ def test_builds_training_load_intelligence():
 
         TrainingLoadIntelligenceStep()(context)
 
-        assert (
-            context.training_load_intelligence
-            == expected
-        )
+        assert context.training_load_intelligence == expected
 
 
 def test_calls_training_load_service():
