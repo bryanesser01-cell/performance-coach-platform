@@ -125,10 +125,7 @@ def generate_performance_insight(
     return {
         "performance_trend": trend,
         "training_consistency": consistency,
-        "insight": (
-            "Performance analysis completed "
-            "using recent training history."
-        ),
+        "insight": ("Performance analysis completed " "using recent training history."),
     }
 
 
@@ -183,40 +180,27 @@ def analyse_performance_intelligence(
     first_half = sessions[:midpoint]
     second_half = sessions[midpoint:]
 
-    previous_average = (
-        sum(
-            session.get(
-                "pace_seconds",
-                0,
-            )
-            for session in first_half
+    previous_average = sum(
+        session.get(
+            "pace_seconds",
+            0,
         )
-        / len(first_half)
-    )
+        for session in first_half
+    ) / len(first_half)
 
-    recent_average = (
-        sum(
-            session.get(
-                "pace_seconds",
-                0,
-            )
-            for session in second_half
+    recent_average = sum(
+        session.get(
+            "pace_seconds",
+            0,
         )
-        / len(second_half)
-    )
+        for session in second_half
+    ) / len(second_half)
 
-    improvement_rate = (
-        previous_average - recent_average
-    ) / previous_average
+    improvement_rate = (previous_average - recent_average) / previous_average
 
-    plateau = (
-        abs(previous_average - recent_average)
-        < 3
-    )
+    plateau = abs(previous_average - recent_average) < 3
 
-    declining = (
-        recent_average > previous_average
-    )
+    declining = recent_average > previous_average
 
     if plateau:
         recommendation = "maintain"
