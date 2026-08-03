@@ -1,12 +1,13 @@
 """
 Adaptive Training Planner
 
-Generates training session recommendations
-using athlete intelligence and coaching decisions.
+Coordinates training session generation.
+Workout selection is delegated to the
+Workout Selection Engine.
 """
 
-from api.services.workout_library_service import (
-    WorkoutLibraryService,
+from api.services.workout_selection_engine import (
+    WorkoutSelectionEngine,
 )
 
 
@@ -22,83 +23,12 @@ class AdaptiveTrainingPlannerService:
         decision: str,
     ) -> dict:
         """
-        Generate a training session based
-        on the current coaching decision.
+        Generate a training session.
         """
 
-        library = WorkoutLibraryService()
+        engine = WorkoutSelectionEngine()
 
-        #
-        # Use the Athlete Digital Twin when available
-        #
-        if twin is not None:
-
-            if twin.needs_recovery():
-                return library.recovery_run()
-
-            if twin.is_tapering():
-                return library.taper_run()
-
-        #
-        # Fall back to coach decision
-        #
-        if decision == "RECOVERY_DAY":
-            return library.recovery_run()
-
-        if decision == "REDUCE_VOLUME":
-            return library.easy_run()
-
-        if decision == "RACE_TAPER":
-            return library.taper_run()
-
-        if decision == "PROGRESS_TRAINING":
-
-            #
-            # No Digital Twin available
-            #
-            if twin is None:
-                return library.threshold_run()
-
-            #
-            # 5K Athlete
-            #
-            if twin.goal().lower() == "5k":
-
-                if twin.race_phase() == "base":
-                    return library.threshold_run()
-
-                if twin.race_phase() == "build":
-                    return library.vo2_max()
-
-                if twin.race_phase() == "peak":
-                    return library.threshold_run()
-
-                if twin.race_phase() == "taper":
-                    return library.taper_run()
-
-            #
-            # Marathon Athlete
-            #
-            if twin.goal().lower() == "marathon":
-
-                if twin.race_phase() == "base":
-                    return library.long_run()
-
-                if twin.race_phase() == "build":
-                    return library.tempo_run()
-
-                if twin.race_phase() == "peak":
-                    return library.tempo_run()
-
-                if twin.race_phase() == "taper":
-                    return library.taper_run()
-
-            #
-            # Default progress workout
-            #
-            return library.threshold_run()
-
-        #
-        # Default decision
-        #
-        return library.easy_run()
+        return engine.select_workout(
+            twin=twin,
+            decision=decision,
+        )
