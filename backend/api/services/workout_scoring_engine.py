@@ -44,9 +44,7 @@ class WorkoutScoringEngine:
             return {
                 "workout": workout,
                 "score": 50,
-                "reasons": [
-                    "No athlete context available."
-                ],
+                "reasons": ["No athlete context available."],
             }
 
         #
@@ -59,22 +57,16 @@ class WorkoutScoringEngine:
                 "easy",
             ]:
                 score += 40
-                reasons.append(
-                    "Workout matches recovery needs."
-                )
+                reasons.append("Workout matches recovery needs.")
 
             else:
                 score -= 30
-                reasons.append(
-                    "Workout intensity too high for recovery state."
-                )
+                reasons.append("Workout intensity too high for recovery state.")
 
         else:
 
             score += 20
-            reasons.append(
-                "Athlete is available for training."
-            )
+            reasons.append("Athlete is available for training.")
 
         #
         # Training risk
@@ -83,15 +75,11 @@ class WorkoutScoringEngine:
 
             if workout.get("intensity") == "easy":
                 score += 20
-                reasons.append(
-                    "Easy intensity reduces training risk."
-                )
+                reasons.append("Easy intensity reduces training risk.")
 
             else:
                 score -= 20
-                reasons.append(
-                    "High intensity conflicts with training risk."
-                )
+                reasons.append("High intensity conflicts with training risk.")
 
         #
         # Performance trend
@@ -103,9 +91,7 @@ class WorkoutScoringEngine:
                 "hard",
             ]:
                 score += 20
-                reasons.append(
-                    "Improving performance supports quality training."
-                )
+                reasons.append("Improving performance supports quality training.")
 
         #
         # Goal alignment
@@ -121,32 +107,21 @@ class WorkoutScoringEngine:
 
             if "threshold" in session_type:
                 score += 15
-                reasons.append(
-                    "Threshold supports 5K development."
-                )
+                reasons.append("Threshold supports 5K development.")
 
-            if (
-                "vo2" in session_type
-                or "vo₂" in session_type
-            ):
+            if "vo2" in session_type or "vo₂" in session_type:
                 score += 15
-                reasons.append(
-                    "VO2 work supports 5K performance."
-            )
+                reasons.append("VO2 work supports 5K performance.")
 
         if goal == "marathon":
 
             if "long" in session_type:
                 score += 15
-                reasons.append(
-                    "Long run supports marathon development."
-                )
+                reasons.append("Long run supports marathon development.")
 
             if "tempo" in session_type:
                 score += 10
-                reasons.append(
-                    "Tempo supports marathon strength."
-                )
+                reasons.append("Tempo supports marathon strength.")
 
         #
         # Race phase
@@ -157,9 +132,7 @@ class WorkoutScoringEngine:
 
             if "taper" in session_type:
                 score += 30
-                reasons.append(
-                    "Workout matches taper phase."
-                )
+                reasons.append("Workout matches taper phase.")
 
             else:
                 score -= 20

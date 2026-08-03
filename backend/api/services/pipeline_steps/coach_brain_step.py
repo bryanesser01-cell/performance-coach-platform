@@ -22,11 +22,8 @@ class CoachBrainStep:
         #
         if context.athlete_digital_twin is not None:
 
-            context.training_plan = (
-                WorkoutRecommendationEngine()
-                .recommend(
-                    context.athlete_digital_twin,
-                )
+            context.training_plan = WorkoutRecommendationEngine().recommend(
+                context.athlete_digital_twin,
             )
 
         #

@@ -74,9 +74,7 @@ def test_5k_vo2_scores_well():
 
     assert result["score"] > 0
     assert any(
-        "VO2 work supports 5K performance."
-        in reason
-        for reason in result["reasons"]
+        "VO2 work supports 5K performance." in reason for reason in result["reasons"]
     )
 
 
@@ -99,8 +97,7 @@ def test_marathon_long_run_scores_well():
 
     assert result["score"] > 0
     assert any(
-        "Long run supports marathon development."
-        in reason
+        "Long run supports marathon development." in reason
         for reason in result["reasons"]
     )
 
