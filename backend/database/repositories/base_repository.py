@@ -23,6 +23,26 @@ class BaseRepository(Generic[ModelType]):
         self.db = db
         self.model = model
 
+    def create(
+        self,
+        record: ModelType,
+    ) -> ModelType:
+        """
+        Create a new record.
+        """
+
+        self.db.add(
+            record,
+        )
+
+        self.db.commit()
+
+        self.db.refresh(
+            record,
+        )
+
+        return record
+
     def get_by_id(
         self,
         record_id: int,
@@ -31,7 +51,15 @@ class BaseRepository(Generic[ModelType]):
         Retrieve a record by primary key.
         """
 
-        return self.db.query(self.model).filter(self.model.id == record_id).first()
+        return (
+            self.db.query(
+                self.model,
+            )
+            .filter(
+                self.model.id == record_id,
+            )
+            .first()
+        )
 
     def get_all(
         self,
@@ -40,7 +68,25 @@ class BaseRepository(Generic[ModelType]):
         Retrieve all records.
         """
 
-        return self.db.query(self.model).all()
+        return self.db.query(
+            self.model,
+        ).all()
+
+    def update(
+        self,
+        record: ModelType,
+    ) -> ModelType:
+        """
+        Persist changes to an existing record.
+        """
+
+        self.db.commit()
+
+        self.db.refresh(
+            record,
+        )
+
+        return record
 
     def delete(
         self,
@@ -50,5 +96,8 @@ class BaseRepository(Generic[ModelType]):
         Delete a record.
         """
 
-        self.db.delete(record)
+        self.db.delete(
+            record,
+        )
+
         self.db.commit()

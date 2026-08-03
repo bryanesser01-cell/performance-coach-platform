@@ -1,36 +1,49 @@
+from collections.abc import Generator
+
 import pytest
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
-from database import (
-    activity_models,  # noqa: F401
-    models,  # noqa: F401
-    training_models,  # noqa: F401
-)
 from database.base import Base
+
+TEST_DATABASE_URL = "sqlite:///:memory:"
+
+
+engine = create_engine(
+    TEST_DATABASE_URL,
+)
+
+
+TestingSessionLocal = sessionmaker(
+    bind=engine,
+    autoflush=False,
+    autocommit=False,
+    expire_on_commit=False,
+)
 
 
 @pytest.fixture
-def db_session():
+def db_session() -> Generator[Session, None, None]:
     """
-    Create an in-memory SQLite database session for tests.
-    """
+    Creates an isolated in-memory database for each test.
 
-    engine = create_engine(
-        "sqlite:///:memory:",
-    )
+    Every repository test receives a fresh SQLAlchemy
+    session with all tables created before the test and
+    dropped afterwards.
+    """
 
     Base.metadata.create_all(
         bind=engine,
     )
 
-    session_factory = sessionmaker(
-        bind=engine,
-    )
-
-    session = session_factory()
+    session = TestingSessionLocal()
 
     try:
         yield session
+
     finally:
         session.close()
+
+        Base.metadata.drop_all(
+            bind=engine,
+        )
