@@ -55,6 +55,10 @@ class CoachBrainService:
                 "recommendation",
                 "",
             ).rstrip("."),
+            #
+            # Workout Recommendation Engine output
+            #
+            "recommended_workout": (context.training_plan if context else None),
             "confidence": self._build_confidence(
                 context,
                 decision,
@@ -134,27 +138,18 @@ class CoachBrainService:
         Build confidence score.
         """
 
-        #
-        # Prefer the new Confidence Engine
-        #
         if context and context.confidence:
             return context.confidence.get(
                 "confidence",
                 "medium",
             )
 
-        #
-        # Fallback to Decision Scoring
-        #
         if context and context.decision_scoring:
             return context.decision_scoring.get(
                 "confidence",
                 "medium",
             )
 
-        #
-        # Legacy fallback
-        #
         return decision.get(
             "learning_confidence",
             0,
