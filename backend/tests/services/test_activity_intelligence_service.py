@@ -1,70 +1,67 @@
 from api.services.activity_intelligence_service import (
-    analyse_activity,
+    calculate_acute_load,
     calculate_training_stress,
     detect_fitness_trend,
-    generate_activity_learning_event,
 )
-from database.models import Activity
-
-
-def create_activity():
-    return Activity(
-        id=1,
-        athlete_id=1,
-        source="garmin",
-        category="run",
-        name="Morning Run",
-    )
 
 
 def test_calculate_training_stress():
+    activities = [
+        {"training_stress": 100},
+        {"training_stress": 150},
+        {"training_stress": 75},
+    ]
 
-    result = calculate_training_stress(
-        duration_seconds=3600,
-        intensity="hard",
-    )
-
-    assert result == 180
-
-
-def test_analyse_activity():
-
-    activity = create_activity()
-
-    result = analyse_activity(
-        activity=activity,
-        duration_seconds=1800,
-        intensity="moderate",
-    )
-
-    assert result["activity_id"] == 1
-
-    assert result["training_stress"] == 60
+    assert calculate_training_stress(activities) == 325
 
 
-def test_detect_improving_fitness_trend():
+def test_calculate_training_stress_empty():
+    assert calculate_training_stress([]) == 0
 
+
+def test_detect_fitness_trend_improving():
     result = detect_fitness_trend(
         [
-            {
-                "training_stress": 50,
-            },
-            {
-                "training_stress": 100,
-            },
+            {"training_stress": 100},
+            {"training_stress": 150},
         ]
     )
 
     assert result["trend"] == "improving"
 
 
-def test_generate_activity_learning_event():
-
-    result = generate_activity_learning_event(
-        {
-            "activity_id": 1,
-            "training_stress": 200,
-        }
+def test_detect_fitness_trend_declining():
+    result = detect_fitness_trend(
+        [
+            {"training_stress": 150},
+            {"training_stress": 100},
+        ]
     )
 
-    assert result["outcome"] == "high_load"
+    assert result["trend"] == "declining"
+
+
+def test_detect_fitness_trend_stable():
+    result = detect_fitness_trend(
+        [
+            {"training_stress": 120},
+            {"training_stress": 120},
+        ]
+    )
+
+    assert result["trend"] == "stable"
+
+
+def test_calculate_acute_load():
+    activities = [
+        {"training_stress": 120},
+        {"training_stress": 80},
+        {"training_stress": 100},
+    ]
+
+    assert (
+        calculate_acute_load(
+            activities,
+        )
+        == 300
+    )

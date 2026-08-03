@@ -1,106 +1,153 @@
-"""
-Training Load Intelligence Service
-
-Responsible for analysing training load and identifying
-potential overtraining risk.
-
-Current implementation:
-- Requires at least 28 sessions before calculating ACWR.
-- Uses the last 7 sessions as the acute workload.
-- Uses the last 28 sessions to estimate the average weekly
-  chronic workload.
-"""
-
-
 class TrainingLoadIntelligenceService:
     """
-    Analyse acute and chronic training load.
+    Calculates training load metrics.
     """
+
+    def calculate_acute_load(
+        self,
+        activities: list[dict],
+    ) -> int:
+        """
+        Acute Training Load (ATL).
+        """
+
+        return sum(
+            activity.get(
+                "training_stress",
+                0,
+            )
+            for activity in activities
+        )
+
+    def calculate_chronic_load(
+        self,
+        activities: list[dict],
+    ) -> int:
+        """
+        Chronic Training Load (CTL).
+        """
+
+        return sum(
+            activity.get(
+                "training_stress",
+                0,
+            )
+            for activity in activities
+        )
+
+    def calculate_acwr(
+        self,
+        acute_load: float,
+        chronic_load: float,
+    ) -> float:
+        """
+        Acute : Chronic Workload Ratio.
+        """
+
+        if chronic_load == 0:
+            return 0.0
+
+        return acute_load / chronic_load
 
     def analyse(
         self,
-        sessions: list[dict],
+        activities: list[dict],
     ) -> dict:
 
-        if not sessions:
-            return {
-                "acute_load": 0,
-                "chronic_load": 0,
-                "acwr": 0.0,
-                "risk": "unknown",
-                "load_status": "unknown",
-                "recommendation": "collect_more_data",
-                "confidence": 0.0,
-            }
-
-        acute = sum(
-            session.get(
-                "training_load",
-                0,
-            )
-            for session in sessions[-7:]
+        acute_load = self.calculate_acute_load(
+            activities,
         )
 
-        #
-        # Not enough history
-        #
-        if len(sessions) < 28:
-            return {
-                "acute_load": acute,
-                "chronic_load": 0,
-                "acwr": 0.0,
-                "risk": "insufficient_data",
-                "load_status": "building_history",
-                "recommendation": "collect_more_data",
-                "confidence": round(
-                    len(sessions) / 28,
-                    2,
-                ),
-                "sufficient_history": False,
-            }
-
-        chronic = (
-            sum(
-                session.get(
-                    "training_load",
-                    0,
-                )
-                for session in sessions[-28:]
-            )
-            / 4
+        chronic_load = self.calculate_chronic_load(
+            activities,
         )
 
-        acwr = round(
-            acute / chronic,
-            2,
+        acwr = self.calculate_acwr(
+            acute_load=acute_load,
+            chronic_load=chronic_load,
         )
 
-        if acwr > 1.5:
-            risk = "high"
-            recommendation = "reduce_training"
+        weekly_load = self.calculate_weekly_load(
+            activities,
+        )
 
-        elif acwr > 1.2:
-            risk = "moderate"
-            recommendation = "monitor_load"
+        monthly_load = self.calculate_monthly_load(
+            activities,
+        )
 
-        elif acwr >= 0.8:
-            risk = "low"
-            recommendation = "continue_plan"
-
-        else:
-            risk = "low"
-            recommendation = "consider_progression"
+        fatigue_score = self.calculate_fatigue_score(
+            acute_load=acute_load,
+            chronic_load=chronic_load,
+        )
 
         return {
-            "acute_load": acute,
-            "chronic_load": round(
-                chronic,
-                1,
-            ),
+            "acute_load": acute_load,
+            "chronic_load": chronic_load,
+            "weekly_load": weekly_load,
+            "monthly_load": monthly_load,
             "acwr": acwr,
-            "risk": risk,
-            "load_status": risk,
-            "recommendation": recommendation,
-            "confidence": 1.0,
-            "sufficient_history": True,
+            "fatigue_score": fatigue_score,
         }
+
+    def calculate_weekly_load(
+        self,
+        activities: list[dict],
+    ) -> int:
+        """
+        Calculate total weekly training load.
+
+        For now this sums the supplied
+        activities. Later it will use
+        activity dates to filter the last
+        seven days.
+        """
+
+        return sum(
+            activity.get(
+                "training_stress",
+                0,
+            )
+            for activity in activities
+        )
+
+    def calculate_monthly_load(
+        self,
+        activities: list[dict],
+    ) -> int:
+        """
+        Calculate total monthly training load.
+
+        Currently sums the supplied activities.
+        Later this will use activity dates to
+        calculate a rolling 28-day load.
+        """
+
+        return sum(
+            activity.get(
+                "training_stress",
+                0,
+            )
+            for activity in activities
+        )
+
+    def calculate_fatigue_score(
+        self,
+        acute_load: float,
+        chronic_load: float,
+    ) -> float:
+        """
+        Estimate fatigue using the ratio of
+        acute to chronic training load.
+
+        Returns a score between 0 and 100.
+        """
+
+        if chronic_load == 0:
+            return 0.0
+
+        fatigue = (acute_load / chronic_load) * 100
+
+        return min(
+            fatigue,
+            100.0,
+        )

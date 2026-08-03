@@ -1,128 +1,65 @@
-from database.models import Activity
-
-
 def calculate_training_stress(
-    duration_seconds: int,
-    intensity: str,
+    activities: list[dict],
 ) -> int:
     """
-    Calculate simple training stress score.
-
-    Future upgrades:
-    - Heart rate zones
-    - TRIMP
-    - Power data
-    - Garmin training load
+    Calculate total training stress
+    across a collection of activities.
     """
 
-    intensity_multiplier = {
-        "easy": 1,
-        "moderate": 2,
-        "hard": 3,
-    }
-
-    multiplier = intensity_multiplier.get(
-        intensity.lower(),
-        1,
+    return sum(
+        activity.get(
+            "training_stress",
+            0,
+        )
+        for activity in activities
     )
 
-    return int((duration_seconds / 60) * multiplier)
 
-
-def analyse_activity(
-    activity: Activity,
-    duration_seconds: int,
-    intensity: str = "moderate",
-) -> dict:
+def calculate_acute_load(
+    activities: list[dict],
+) -> int:
     """
-    Analyse completed athlete activity.
-
-    Returns:
-    - Training stress
-    - Activity category
-    - Performance insight
+    Calculate Acute Training Load (ATL).
     """
 
-    stress = calculate_training_stress(
-        duration_seconds=duration_seconds,
-        intensity=intensity,
+    return calculate_training_stress(
+        activities,
     )
-
-    if stress >= 150:
-        recommendation = "High training stress. " "Prioritise recovery."
-
-    elif stress >= 75:
-        recommendation = "Productive training session. " "Monitor recovery."
-
-    else:
-        recommendation = "Low stress session. " "Suitable for building consistency."
-
-    return {
-        "activity_id": activity.id,
-        "athlete_id": activity.athlete_id,
-        "category": activity.category,
-        "name": activity.name,
-        "training_stress": stress,
-        "recommendation": recommendation,
-    }
 
 
 def detect_fitness_trend(
     activities: list[dict],
 ) -> dict:
     """
-    Detect simple fitness trend.
-
-    Future:
-    - Pace improvement
-    - VO2 max
-    - Race prediction
-    - Chronic load
+    Detect whether fitness is improving,
+    stable or declining based on recent
+    training stress.
     """
 
     if len(activities) < 2:
-        trend = "insufficient_data"
+        return {
+            "trend": "stable",
+        }
+
+    recent = activities[-1].get(
+        "training_stress",
+        0,
+    )
+
+    previous = activities[-2].get(
+        "training_stress",
+        0,
+    )
+
+    if recent > previous:
+        trend = "improving"
+
+    elif recent < previous:
+        trend = "declining"
 
     else:
-        first = activities[0]["training_stress"]
-        last = activities[-1]["training_stress"]
-
-        if last > first:
-            trend = "improving"
-
-        elif last < first:
-            trend = "declining"
-
-        else:
-            trend = "stable"
+        trend = "stable"
 
     return {
         "trend": trend,
-        "activity_count": len(activities),
-    }
-
-
-def generate_activity_learning_event(
-    analysis: dict,
-) -> dict:
-    """
-    Convert activity analysis into
-    AI Coach learning signal.
-    """
-
-    stress = analysis["training_stress"]
-
-    if stress > 150:
-        outcome = "high_load"
-
-    elif stress < 50:
-        outcome = "low_load"
-
-    else:
-        outcome = "productive"
-
-    return {
-        "activity_id": analysis["activity_id"],
-        "outcome": outcome,
-        "training_stress": stress,
     }

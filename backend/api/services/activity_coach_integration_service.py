@@ -1,4 +1,5 @@
 from api.services.activity_intelligence_service import (
+    calculate_training_stress,
     detect_fitness_trend,
 )
 
@@ -15,12 +16,8 @@ def build_activity_coach_context(
     - Activity count
     """
 
-    total_stress = sum(
-        activity.get(
-            "training_stress",
-            0,
-        )
-        for activity in activities
+    total_stress = calculate_training_stress(
+        activities,
     )
 
     trend = detect_fitness_trend(
@@ -28,7 +25,9 @@ def build_activity_coach_context(
     )
 
     return {
-        "activity_count": len(activities),
+        "activity_count": len(
+            activities,
+        ),
         "total_training_stress": total_stress,
         "fitness_trend": trend["trend"],
     }
@@ -47,16 +46,19 @@ def detect_training_risk(
     )
 
     if stress >= 500:
+
         risk = "high"
 
         message = "Training load is high. " "Recovery should be prioritised."
 
     elif stress >= 250:
+
         risk = "moderate"
 
         message = "Training load is increasing. " "Monitor fatigue."
 
     else:
+
         risk = "low"
 
         message = "Training load is manageable."

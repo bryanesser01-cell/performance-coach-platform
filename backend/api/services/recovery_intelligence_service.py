@@ -1,169 +1,182 @@
-def calculate_readiness_score(
-    sleep_score: int,
-    soreness_score: int,
-    energy_score: int,
-    motivation_score: int,
-    training_load: int = 0,
-) -> int:
+class RecoveryIntelligenceService:
     """
-    Calculate athlete readiness score.
+    Calculates athlete recovery status.
 
-    Inputs:
-    - Sleep score (0-100)
-    - Soreness score (0-100)
-    - Energy score (0-100)
-    - Motivation score (0-100)
-    - Training load
-
-    Returns:
-    - Readiness score 0-100
+    This service combines training load and
+    athlete readiness metrics into a single
+    recovery score.
     """
 
-    recovery_score = (
-        sleep_score + (100 - soreness_score) + energy_score + motivation_score
-    ) / 4
+    def calculate_recovery_score(
+        self,
+        sleep_score: int,
+        soreness_score: int,
+        energy_score: int,
+        motivation_score: int,
+    ) -> float:
+        """
+        Calculate a simple recovery score.
 
-    load_penalty = 0
+        Returns a score between 0 and 100.
+        """
 
-    if training_load >= 500:
-        load_penalty = 20
+        return (
+            sleep_score + (100 - soreness_score) + energy_score + motivation_score
+        ) / 4
 
-    elif training_load >= 300:
-        load_penalty = 10
+    def analyse(
+        self,
+        sleep_score: int,
+        soreness_score: int,
+        energy_score: int,
+        motivation_score: int,
+    ) -> dict:
+        """
+        Analyse athlete recovery.
+        """
 
-    readiness = int(recovery_score - load_penalty)
+        score = self.calculate_recovery_score(
+            sleep_score=sleep_score,
+            soreness_score=soreness_score,
+            energy_score=energy_score,
+            motivation_score=motivation_score,
+        )
 
-    return max(
-        0,
-        min(
-            readiness,
-            100,
-        ),
-    )
+        if score >= 80:
+            status = "ready"
+            message = "Athlete is ready for hard training."
+
+        elif score >= 60:
+            status = "moderate"
+            message = "Athlete is moderately recovered."
+
+        else:
+            status = "recovery"
+            message = "Recovery should be prioritised."
+
+        return {
+            "recovery_score": score,
+            "status": status,
+            "message": message,
+        }
+
+
+#
+# ------------------------------------------------------------------
+# Legacy compatibility functions
+# ------------------------------------------------------------------
+#
 
 
 def analyse_recovery_status(
     readiness_score: int,
+    soreness_score: int | None = None,
+    energy_score: int | None = None,
+    motivation_score: int | None = None,
 ) -> dict:
     """
-    Categorise recovery state.
+    Backwards-compatible API.
+
+    Supports both:
+
+        analyse_recovery_status(readiness_score)
+
+    and
+
+        analyse_recovery_status(
+            sleep_score,
+            soreness_score,
+            energy_score,
+            motivation_score,
+        )
     """
 
-    if readiness_score >= 80:
-        status = "excellent"
+    #
+    # Legacy API
+    #
+    if soreness_score is None and energy_score is None and motivation_score is None:
 
-        message = "Athlete is ready for quality training."
+        if readiness_score >= 80:
+            status = "excellent"
+            message = "Recovery is excellent."
 
-    elif readiness_score >= 60:
-        status = "good"
+        elif readiness_score >= 60:
+            status = "good"
+            message = "Recovery is good."
 
-        message = "Normal training can continue."
+        elif readiness_score >= 40:
+            status = "moderate"
+            message = "Recovery is moderate."
 
-    elif readiness_score >= 40:
-        status = "moderate"
+        else:
+            status = "poor"
+            message = "Recovery is poor."
 
-        message = "Monitor fatigue and avoid excessive intensity."
+        return {
+            "recovery_score": readiness_score,
+            "status": status,
+            "message": message,
+        }
 
-    else:
-        status = "poor"
-
-        message = "Recovery required before hard training."
-
-    return {
-        "status": status,
-        "message": message,
-    }
+    #
+    # New API
+    #
+    return RecoveryIntelligenceService().analyse(
+        sleep_score=readiness_score,
+        soreness_score=soreness_score,
+        energy_score=energy_score,
+        motivation_score=motivation_score,
+    )
 
 
 def generate_recovery_recommendation(
-    readiness_score: int,
+    recovery: int | dict,
 ) -> dict:
     """
-    Generate AI Coach recovery recommendation.
+    Generate a recovery recommendation.
+
+    Supports both legacy and
+    new recovery APIs.
     """
 
-    recovery = analyse_recovery_status(
-        readiness_score,
+    #
+    # Legacy API
+    #
+    if isinstance(
+        recovery,
+        int,
+    ):
+
+        recovery = analyse_recovery_status(
+            recovery,
+        )
+
+    status = recovery.get(
+        "status",
+        "moderate",
     )
 
-    if recovery["status"] == "excellent":
+    if status == "excellent":
 
-        recommendation = "Proceed with planned quality session."
+        recommendation = "Proceed with the planned hard session."
 
-    elif recovery["status"] == "good":
+    elif status == "good":
 
-        recommendation = "Complete planned training but monitor effort."
+        recommendation = "Training can continue as planned."
 
-    elif recovery["status"] == "moderate":
+    elif status == "moderate":
 
-        recommendation = "Reduce intensity and focus on aerobic work."
+        recommendation = "Train at a moderate intensity and monitor recovery."
 
     else:
 
-        recommendation = "Take a recovery day or complete easy movement."
+        recommendation = "Prioritise recovery before the next hard session."
 
     return {
-        "readiness_score": readiness_score,
-        "status": recovery["status"],
+        "status": status,
+        "message": recovery.get(
+            "message",
+            "",
+        ),
         "recommendation": recommendation,
-    }
-
-
-def analyse_recovery_intelligence(
-    athlete_state: dict,
-) -> dict:
-    """
-    Generate structured recovery intelligence
-    for the AI Coach.
-    """
-
-    readiness = athlete_state.get(
-        "readiness",
-        {},
-    )
-
-    training = athlete_state.get(
-        "training",
-        {},
-    )
-
-    readiness_score = calculate_readiness_score(
-        sleep_score=readiness.get(
-            "sleep_score",
-            0,
-        ),
-        soreness_score=readiness.get(
-            "soreness_score",
-            0,
-        ),
-        energy_score=readiness.get(
-            "energy_score",
-            0,
-        ),
-        motivation_score=readiness.get(
-            "motivation_score",
-            0,
-        ),
-        training_load=training.get(
-            "training_load",
-            0,
-        ),
-    )
-
-    recovery = analyse_recovery_status(
-        readiness_score,
-    )
-
-    recommendation = generate_recovery_recommendation(
-        readiness_score,
-    )
-
-    return {
-        "score": readiness_score,
-        "status": recovery["status"],
-        "message": recovery["message"],
-        "recommendation": recommendation["recommendation"],
-        "ready_for_quality": (readiness_score >= 80),
-        "requires_recovery": (readiness_score < 40),
-        "confidence": 1.0,
     }

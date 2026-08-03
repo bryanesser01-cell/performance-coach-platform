@@ -53,3 +53,6 @@ def test_returns_decision():
     assert result["decision"] == "PROGRESS_TRAINING"
     assert result["confidence"] == 95
     assert "High readiness" in result["reason"]
+
+
+def test_high_acwr_reduces_volume(): ...

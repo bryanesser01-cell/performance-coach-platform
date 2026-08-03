@@ -82,6 +82,16 @@ class DecisionRulesEngine:
             "low",
         )
 
+        fatigue_score = context.training_load_intelligence.get(
+            "fatigue_score",
+            0,
+        )
+
+        acwr = context.training_load_intelligence.get(
+            "acwr",
+            1.0,
+        )
+
         #
         # Race Intelligence
         #
@@ -126,6 +136,28 @@ class DecisionRulesEngine:
                 "decision": "RECOVERY_DAY",
                 "confidence": 95,
                 "reason": "Poor recovery status.",
+            }
+
+        #
+        # Rule 3A
+        #
+        if fatigue_score >= 90:
+            return {
+                "decision": "RECOVERY_DAY",
+                "confidence": 98,
+                "reason": "Fatigue score is critically high.",
+            }
+
+        #
+        # Rule 3B
+        #
+        if acwr >= 1.5:
+            return {
+                "decision": "REDUCE_VOLUME",
+                "confidence": 97,
+                "reason": (
+                    "Acute training load is significantly higher " "than chronic load."
+                ),
             }
 
         #
