@@ -96,3 +96,49 @@ def test_ai_coach_orchestrator_calls_state_service():
     context = kwargs["context"]
 
     assert context.athlete_id == 5
+
+
+def test_ai_coach_orchestrator_returns_athlete_digital_twin():
+
+    athlete_state = {
+        "athlete": {
+            "id": 1,
+            "name": "Bryan",
+        },
+        "readiness": {
+            "score": 85,
+            "status": "ready",
+        },
+    }
+
+    decision = {
+        "decision": "PROGRESS_TRAINING",
+        "recommendation": (
+            "Proceed with today's hard session."
+        ),
+        "confidence": 90,
+    }
+
+    with patch(
+        "api.services.pipeline_steps.athlete_state_step.get_athlete_state",
+    ) as mock_state, patch(
+        "api.services.pipeline_steps.adaptive_decision_step.generate_adaptive_coach_decision",
+    ) as mock_decision:
+
+        mock_state.return_value = athlete_state
+
+        mock_decision.return_value = decision
+
+        result = run_ai_coach_orchestrator(
+            db=MagicMock(),
+            athlete_id=1,
+        )
+
+    assert "athlete_digital_twin" in result
+
+    assert result["athlete_digital_twin"] is not None
+
+    assert (
+        result["athlete_digital_twin"].athlete
+        == athlete_state
+    )

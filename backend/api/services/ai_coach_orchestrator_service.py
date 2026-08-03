@@ -7,6 +7,9 @@ from api.services.coach_pipeline import (
 from api.services.pipeline_steps.adaptive_decision_step import (
     AdaptiveDecisionStep,
 )
+from api.services.athlete_digital_twin_service import (
+    AthleteDigitalTwinService,
+)
 from api.services.pipeline_steps.athlete_state_step import (
     AthleteStateStep,
 )
@@ -142,11 +145,22 @@ def run_ai_coach_orchestrator(
     )
 
     #
+    # Build Athlete Digital Twin
+    #
+    context.athlete_digital_twin = (
+        AthleteDigitalTwinService().build(
+            context,
+        )
+    )
+    #
     # API Response
     #
     return {
         "athlete_id": context.athlete_id,
         "athlete_state": context.athlete_state,
+        "athlete_digital_twin": (
+            context.athlete_digital_twin
+        ),
         "memory_context": context.memory_context,
         "memory_reasoning": context.memory_reasoning,
         "goal_intelligence": context.goal_intelligence,

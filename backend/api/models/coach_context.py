@@ -93,6 +93,11 @@ class CoachContext:
         default_factory=dict,
     )
 
+    #
+    # Athlete Digital Twin
+    #
+    athlete_digital_twin: object | None = None
+
     coach_response: dict = field(
         default_factory=dict,
     )
