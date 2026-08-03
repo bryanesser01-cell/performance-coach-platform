@@ -113,9 +113,7 @@ def test_ai_coach_orchestrator_returns_athlete_digital_twin():
 
     decision = {
         "decision": "PROGRESS_TRAINING",
-        "recommendation": (
-            "Proceed with today's hard session."
-        ),
+        "recommendation": ("Proceed with today's hard session."),
         "confidence": 90,
     }
 
@@ -138,7 +136,4 @@ def test_ai_coach_orchestrator_returns_athlete_digital_twin():
 
     assert result["athlete_digital_twin"] is not None
 
-    assert (
-        result["athlete_digital_twin"].athlete
-        == athlete_state
-    )
+    assert result["athlete_digital_twin"].athlete == athlete_state

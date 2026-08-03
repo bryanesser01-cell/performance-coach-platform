@@ -7,8 +7,8 @@ from api.services.coach_pipeline import (
 from api.services.pipeline_steps.adaptive_decision_step import (
     AdaptiveDecisionStep,
 )
-from api.services.athlete_digital_twin_service import (
-    AthleteDigitalTwinService,
+from api.services.pipeline_steps.athlete_digital_twin_step import (
+    AthleteDigitalTwinStep,
 )
 from api.services.pipeline_steps.athlete_state_step import (
     AthleteStateStep,
@@ -110,6 +110,16 @@ def run_ai_coach_orchestrator(
         PeriodisationStep(),
     )
 
+    #
+    # Build Athlete Digital Twin
+    #
+    pipeline.add_step(
+        AthleteDigitalTwinStep(),
+    )
+
+    #
+    # Decision Making
+    #
     pipeline.add_step(
         DecisionRulesStep(),
     )
@@ -130,9 +140,6 @@ def run_ai_coach_orchestrator(
         CoachBrainStep(),
     )
 
-    #
-    # NEW
-    #
     pipeline.add_step(
         TrainingPlanStep(),
     )
@@ -145,40 +152,28 @@ def run_ai_coach_orchestrator(
     )
 
     #
-    # Build Athlete Digital Twin
-    #
-    context.athlete_digital_twin = (
-        AthleteDigitalTwinService().build(
-            context,
-        )
-    )
-    #
     # API Response
     #
     return {
         "athlete_id": context.athlete_id,
         "athlete_state": context.athlete_state,
-        "athlete_digital_twin": (
-            context.athlete_digital_twin
-        ),
+        "athlete_digital_twin": context.athlete_digital_twin,
         "memory_context": context.memory_context,
         "memory_reasoning": context.memory_reasoning,
         "goal_intelligence": context.goal_intelligence,
-        "performance_intelligence": (context.performance_intelligence),
-        "recovery_intelligence": (context.recovery_intelligence),
-        "training_load_intelligence": (context.training_load_intelligence),
-        "race_intelligence": (context.race_intelligence),
-        "periodisation": (context.periodisation),
+        "performance_intelligence": context.performance_intelligence,
+        "recovery_intelligence": context.recovery_intelligence,
+        "training_load_intelligence": context.training_load_intelligence,
+        "race_intelligence": context.race_intelligence,
+        "periodisation": context.periodisation,
         "decision": context.decision,
-        "decision_scoring": (context.decision_scoring),
+        "decision_scoring": context.decision_scoring,
         "confidence": context.confidence,
         "coach_brain": context.coach_brain,
-        "training_plan": (context.training_plan),
-        "coach_message": (
-            context.coach_brain.get(
-                "summary",
-                "",
-            )
+        "training_plan": context.training_plan,
+        "coach_message": context.coach_brain.get(
+            "summary",
+            "",
         ),
         "ai_coach": True,
     }

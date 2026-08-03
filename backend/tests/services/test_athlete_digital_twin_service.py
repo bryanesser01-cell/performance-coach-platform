@@ -43,10 +43,7 @@ def test_goal_intelligence_copied():
         context,
     )
 
-    assert (
-        twin.goal_intelligence["goal"]
-        == "Sub 20 5K"
-    )
+    assert twin.goal_intelligence["goal"] == "Sub 20 5K"
 
 
 def test_recovery_intelligence_copied():
@@ -65,7 +62,4 @@ def test_recovery_intelligence_copied():
         context,
     )
 
-    assert (
-        twin.recovery_intelligence["status"]
-        == "ready"
-    )
+    assert twin.recovery_intelligence["status"] == "ready"

@@ -23,36 +23,32 @@ class DecisionRulesEngine:
         """
 
         #
+        # Athlete Digital Twin
+        #
+        twin = context.athlete_digital_twin
+
+        #
         # Athlete State
         #
-        readiness = context.athlete_state.get("readiness", {}).get("score", 0)
+        readiness = twin.readiness_score()
 
         #
         # Memory
         #
-        fatigue = context.memory_reasoning.get(
-            "fatigue_trend",
-            "stable",
-        )
+        fatigue = twin.fatigue_trend()
 
-        injury = context.memory_reasoning.get(
-            "injury_risk",
-            "low",
-        )
+        injury = twin.injury_risk()
 
         #
         # Goal Intelligence
         #
-        goal_on_track = context.goal_intelligence.get(
-            "on_track",
-            True,
-        )
+        goal_on_track = twin.is_goal_on_track()
 
         #
         # Performance Intelligence
         #
         performance = context.performance_intelligence.get(
-            "trend"
+            "trend",
         ) or context.performance_intelligence.get(
             "performance_trend",
             {},
@@ -69,18 +65,12 @@ class DecisionRulesEngine:
         #
         # Recovery Intelligence
         #
-        recovery_status = context.recovery_intelligence.get(
-            "status",
-            "good",
-        )
+        recovery_status = twin.recovery_status()
 
         #
         # Training Load Intelligence
         #
-        training_risk = context.training_load_intelligence.get(
-            "risk",
-            "low",
-        )
+        training_risk = twin.training_risk()
 
         fatigue_score = context.training_load_intelligence.get(
             "fatigue_score",
@@ -95,10 +85,7 @@ class DecisionRulesEngine:
         #
         # Race Intelligence
         #
-        race_phase = context.race_intelligence.get(
-            "phase",
-            "base",
-        )
+        race_phase = twin.race_phase()
 
         #
         # Performance Prediction
@@ -183,7 +170,7 @@ class DecisionRulesEngine:
         #
         # Rule 6
         #
-        if race_phase.lower() == "taper" and readiness >= 70:
+        if race_phase == "taper" and readiness >= 70:
             return {
                 "decision": "RACE_TAPER",
                 "confidence": 95,
@@ -197,17 +184,17 @@ class DecisionRulesEngine:
             return {
                 "decision": "PROGRESS_TRAINING",
                 "confidence": 90,
-                "reason": ("High confidence performance prediction."),
+                "reason": "High confidence performance prediction.",
             }
 
         #
         # Rule 6B
         #
-        if race_phase == "Peak" and training_risk == "moderate":
+        if race_phase == "peak" and training_risk == "moderate":
             return {
                 "decision": "MAINTAIN_PLAN",
                 "confidence": 90,
-                "reason": ("Maintain workload during peak phase."),
+                "reason": "Maintain workload during peak phase.",
             }
 
         #

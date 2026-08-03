@@ -45,19 +45,26 @@ class RecoveryIntelligenceService:
         if score >= 80:
             status = "ready"
             message = "Athlete is ready for hard training."
+            recommendation = "Proceed with the planned hard session."
 
         elif score >= 60:
             status = "moderate"
             message = "Athlete is moderately recovered."
+            recommendation = "Train at a moderate intensity and monitor recovery."
 
         else:
             status = "recovery"
             message = "Recovery should be prioritised."
+            recommendation = "Prioritise recovery before the next hard session."
 
+        #
+        # Keep returning a dictionary for now.
+        #
         return {
             "recovery_score": score,
             "status": status,
             "message": message,
+            "recommendation": recommendation,
         }
 
 
@@ -76,19 +83,6 @@ def analyse_recovery_status(
 ) -> dict:
     """
     Backwards-compatible API.
-
-    Supports both:
-
-        analyse_recovery_status(readiness_score)
-
-    and
-
-        analyse_recovery_status(
-            sleep_score,
-            soreness_score,
-            energy_score,
-            motivation_score,
-        )
     """
 
     #
@@ -134,19 +128,12 @@ def generate_recovery_recommendation(
 ) -> dict:
     """
     Generate a recovery recommendation.
-
-    Supports both legacy and
-    new recovery APIs.
     """
 
-    #
-    # Legacy API
-    #
     if isinstance(
         recovery,
         int,
     ):
-
         recovery = analyse_recovery_status(
             recovery,
         )

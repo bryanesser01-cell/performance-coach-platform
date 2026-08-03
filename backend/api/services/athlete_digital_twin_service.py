@@ -33,30 +33,11 @@ class AthleteDigitalTwinService:
 
         return AthleteDigitalTwin(
             athlete=context.athlete_state,
-
             goal_intelligence=context.goal_intelligence,
-
-            performance_intelligence=(
-                context.performance_intelligence
-            ),
-
-            recovery_intelligence=(
-                context.recovery_intelligence
-            ),
-
-            training_load_intelligence=(
-                context.training_load_intelligence
-            ),
-
-            race_intelligence=(
-                context.race_intelligence
-            ),
-
-            memory_context=(
-                context.memory_context
-            ),
-
-            memory_reasoning=(
-                context.memory_reasoning
-            ),
+            performance_intelligence=(context.performance_intelligence),
+            recovery_intelligence=(context.recovery_intelligence),
+            training_load_intelligence=(context.training_load_intelligence),
+            race_intelligence=(context.race_intelligence),
+            memory_context=(context.memory_context),
+            memory_reasoning=(context.memory_reasoning),
         )

@@ -1,65 +1,107 @@
 from api.services.adaptive_training_planner_service import (
-    adapt_plan_from_results,
-    adjust_weekly_load,
-    create_training_plan,
-    generate_race_preparation_plan,
+    AdaptiveTrainingPlannerService,
 )
 
 
-def test_create_training_plan():
+def test_recovery_day_generates_recovery_session():
 
-    result = create_training_plan(
-        goal="Improve 1500m PB",
-        event="1500m",
-        weeks=12,
-        current_time="5:00",
-        target_time="4:45",
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=None,
+        decision="RECOVERY_DAY",
     )
 
-    assert result["timeline_weeks"] == 12
+    assert result["session_type"] == "Recovery Run"
+    assert result["intensity"] == "very_easy"
 
-    assert len(result["phases"]) == 4
 
+def test_reduce_volume_generates_easy_run():
 
-def test_adjust_weekly_load_improving():
+    planner = AdaptiveTrainingPlannerService()
 
-    result = adjust_weekly_load(
-        previous_load=500,
-        performance_response="improving",
+    result = planner.generate_session(
+        twin=None,
+        decision="REDUCE_VOLUME",
     )
 
-    assert result["new_load"] == 550
+    assert result["session_type"] == "Easy Run"
+    assert result["intensity"] == "easy"
 
 
-def test_adjust_weekly_load_fatigued():
+def test_race_taper_generates_taper_session():
 
-    result = adjust_weekly_load(
-        previous_load=500,
-        performance_response="fatigued",
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=None,
+        decision="RACE_TAPER",
     )
 
-    assert result["new_load"] == 400
+    assert result["session_type"] == "Taper Session"
 
 
-def test_adapt_plan_from_results():
+def test_progress_training_generates_quality_session():
 
-    result = adapt_plan_from_results(
-        race_result="4:50",
-        target_result="4:55",
-        fatigue_score=30,
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=None,
+        decision="PROGRESS_TRAINING",
     )
 
-    assert result["action"] == "CONTINUE_PROGRESS"
+    assert result["session_type"] == "Threshold Run"
+    assert result["intensity"] == "moderate_hard"
 
 
-def test_generate_race_preparation_plan():
+def test_maintain_plan_generates_aerobic_run():
 
-    result = generate_race_preparation_plan(
-        event="1500m",
-        race_date="2026-10-01",
-        goal="Personal Best",
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=None,
+        decision="MAINTAIN_PLAN",
     )
 
-    assert result["event"] == "1500m"
+    assert result["session_type"] == "Easy Run"
+    assert result["duration_minutes"] == 45
 
-    assert len(result["strategy"]) > 0
+
+def test_digital_twin_recovery_overrides_decision():
+
+    class FakeTwin:
+
+        def needs_recovery(self):
+            return True
+
+        def is_tapering(self):
+            return False
+
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=FakeTwin(),
+        decision="PROGRESS_TRAINING",
+    )
+
+    assert result["session_type"] == "Recovery Run"
+
+
+def test_digital_twin_taper_session():
+
+    class FakeTwin:
+
+        def needs_recovery(self):
+            return False
+
+        def is_tapering(self):
+            return True
+
+    planner = AdaptiveTrainingPlannerService()
+
+    result = planner.generate_session(
+        twin=FakeTwin(),
+        decision="PROGRESS_TRAINING",
+    )
+
+    assert result["session_type"] == "Taper Session"
